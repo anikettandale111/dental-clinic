@@ -24,20 +24,21 @@
           </li>
         </ul>
       </li>
+      <li class="nav-item">
+        <a class="nav-link " href="{{url('/store-eq')}}">
+          <i class="bi bi-basket"></i>
+          <span>Store Equipment</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " href="{{url('/dispatch')}}">
+          <i class="bi bi-basket"></i>
+          <span>Dispatch</span>
+        </a>
+      </li>
     @endif
     @if(Auth::user()->action == 3)
-    <li class="nav-item">
-      <a class="nav-link " href="{{url('/store-eq')}}">
-        <i class="bi bi-basket"></i>
-        <span>Store Equipment</span>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link " href="{{url('/dispatch')}}">
-        <i class="bi bi-basket"></i>
-        <span>Dispatch</span>
-      </a>
-    </li>
+   
     @endif
   </ul>
 

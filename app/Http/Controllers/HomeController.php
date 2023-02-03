@@ -33,11 +33,13 @@ class HomeController extends Controller
         if(Auth::user()->action == 1)
         {
             $action = 2;
+            $where = ['action' => $action,'status'=>'Active'];
         }
         else{
             $action = 3;
+            $where = ['action' => $action,'status'=>'Active','ref_id'=>Auth::user()->id];
         }
-        $data = Auth::user()->where(['action' => $action,'status'=>'Active','ref_id'=>Auth::user()->id])->get();
+        $data = Auth::user()->where($where)->get();
         
         return view('clinic_details',compact('data'));
     }
@@ -63,11 +65,11 @@ class HomeController extends Controller
         $data['address'] = ucfirst(strtolower($requst['address']));
         $data['location'] = ucfirst(strtolower($requst['location']));
         $data['status'] = $requst['status'];
+        $data['mobile_number']= $requst['mobile_number'];
         $update = User::where('id',$requst->id)->Update($data);
         session()->flash('message', 'This is a message!'); 
         session()->flash('alert-class', 'alert-success'); 
-        return Redirect::back()->with(['message'   =>  "Successfully data update",
-        'status'    =>  'success']);
+        return Redirect::to('/clinic_details')->with(['status' =>  'success']);
     }
     
 }

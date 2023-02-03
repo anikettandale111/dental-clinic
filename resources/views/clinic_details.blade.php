@@ -23,6 +23,9 @@
                         Location
                     </th>
                     <th>
+                        Contact Number
+                    </th>
+                    <th>
                         Status
                     </th>
                     <th>
@@ -46,6 +49,9 @@
                         </td>
                         <td>
                             {{$v['location']}}
+                        </td>
+                        <td>
+                            {{$v['mobile_number']}}
                         </td>
                         <td>
                             {{$v['status']}}

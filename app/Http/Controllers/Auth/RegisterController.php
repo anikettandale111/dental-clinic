@@ -80,6 +80,7 @@ class RegisterController extends Controller
             'location' => ucfirst(strtolower($data['city'])),
             'status' => 'Active',
             'action' => $action,
+            'mobile_number'=>$data['mobile_number'],
             'ref_id' => Auth::user()->id,
             'password' => Hash::make($data['password'])
         ]);
