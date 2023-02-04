@@ -3,7 +3,7 @@
 @section('content')
 <main id="main" class="main">
     <div style="float: right; margin-bottom: 10px;">
-        <a class="btn btn-primary" href="{{url('/add_store')}}"> Add Clinic User </a>
+        <a class="btn btn-primary" href="{{url('/add_clinic')}}"> Add Clinic Location </a>
     </div>
     <div>
         <table id="table_id" 
@@ -11,29 +11,16 @@
             <thead>
                 <tr>
                     <th>
-                        Name
-                    </th>
-                    <th>
-                        Email Id /User Id
-                    </th>
-                    <th>
                         Branch Name
                     </th>
                     <th>
                         Location
                     </th>
                     <th>
-                        Address
-                    </th>
-
-                    <th>
-                        Contact Number
-                    </th>
-                    <th>
                         Status
                     </th>
                     <th>
-                        Delete
+                        Action
                     </th>
                 </tr>
             </thead>
@@ -43,33 +30,21 @@
                 @foreach($data as $k =>$v)
                     <tr>
                         <td>
-                            {{$v['name']}}
+                            {{$v['branch_name']}}
                         </td>
                         <td>
-                            {{$v['email']}}
+                            {{$v['location']}}
                         </td>
                         <td>
-                            @if(isset($v['Clinic_location']))
-                            {{$v['Clinic_location']['branch_name']}}
+                            @if($v['is_active'] == 1)
+                                Active
+                            @else
+                                InActive
                             @endif
                         </td>
+                        
                         <td>
-                            @if(isset($v['Clinic_location']))
-                            {{$v['Clinic_location']['location']}}
-                            @endif
-                        </td>
-                        <td>
-                            {{$v['address']}}
-                        </td>
-
-                        <td>
-                            {{$v['mobile_number']}}
-                        </td>
-                        <td>
-                            {{$v['status']}}
-                        </td>
-                        <td>
-                            <a class="btn btn-primary edit" href="{{url('edit_details/'.$v['id'])}}">Edit</a>
+                            <a class="btn btn-primary edit" href="{{url('edit_location/'.$v['id'])}}">Edit</a>
                         </td>
                     </tr>
                 @endforeach

@@ -22,23 +22,30 @@
               <i class="bi bi-circle"></i><span>All Clinic Details</span>
             </a>
           </li>
+          <li>
+            <a href="{{url('/clinic')}}">
+              <i class="bi bi-circle"></i><span>Add Clinic Location</span>
+            </a>
+          </li>
         </ul>
       </li>
+     
     @endif
-    @if(Auth::user()->action == 3)
+    
+    @if(Auth::user()->action == 2)
     <li class="nav-item">
-      <a class="nav-link " href="{{url('/store-eq')}}">
-        <i class="bi bi-basket"></i>
-        <span>Store Equipment</span>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link " href="{{url('/dispatch')}}">
-        <i class="bi bi-basket"></i>
-        <span>Dispatch</span>
-      </a>
-    </li>
-    @endif
+        <a class="nav-link " href="{{url('/store-eq')}}">
+          <i class="bi bi-basket"></i>
+          <span>Store Equipment</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " href="{{url('/dispatch')}}">
+          <i class="bi bi-basket"></i>
+          <span>Dispatch</span>
+        </a>
+      </li>
+  @endif
   </ul>
 
 </aside><!-- End Sidebar-->

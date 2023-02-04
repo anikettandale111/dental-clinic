@@ -1,7 +1,7 @@
 <?php
 
 namespace App;
-
+use App\Clinic_location;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'id','name', 'email', 'password','address','location','status','action','ref_id'
+        'id','name', 'email', 'password','address','location_id','status','action','ref_id','mobile_number','pan_card','aadhar_card'
     ];
 
     /**
@@ -36,4 +36,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    
+    public function Clinic_location()
+    {
+       return $this->belongsTo('App\Clinic_location', 'location_id','id');
+    }
+
+
+    
 }
