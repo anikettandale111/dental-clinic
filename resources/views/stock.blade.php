@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header">{{ __('Add Stock') }}</div>
                 @if(session()->has('message'))
-                    <p class="alert {{ session('alert-class') }}">{{ session('message') }}</p>
+                    <p class="alert {{ session('alert-class') }}">{!! session('message') !!}</p>
                 @endif
                 <div class="card-body">
                     <form method="POST" action="{{ url('stock_register') }}" enctype="multipart/form-data">

@@ -8,6 +8,9 @@ use App\User;
 use App\Store;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use Milon\Barcode\DNS1D;
+use Milon\Barcode\DNS2D;
+use PDF;
 
 class StoreController extends Controller
 {
@@ -74,20 +77,38 @@ class StoreController extends Controller
             $destinationPath = base_path('public/images');
             $image->move($destinationPath, $image_name);
 
-            $data['user_id'] = $request['user_id'];
-            $data['category'] = ucfirst(strtolower($request['category']));
-            $data['manufacture_name'] = ucfirst(strtolower($request['manufacture_name']));
-            $data['product_name'] = ucfirst(strtolower($request['product_name']));
-            $data['usage'] = ucfirst(strtolower($request['usage']));
-            $data['unit'] = ucfirst(strtolower($request['unit']));
-            $data['photo'] = $image_name;
-            $data['qty'] = $request['qty'];
-            $data['tags'] = $request['tags'];
-            $data['description'] = ucfirst(strtolower($request['description']));
-            $data['is_active'] = 1;
-            $update = Store::Create($data);
-            session()->flash('message', 'Product Add Successfully!'); 
-            session()->flash('alert-class', 'alert-success'); 
+            $row_data=[];
+            $QR_data=[];
+            // for($i=1;$i<=$request['qty'];$i++){
+                // $qr_id = date('ymdhis'.$i);
+                $qr_id = date('ymdhis');
+                $row_data = array('user_id'=> $request['user_id'],
+                        'category'=> ucfirst(strtolower($request['category'])),
+                        'manufacture_name'=> ucfirst(strtolower($request['manufacture_name'])),
+                        'product_name'=> ucfirst(strtolower($request['product_name'])),
+                        'usage'=> ucfirst(strtolower($request['usage'])),
+                        'unit'=> ucfirst(strtolower($request['unit'])),
+                        'photo'=> $image_name,
+                        'qty'=> $request['qty'],
+                        'tags'=> $request['tags'],
+                        'description'=> ucfirst(strtolower($request['description'])),
+                        'is_active'=> 1,
+                        'barcode_id'=> $qr_id,
+                        'is_scanned'=> 0,
+                        'is_print'=> 0,
+                    );
+                    $update = Store::Create($row_data);
+                    $QR_data[] = $qr_id;
+                //DNS1D::getBarcodeSVG($lbl_txt, "C93",1,30,'green', true);
+                //array_merge($row_data,$data);
+            // }
+            $data_new  = ['product_name'=>$request['product_name'],'QR_data'=>$QR_data,'quantity'=>$request['qty']];
+            view()->share('data_new',$data_new);
+            $pdf_file_name = date('y_m_d').'_'.$request['product_name'].'_qrpdf.pdf';
+            $pdf = PDF::loadView('qrpdf')->save(public_path($pdf_file_name));
+            // $pdf->download('qrpdf.pdf');
+            session()->flash('message', 'Product Add Successfully!  <a href="/'.$pdf_file_name.'" target="_blank"> View Barcode </a>'); 
+            session()->flash('alert-class', 'alert-success');
             return back()->with(['status' =>  'success']);
         } 
         else 
@@ -113,20 +134,32 @@ class StoreController extends Controller
             $image_name = $request['old_photo'];
         }
         $update = Store::Where('id',$request['tabel_id'])->update(['is_active'=>0]);
-        $data['user_id'] = $request['user_id'];
-        $data['category'] = ucfirst(strtolower($request['category']));
-        $data['manufacture_name'] = ucfirst(strtolower($request['manufacture_name']));
-        $data['product_name'] = ucfirst(strtolower($request['product_name']));
-        $data['usage'] = ucfirst(strtolower($request['usage']));
-        $data['unit'] = ucfirst(strtolower($request['unit']));
-        $data['photo'] = $image_name;
-        $data['qty'] = $request['qty'];
-        $data['tags'] = $request['tags'];
-        $data['description'] = ucfirst(strtolower($request['description']));
-        $data['is_active'] = 1;
-        $create = Store::Create($data);
+        // $row_data=[];
+        // for($i=1;$i<=$request['qty'];$i++){
+            $data['user_id'] = $request['user_id'];
+            $data['category'] = ucfirst(strtolower($request['category']));
+            $data['manufacture_name'] = ucfirst(strtolower($request['manufacture_name']));
+            $data['product_name'] = ucfirst(strtolower($request['product_name']));
+            $data['usage'] = ucfirst(strtolower($request['usage']));
+            $data['unit'] = ucfirst(strtolower($request['unit']));
+            $data['photo'] = $image_name;
+            $data['qty'] = 1;
+            $data['tags'] = $request['tags'];
+            $data['description'] = ucfirst(strtolower($request['description']));
+            //DNS1D::getBarcodeSVG($lbl_txt, "C93",1,30,'green', true);
+            // array_push($row_data,$data);
+        // }
+        Store::Create($data);
         session()->flash('message', 'Product Update Successfully!'); 
         session()->flash('alert-class', 'alert-success'); 
         return Redirect::to('/store-eq')->with(['status' =>  'success']);
+    }
+    function qr_generator(Request $request){
+        // ALTER TABLE `store` ADD `barcode_id` BIGINT NOT NULL AFTER `tags`, ADD `is_scanned` TINYINT NOT NULL DEFAULT '0' AFTER `barcode_id`, ADD `is_print` TINYINT NOT NULL DEFAULT '0' AFTER `is_scanned`;
+        $j = 10000;
+        for($i=1;$i<=$j;$i++){
+            $lbl_txt= date('ymdhis'.$i);
+            echo DNS1D::getBarcodeSVG($lbl_txt, "C93",1,30,'green', true);
+        }
     }
 }

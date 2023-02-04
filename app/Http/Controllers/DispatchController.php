@@ -46,10 +46,18 @@ class DispatchController extends Controller
         
         return view('clinic_details',compact('data'));
     }
+    public function add_dispatch(Request $requst)
+    {       
+        return view('add_dispatch');
+    }
 
     public function add_stock(Request $requst)
     {   
         return view('stock');
+    }
+    public function get_bar_code_data(Request $requst)
+    {   
+        return Store::where('barcode_id',$requst->barcode_text)->first();
     }
     
     public function edit_stock(Request $request)
