@@ -21,6 +21,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::any('/clinic_details', 'HomeController@clinic_details')->name('clinic_details');
+Route::any('/create', 'HomeController@create')->name('create');
 Route::any('/add_store', 'HomeController@add_store')->name('add_store');
 Route::any('/edit_details/{id?}', 'HomeController@edit_details')->name('edit_details');
 Route::any('/edit_register/{id?}', 'HomeController@edit_register')->name('edit_register');
@@ -30,3 +31,8 @@ Route::any('/stock_register', 'StoreController@stock_register')->name('stock_reg
 Route::any('/edit_stock/{id?}', 'StoreController@edit_stock')->name('edit_stock');
 Route::any('/update_stock', 'StoreController@update_stock')->name('update_stock');
 Route::any('/dispatch', 'DispatchController@index')->name('dispatch');
+Route::any('/clinic', 'ClinicLocationController@index')->name('clinic');
+Route::any('/add_clinic', 'ClinicLocationController@add_clinic')->name('add_clinic');
+Route::any('/add_location', 'ClinicLocationController@add_location')->name('add_location');
+Route::any('/edit_location/{id?}', 'ClinicLocationController@edit_location')->name('edit_location');
+Route::any('/update_location', 'ClinicLocationController@update_location')->name('update_location');

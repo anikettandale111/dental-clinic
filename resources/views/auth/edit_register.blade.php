@@ -29,7 +29,35 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="address" class="col-md-4 col-form-label text-md-right">{{ __('Clinic Address') }}</label>
+                            <label for="pan_card" class="col-md-4 col-form-label text-md-right">{{ __('Pan Card Number') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="pan_card" type="text" class="form-control @error('pan_card') is-invalid @enderror" name="pan_card" value="{{ $data['pan_card'] }}" required autocomplete="pan_card" autofocus>
+
+                                @error('pan_card')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="aadhar_card" class="col-md-4 col-form-label text-md-right">{{ __('Aadhar Card Number') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="aadhar_card" type="text" class="form-control @error('aadhar_card') is-invalid @enderror" name="aadhar_card" value="{{ $data['aadhar_card'] }}" required autocomplete="aadhar_card" autofocus>
+
+                                @error('aadhar_card')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="address" class="col-md-4 col-form-label text-md-right">{{ __('Address') }}</label>
 
                             <div class="col-md-6">
                                 <input id="address" type="text" class="form-control @error('add') is-invalid @enderror" name="address" value="{{ $data['address'] }}" required autocomplete="add">
@@ -41,19 +69,27 @@
                                 @enderror
                             </div>
                         </div>
-
+         
 
                         <div class="form-group row">
-                            <label for="location" class="col-md-4 col-form-label text-md-right">{{ __('Clinic location') }}</label>
+                            <label for="add" class="col-md-4 col-form-label text-md-right">{{ __('Branch Name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="location" type="text" class="form-control @error('location') is-invalid @enderror" name="location" value="{{ $data['location'] }}" required autocomplete="location">
+                                <select class="form-select" name="location_id" aria-label="Default select">
+                                    @foreach($branch as $key => $val)
+                                       @if(isset($data['clinic_location']))
+                                        @if($val['id'] == $data['clinic_location']['id'])
+                                          <option value="{{$val['id']}}" selected>{{$val['branch_name']}} ({{$val['location']}})</option>
+                                        @else
+                                          <option value="{{$val['id']}}">{{$val['branch_name']}} ({{$val['location']}})</option>
+                                        @endif  
+                                    @else
+                                    <option value="{{$val['id']}}">{{$val['branch_name']}} ({{$val['location']}})</option>
+                                    @endif
 
-                                @error('location')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 
