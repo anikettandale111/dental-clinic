@@ -3,7 +3,7 @@
 @section('content')
 <main id="main" class="main">
     <div style="float: right; margin-bottom: 10px;">
-        <a class="btn btn-primary" href="{{url('/add_clinic')}}"> Add Clinic Location </a>
+        <a class="btn btn-primary" href="{{url('/add_manufacturer')}}"> Add Product </a>
     </div>
     <div>
         <table id="table_id" 
@@ -11,10 +11,7 @@
             <thead>
                 <tr>
                     <th>
-                        Branch Name
-                    </th>
-                    <th>
-                        Location
+                    Product Name
                     </th>
                     <th>
                         Status
@@ -30,10 +27,7 @@
                 @foreach($data as $k =>$v)
                     <tr>
                         <td>
-                            {{$v['branch_name']}}
-                        </td>
-                        <td>
-                            {{$v['location']}}
+                            {{$v['name']}}
                         </td>
                         <td>
                             @if($v['is_active'] == 1)
@@ -44,7 +38,7 @@
                         </td>
                         
                         <td>
-                            <a class="btn btn-primary edit" href="{{url('edit_location/'.$v['id'])}}">Edit</a>
+                            <a class="btn btn-primary edit" href="{{url('edit_category/'.$v['id'])}}">Edit</a>
                         </td>
                     </tr>
                 @endforeach
@@ -54,5 +48,4 @@
 
 </main><!-- End #main -->
    
-
 @endsection 

@@ -33,10 +33,29 @@
     @endif
     
     @if(Auth::user()->action == 2)
+    
     <li class="nav-item">
         <a class="nav-link " href="{{url('/store-eq')}}">
           <i class="bi bi-basket"></i>
           <span>Store Equipment</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " href="{{url('/category')}}">
+          <i class="bi bi-basket"></i>
+          <span>Add Category</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " href="{{url('/manufacturer')}}">
+          <i class="bi bi-basket"></i>
+          <span>Add Manufacturer</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " href="{{url('/product')}}">
+          <i class="bi bi-basket"></i>
+          <span>Add Product</span>
         </a>
       </li>
       <li class="nav-item">

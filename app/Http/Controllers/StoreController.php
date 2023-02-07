@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Auth;
 use App\User;
 use App\Store;
+use App\Category;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Milon\Barcode\DNS1D;
@@ -32,8 +33,9 @@ class StoreController extends Controller
     public function index()
     {
         $data = Store::Where(['user_id'=>Auth::user()->id,'is_active'=>1])->get();
+        $category = Category::get();
         
-        return view('store_view',compact('data'));
+        return view('store_view',compact('data','category'));
     }
     public function clinic_details(Request $requst)
     {
@@ -51,7 +53,8 @@ class StoreController extends Controller
 
     public function add_stock(Request $requst)
     {   
-        return view('stock');
+        $category = Category::get();
+        return view('stock',compact('category'));
     }
     
     public function edit_stock(Request $request)
@@ -90,6 +93,7 @@ class StoreController extends Controller
                         'unit'=> ucfirst(strtolower($request['unit'])),
                         'photo'=> $image_name,
                         'qty'=> $request['qty'],
+                        'cost'=> $request['cost'],
                         'tags'=> $request['tags'],
                         'description'=> ucfirst(strtolower($request['description'])),
                         'is_active'=> 1,
@@ -143,7 +147,8 @@ class StoreController extends Controller
             $data['usage'] = ucfirst(strtolower($request['usage']));
             $data['unit'] = ucfirst(strtolower($request['unit']));
             $data['photo'] = $image_name;
-            $data['qty'] = 1;
+            $data['qty'] = $request['qty'];
+            $data['cost']= $request['cost'];
             $data['tags'] = $request['tags'];
             $data['description'] = ucfirst(strtolower($request['description']));
             //DNS1D::getBarcodeSVG($lbl_txt, "C93",1,30,'green', true);
