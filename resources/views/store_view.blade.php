@@ -42,13 +42,17 @@
                 @foreach($data as $k =>$v)
                     <tr>
                         <td>
-                            {{$v['category']}}
+                            {{$v['category_model']['category_name']}}
                         </td>
                         <td>
-                            {{$v['manufacture_name']}}
+                        @if(isset($v['manufacturer_model']['name']))
+                            {{$v['manufacturer_model']['name']}}
+                        @endif    
                         </td>
                         <td>
-                            {{$v['product_name']}}
+                            @if(isset($v['product_model']['name']))
+                            {{$v['product_model']['name']}}
+                            @endif
                         </td>
                         <td>
                             {{$v['usage']}}
@@ -57,10 +61,10 @@
                             {{$v['qty']}}
                         </td>
                         <td>
-                            {{$v['unit']}}
+                           {{$v['unit_model']['name']}}
                         </td>
                         <td>
-                            <img src="{{URL::to('/').'/images/'.$v['photo']}}" alt="{{$v['manufacture_name']}}" style="width: 100px; height: 50px;">
+                            <img src="{{URL::to('/').'/images/'.$v['photo']}}" alt="{{$v['product_model']['name']}}" style="width: 100px; height: 50px;">
                         </td>
                         <td>
                             <a class="btn btn-primary edit" href="{{url('/edit_stock/'.$v['id'])}}">Edit</a>

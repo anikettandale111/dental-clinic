@@ -7,6 +7,9 @@ use Auth;
 use App\User;
 use App\Store;
 use App\Category;
+use App\Manufacturer;
+use App\Product_name;
+use App\Unit;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Milon\Barcode\DNS1D;
@@ -32,7 +35,7 @@ class StoreController extends Controller
      */
     public function index()
     {
-        $data = Store::Where(['user_id'=>Auth::user()->id,'is_active'=>1])->get();
+        $data = Store::with('Unit_model','Category_model','Manufacturer_model','Product_model')->Where(['user_id'=>Auth::user()->id,'is_active'=>1])->get();
         $category = Category::get();
         
         return view('store_view',compact('data','category'));
@@ -53,32 +56,42 @@ class StoreController extends Controller
 
     public function add_stock(Request $requst)
     {   
-        $category = Category::get();
-        return view('stock',compact('category'));
+        $category = Category::Where('is_active','1')->get();
+        $manu = Manufacturer::Where('is_active','1')->get();
+        $product_name = Product_name::Where('is_active','1')->get();
+        $unit = Unit::Where('is_active','1')->get();
+        return view('stock',compact('category','manu','product_name','unit'));
     }
     
     public function edit_stock(Request $request)
     {
         $id = $request->id;
-        
-        $data = Store::Where(['id' => $id])->first()->toArray();
-        
-        return view('edit_stock',compact('data'));
+        $data = Store::with('Unit_model','Category_model','Manufacturer_model','Product_model')->Where(['user_id'=>Auth::user()->id,'id' => $id])->first();
+        $category = Category::Where('is_active','1')->get();
+        $manu = Manufacturer::Where('is_active','1')->get();
+        $product_name = Product_name::Where('is_active','1')->get();
+        $unit = Unit::Where('is_active','1')->get();
+
+        return view('edit_stock',compact('data','category','manu','product_name','unit'));
     }
 
     protected function stock_register(Request $request)
     {
-        
-        $request->validate([
-            'photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-        ]);
-
-
-        if ($request->hasFile('photo')) {
+        $image_name = null;
+        if ($request->hasFile('photo')) 
+        {
             $image = $request->file('photo');
             $image_name = time().'.'.$image->getClientOriginalExtension();
             $destinationPath = base_path('public/images');
             $image->move($destinationPath, $image_name);
+        } 
+        // else 
+        // {                          
+        //     Session()->flash('message','Wrong image uploaded');
+        //     Session()->flash('status','success');
+        //     session()->flash('alert-class', 'alert-danger'); 
+        //     return back()->with(['status' =>  'success']);
+        // }
 
             $row_data=[];
             $QR_data=[];
@@ -114,14 +127,7 @@ class StoreController extends Controller
             session()->flash('message', 'Product Add Successfully!  <a href="/'.$pdf_file_name.'" target="_blank"> View Barcode </a>'); 
             session()->flash('alert-class', 'alert-success');
             return back()->with(['status' =>  'success']);
-        } 
-        else 
-        {                          
-            Session()->flash('message','Wrong image uploaded');
-            Session()->flash('status','success');
-            session()->flash('alert-class', 'alert-danger'); 
-            return back()->with(['status' =>  'success']);
-        }
+        
     }
 
     protected function update_stock(Request $request)

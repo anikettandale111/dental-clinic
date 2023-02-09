@@ -30,13 +30,11 @@
                             <label for="manufacture_name" class="col-md-4 col-form-label text-md-right">{{ __('Manufacturer Name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="manufacture_name" type="text" class="form-control @error('manufacture_name') is-invalid @enderror" name="manufacture_name" value="{{ old('manufacture_name') }}" required autocomplete="email">
-
-                                @error('manufacture_name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <select name="manufacture_name" class="form-select">
+                                    @foreach($manu as $k => $val)
+                                      <option value="{{$val['id']}}">{{$val['name']}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 
@@ -44,13 +42,11 @@
                             <label for="product_name" class="col-md-4 col-form-label text-md-right">{{ __('Product Brand/Model Name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="product_name" type="text" class="form-control @error('product_name') is-invalid @enderror" name="product_name" value="{{ old('product_name') }}" required autocomplete="add">
-
-                                @error('product_name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <select name="product_name" class="form-select">
+                                    @foreach($product_name as $k => $val)
+                                      <option value="{{$val['id']}}">{{$val['name']}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 
@@ -100,12 +96,11 @@
                             <label for="unit" class="col-md-4 col-form-label text-md-right">{{ __('Unit') }}</label>
 
                             <div class="col-md-6">
-                                <input id="unit" type="text" class="form-control" name="unit" value="{{ old('unit') }}" required autocomplete="unit">
-                                @error('unit')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <select name="unit" class="form-select">
+                                    @foreach($unit as $k => $val)
+                                      <option value="{{$val['id']}}">{{$val['name']}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -124,7 +119,7 @@
                             <label for="photo" class="col-md-4 col-form-label text-md-right">{{ __('Photo') }}</label>
 
                             <div class="col-md-6">
-                                <input id="photo" type="file" class="form-control" name="photo" value="{{ old('photo') }}" required autocomplete="photo">
+                                <input id="photo" type="file" class="form-control" name="photo" value="{{ old('photo') }}" autocomplete="photo">
                                 @error('photo')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

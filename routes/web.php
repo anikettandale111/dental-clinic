@@ -54,3 +54,8 @@ Route::any('/add_manufacturer', 'ProductController@add_manufacturer')->name('add
 Route::any('/insert_manufacturer', 'ProductController@set_manufacturer')->name('insert_manufacturer');
 Route::any('/update_category', 'ProductController@update_category')->name('update_category');
 Route::any('/edit_category/{id?}', 'ProductController@edit_category')->name('edit_category');
+Route::any('/unit', 'UnitController@index')->name('unit');
+Route::any('/add_unit', 'UnitController@add_unit')->name('add_unit');
+Route::any('/insert_unit', 'UnitController@set_unit')->name('insert_unit');
+Route::any('/update_unit', 'UnitController@update_unit')->name('update_unit');
+Route::any('/edit_unit/{id?}', 'UnitController@edit_unit')->name('edit_unit');

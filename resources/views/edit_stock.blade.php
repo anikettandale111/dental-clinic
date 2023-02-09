@@ -18,13 +18,15 @@
                             <label for="category" class="col-md-4 col-form-label text-md-right">{{ __('Category') }}</label>
 
                             <div class="col-md-6">
-                                <input id="category" type="text" class="form-control @error('category') is-invalid @enderror" name="category" value="{{ $data['category'] }}" required autocomplete="name" autofocus>
-
-                                @error('category')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                               <select name="category" class="form-select">
+                                    @foreach($category as $k => $val)
+                                      @if($data['category'] == $val)
+                                      <option value="{{$val['id']}}" selected>{{$val['category_name']}}</option>
+                                      @else
+                                      <option value="{{$val['id']}}">{{$val['category_name']}}</option>
+                                      @endif
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 
@@ -32,13 +34,15 @@
                             <label for="manufacture_name" class="col-md-4 col-form-label text-md-right">{{ __('Manufacturer Name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="manufacture_name" type="text" class="form-control @error('manufacture_name') is-invalid @enderror" name="manufacture_name" value="{{ $data['manufacture_name'] }}" required autocomplete="manufacture_name">
-
-                                @error('manufacture_name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <select name="manufacture_name" class="form-select">
+                                    @foreach($manu as $k => $val)
+                                      @if($data['manufacture_name'] == $val)
+                                      <option value="{{$val['id']}}" selected>{{$val['name']}}</option>
+                                      @else
+                                      <option value="{{$val['id']}}">{{$val['name']}}</option>
+                                      @endif
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 
@@ -46,13 +50,15 @@
                             <label for="product_name" class="col-md-4 col-form-label text-md-right">{{ __('Product Brand/Model Name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="product_name" type="text" class="form-control @error('product_name') is-invalid @enderror" name="product_name" value="{{ $data['product_name'] }}" required autocomplete="add">
-
-                                @error('product_name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <select name="product_name" class="form-select">
+                                    @foreach($product_name as $k => $val)
+                                      @if($data['product_name'] == $val)
+                                      <option value="{{$val['id']}}" selected>{{$val['name']}}</option>
+                                      @else
+                                      <option value="{{$val['id']}}">{{$val['name']}}</option>
+                                      @endif
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 
@@ -102,12 +108,15 @@
                             <label for="unit" class="col-md-4 col-form-label text-md-right">{{ __('Unit') }}</label>
 
                             <div class="col-md-6">
-                                <input id="unit" type="text" class="form-control" name="unit" value="{{ $data['unit'] }}" required autocomplete="unit">
-                                @error('unit')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                               <select name="unit" class="form-select">
+                                    @foreach($unit as $k => $val)
+                                      @if($data['unit'] == $val)
+                                      <option value="{{$val['id']}}" selected>{{$val['name']}}</option>
+                                      @else
+                                      <option value="{{$val['id']}}">{{$val['name']}}</option>
+                                      @endif
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="form-group row">

@@ -59,6 +59,12 @@
         </a>
       </li>
       <li class="nav-item">
+        <a class="nav-link " href="{{url('/unit')}}">
+          <i class="bi bi-basket"></i>
+          <span>Add Unit</span>
+        </a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link " href="{{url('/dispatch')}}">
           <i class="bi bi-basket"></i>
           <span>Dispatch</span>
