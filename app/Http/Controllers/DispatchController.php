@@ -7,6 +7,7 @@ use Auth;
 use App\User;
 use App\Store;
 use App\Dispatch;
+use App\Clinic_location;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
@@ -29,11 +30,15 @@ class DispatchController extends Controller
      */
     public function index()
     {
-        $data = Store::Where(['user_id'=>Auth::user()->id,'is_active'=>1])->get();
-        
-        return view('dispatch_view',compact('data'));
+        $data['dispatch_data'] = Dispatch::select('dispatch.created_at','dispatch.received_qty','dispatch.id AS disp_id','users.name AS u_name','store.barcode_id','product_name.name AS p_name','clinic_location.location','clinic_location.branch_name','store.photo')
+                                ->join('store', 'store.barcode_id', '=', 'dispatch.qr_code')
+                                ->join('users', 'users.id', '=', 'dispatch.transfer_by_id')
+                                ->join('clinic_location', 'dispatch.branch_id', '=', 'clinic_location.id')
+                                ->join('product_name', 'store.product_name', '=', 'product_name.id')
+                                ->where('transfer_by_id',Auth::user()->id)->get();        
+        return view('dispatch_view',$data);
     }
-    public function clinic_details(Request $requst)
+    public function clinic_details(Request $request)
     {
         if(Auth::user()->action == 1)
         {
@@ -46,18 +51,34 @@ class DispatchController extends Controller
         
         return view('clinic_details',compact('data'));
     }
-    public function add_dispatch(Request $requst)
+    public function add_dispatch(Request $request)
     {       
-        return view('add_dispatch');
+        $data['store_list'] = Clinic_location::select()->where('is_active',1)->where('user_id',Auth::user()->id)->get();
+        return view('add_dispatch',$data);
+    }
+    public function insert_dispatch(Request $request)
+    {   
+        // $data['product_name'] = $request['product_name'];
+        // $data['category_name'] = $request['category_name'];
+        // $data['available_qty'] = $request['available_qty'];
+        $data['received_qty'] = $request['disp_quantity'];
+        $data['qr_code'] = $request['barcode_text'];
+        $data['branch_id'] = $request['reciver_id'];
+        $data['transfer_by_id'] = Auth::user()->id;
+        $rowid = Dispatch::insertGetId($data);
+        if($rowid > 0){
+            Store::where('barcode_id',$request['barcode_text'])->decrement('qty',$request['disp_quantity']);
+        }
+        return array('message'=> 'Dispatch Entry Inserted Successfully!','status'=>'success'); 
     }
 
-    public function add_stock(Request $requst)
+    public function add_stock(Request $request)
     {   
         return view('stock');
     }
-    public function get_bar_code_data(Request $requst)
+    public function get_bar_code_data(Request $request)
     {   
-        return Store::where('barcode_id',$requst->barcode_text)->first();
+        return Store::where('barcode_id',$request->barcode_text)->first();
     }
     
     public function edit_stock(Request $request)

@@ -32,6 +32,7 @@ Route::any('/edit_stock/{id?}', 'StoreController@edit_stock')->name('edit_stock'
 Route::any('/update_stock', 'StoreController@update_stock')->name('update_stock');
 Route::any('/dispatch', 'DispatchController@index')->name('dispatch');
 Route::any('/add_dispatch', 'DispatchController@add_dispatch')->name('add_dispatch');
+Route::post('/insert_dispatch', 'DispatchController@insert_dispatch')->name('insert_dispatch');
 Route::any('/get_bar_code_data', 'DispatchController@get_bar_code_data')->name('get_bar_code_data');
 Route::any('/qrgenerator', 'StoreController@qr_generator')->name('qrgenerator');
 Route::any('/clinic', 'ClinicLocationController@index')->name('clinic');

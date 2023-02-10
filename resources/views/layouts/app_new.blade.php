@@ -28,7 +28,10 @@
 
     <!-- Template Main CSS File -->
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
-
+  <style>
+    .form-group{padding: 10px;}
+    .messages{margin: 10px;}
+  </style>
 </head>
 <body>
 
