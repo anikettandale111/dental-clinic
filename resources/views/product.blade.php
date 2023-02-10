@@ -38,7 +38,7 @@
                         </td>
                         
                         <td>
-                            <a class="btn btn-primary edit" href="{{url('edit_category/'.$v['id'])}}">Edit</a>
+                            <a class="btn btn-primary edit" href="{{url('edit_product/'.$v['id'])}}">Edit</a>
                         </td>
                     </tr>
                 @endforeach

@@ -14,19 +14,6 @@
                     <form enctype="multipart/form-data" id="ins_disp" name="ins_disp">
                         <div class="form-group row">
                             <div class="col-md-4">
-                                <label for="category" class="text-md-right">{{ __('Receiver Name') }}</label>
-                            </div>
-                            <div class="col-md-8">
-                                <select class="form-control" name="reciver_id" id="reciver_id">
-                                    <option disabled selected> Select Name</option>
-                                    @foreach($store_list AS $key => $val)
-                                    <option value="{{$val->id}}">{{$val->branch_name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-md-4">
                                 <label for="category" class="text-md-right">{{ __('Scan Barcode') }}</label>
                             </div>
                             <div class="col-md-8">
@@ -68,15 +55,15 @@
                         </div>
                         <div class="form-group row">
                             <div class="col-md-4">
-                                <label for="category" class="text-md-right">{{ __('Available Quantity') }}</label>
+                                <label for="product_cost" class="text-md-right">{{ __('Product Cost') }}</label>
                             </div>
                             <div class="col-md-8">
-                                <input type="text" class="form-control" name="available_qty" id="available_qty" readonly>
+                                <input type="text" class="form-control" name="product_cost" id="product_cost" readonly>
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-md-4">
-                                <label for="category" class="text-md-right">{{ __('Dispatch Quantity') }}</label>
+                                <label for="category" class="text-md-right">{{ __('Receive Quantity') }}</label>
                             </div>
                             <div class="col-md-8">
                                 <input type="text" class="form-control" name="disp_quantity" id="disp_quantity">
@@ -130,6 +117,7 @@
                     $('#prd_unit').val(data.unit_model.name);
                     $('#manufacturer_name').val(data.manufacturer_model.name);
                     $('#available_qty').val(data.qty);
+                    $('#product_cost').val(data.cost);
                     $('#product_image').attr('src', '/images/' + data.photo);
                 }
             });

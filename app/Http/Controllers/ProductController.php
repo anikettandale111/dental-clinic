@@ -24,16 +24,16 @@ class ProductController extends Controller
         return view('add_manufacturer');
     }
     
-    public function edit_category(Request $request)
+    public function edit_product(Request $request)
     {
         $id = $request->id;
         
         $data = product_name::Where(['id' => $id])->first()->toArray();
         
-        return view('edit_category',compact('data'));
+        return view('edit_product',compact('data'));
     }
 
-    public function set_manufacturer(Request $request)
+    public function set_product(Request $request)
     {
             $data['name'] = ucfirst(strtolower($request['manufacturer_name']));
             $data['is_active'] = 1;
@@ -44,14 +44,14 @@ class ProductController extends Controller
             return back()->with(['status' =>  'success']);       
     }
 
-    public function update_category(Request $request)
+    public function update_product(Request $request)
     {
-        $data['name'] = ucfirst(strtolower($request['manufacturer_name']));
+        $data['name'] = ucfirst(strtolower($request['name']));
         $data['is_active'] = $request['is_active'];
         $data['user_id'] = $request['user_id'];
         $create = product_name::Where('id',$request['tabel_id'])->Update($data);
         session()->flash('message', 'Data Update Successfully!'); 
         session()->flash('alert-class', 'alert-success'); 
-        return Redirect::to('/category')->with(['status' =>  'success']);
+        return Redirect::to('/product')->with(['status' =>  'success']);
     }
 }

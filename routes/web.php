@@ -48,15 +48,18 @@ Route::any('/edit_category/{id?}', 'CategoryController@edit_category')->name('ed
 Route::any('/manufacturer', 'ManufacturerController@index')->name('manufacturer');
 Route::any('/add_manufacturer', 'ManufacturerController@add_manufacturer')->name('add_manufacturer');
 Route::any('/insert_manufacturer', 'ManufacturerController@set_manufacturer')->name('insert_manufacturer');
-Route::any('/update_category', 'ManufacturerController@update_category')->name('update_category');
-Route::any('/edit_category/{id?}', 'ManufacturerController@edit_category')->name('edit_category');
+Route::any('/update_manufacturer', 'ManufacturerController@update_manufacturer')->name('update_manufacturer');
+Route::any('/edit_manufacturer/{id?}', 'ManufacturerController@edit_manufacturer')->name('edit_manufacturer');
 Route::any('/product', 'ProductController@index')->name('product');
 Route::any('/add_manufacturer', 'ProductController@add_manufacturer')->name('add_manufacturer');
-Route::any('/insert_manufacturer', 'ProductController@set_manufacturer')->name('insert_manufacturer');
-Route::any('/update_category', 'ProductController@update_category')->name('update_category');
-Route::any('/edit_category/{id?}', 'ProductController@edit_category')->name('edit_category');
+Route::any('/set_product', 'ProductController@set_product')->name('set_product');
+Route::any('/update_product', 'ProductController@update_product')->name('update_product');
+Route::any('/edit_product/{id?}', 'ProductController@edit_product')->name('edit_product');
 Route::any('/unit', 'UnitController@index')->name('unit');
 Route::any('/add_unit', 'UnitController@add_unit')->name('add_unit');
 Route::any('/insert_unit', 'UnitController@set_unit')->name('insert_unit');
 Route::any('/update_unit', 'UnitController@update_unit')->name('update_unit');
 Route::any('/edit_unit/{id?}', 'UnitController@edit_unit')->name('edit_unit');
+
+Route::any('/product_receive', 'ReceiveController@index')->name('product_receive');
+Route::any('/scan_product', 'ReceiveController@scan_product')->name('scan_product');

@@ -7,6 +7,7 @@ use Auth;
 use App\User;
 use App\Store;
 use App\Dispatch;
+use App\Unit;
 use App\Clinic_location;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
@@ -78,7 +79,7 @@ class DispatchController extends Controller
     }
     public function get_bar_code_data(Request $request)
     {   
-        return Store::where('barcode_id',$request->barcode_text)->first();
+        return Store::with('Unit_model','Category_model','Manufacturer_model','Product_model')->where('barcode_id',$request->barcode_text)->first();
     }
     
     public function edit_stock(Request $request)
