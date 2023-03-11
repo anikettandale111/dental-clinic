@@ -15,13 +15,7 @@ class ManufacturerController extends Controller
     public function index()
     {
         $data = Manufacturer::get();
-        
-        return view('manufacturer',compact('data'));
-    }
-
-    public function add_manufacturer(Request $requst)
-    {   
-        return view('add_manufacturer');
+        return view('add_manufacturer',compact('data'));
     }
     
     public function edit_manufacturer(Request $request)

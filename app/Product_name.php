@@ -8,7 +8,7 @@ class Product_name extends Model
 {
     protected $table = "product_name";
     protected $fillable = [
-        'id','name', 'user_id','is_active'
+        'id','name', 'unit_id','category_id','manufracture_id','prod_price','user_id','is_active'
     ];
 
     public function location()

@@ -1,7 +1,7 @@
 @extends('layouts.app_new')
 
 @section('content')
-<div class="container" style="margin-top:150px;">
+<div class="container cnt-margin">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -94,9 +94,9 @@
         </div>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+@endsection
+@push('child-scripts')
 <script>
-    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
     var messages = $('.messages');
     $(messages).html();
     $("#barcode_text").on('keyup focus', function(e) {
@@ -161,4 +161,4 @@
         }
     });
 </script>
-@endsection
+@endpush

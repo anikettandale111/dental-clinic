@@ -3,7 +3,7 @@
 @section('content')
 <main id="main" class="main">
     <div style="float: right; margin-bottom: 10px;">
-        <a class="btn btn-primary" href="{{url('/add_manufacturer')}}"> Add Product </a>
+        <a class="btn btn-primary" href="{{url('/add_product')}}"> Add Product </a>
     </div>
     <div>
         <table id="table_id" 

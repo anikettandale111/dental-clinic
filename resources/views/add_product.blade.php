@@ -3,25 +3,25 @@
 @section('content')
 <div class="container cnt-margin">
     <div class="row justify-content-center">
-        <div class="col-md-12" style="margin-left: 180px;">
+        <div class="col-md-12 cm-margin">
             <div class="card">
-                <div class="card-header">{{ __('Add Manufacturer') }}</div>
+                <div class="card-header">{{ __('Add Product') }}</div>
                 <div class="card-body">
                     @if(session()->has('message'))
                     <p class="alert {{ session('alert-class') }}">{{ session('message') }}</p>
                     @endif
                     <div class="col-md-6">
-                        <form method="POST" action="{{ url('insert_manufacturer') }}" enctype="multipart/form-data">
+                        <form method="POST" action="{{ url('set_product') }}" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" class="form-control" name="user_id" value="{{ Auth::user()->id }}">
 
                             <div class="form-group row">
-                                <label for="manufacturer_name" class="col-md-4 col-form-label text-md-right">{{ __('Manufacturer Name') }}</label>
+                                <label for="product_name" class="col-md-4 col-form-label text-md-right">{{ __('Product Name') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="manufacturer_name" type="text" class="form-control @error('manufacturer_name') is-invalid @enderror" name="manufacturer_name" value="{{ old('manufacturer_name') }}" required autocomplete="email">
+                                    <input id="product_name" type="text" class="form-control @error('product_name') is-invalid @enderror" name="product_name" value="{{ old('product_name') }}" required autocomplete="email">
 
-                                    @error('manufacturer_name')
+                                    @error('product_name')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -48,7 +48,7 @@
                                 <thead>
                                     <tr>
                                         <th>
-                                            Manufacturer Name
+                                            product Name
                                         </th>
                                         <th>
                                             Status
@@ -75,7 +75,7 @@
                                         </td>
 
                                         <td>
-                                            <a class="btn btn-primary edit" href="{{url('edit_manufacturer/'.$v['id'])}}">Edit</a>
+                                            <a class="btn btn-primary edit" href="{{url('edit_product/'.$v['id'])}}">Edit</a>
                                         </td>
                                     </tr>
                                     @endforeach

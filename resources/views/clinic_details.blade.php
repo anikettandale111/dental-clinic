@@ -3,11 +3,10 @@
 @section('content')
 <main id="main" class="main">
     <div style="float: right; margin-bottom: 10px;">
-        <a class="btn btn-primary" href="{{url('/add_store')}}"> Add Clinic User </a>
+        <a class="btn btn-primary" href="{{url('/add_store')}}"> Store Admin </a>
     </div>
     <div>
-        <table id="table_id" 
-    class="table table-condensed table-striped table-hover">
+        <table id="table_id" class="table table-condensed table-hover">
             <thead>
                 <tr>
                     <th>
@@ -33,7 +32,7 @@
                         Status
                     </th>
                     <th>
-                        Delete
+                        Action
                     </th>
                 </tr>
             </thead>
@@ -70,6 +69,7 @@
                         </td>
                         <td>
                             <a class="btn btn-primary edit" href="{{url('edit_details/'.$v['id'])}}">Edit</a>
+                            <a class="btn btn-danger danger" href="{{url('delete_details/'.$v['id'])}}">Delete</a>
                         </td>
                     </tr>
                 @endforeach

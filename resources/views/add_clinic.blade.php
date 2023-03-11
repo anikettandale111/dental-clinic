@@ -1,11 +1,11 @@
 @extends('layouts.app_new')
 
 @section('content')
-<div class="container" style="margin-top:150px;">
+<div class="container cnt-margin">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-12 cm-margin">
             <div class="card">
-                <div class="card-header">{{ __('Add Branch Name And Location') }}</div>
+                <div class="card-header">{{ __('Add Branch Name & Location') }}</div>
                 @if(session()->has('message'))
                     <p class="alert {{ session('alert-class') }}">{{ session('message') }}</p>
                 @endif

@@ -17,13 +17,13 @@ use Milon\Barcode\DNS2D;
         <h2 class="text-center mb-3">{{$data_new['product_name']}}</h2>
 <?php
     $tag = new DNS1D();
-    foreach($data_new['QR_data'] As $key){
+    // foreach($data_new['QR_data'] As $key){
         for($i=0;$i<=$data_new['quantity'];){
             // echo $tag->getBarcodeHTML($key, "C93",1,30,'green', true);
-            echo '<img src="data:image/png;base64,' . $tag->getBarcodePNG($key, 'C93',1,40,array(1,1,1), true) . '" alt="barcode"  style="margin:4px;padding:4px;"  /></n><br>';
+            echo '<img src="data:image/png;base64,' . $tag->getBarcodePNG($data_new['QR_data'], 'C93',1,40,array(1,1,1), true) . '" alt="barcode"  style="margin:4px;padding:4px;"  /></n><br>';
             $i++;
         }
-    }
+    // }
 ?>
     </div>
     <script src="{{ asset('js/app.js') }}" type="text/js"></script>

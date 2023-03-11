@@ -16,12 +16,12 @@ class ProductController extends Controller
     {
         $data = product_name::get();
         
-        return view('product',compact('data'));
+        $data = product_name::get();
+        return view('add_product',['data'=>$data]);
     }
 
-    public function add_manufacturer(Request $requst)
+    public function addProduct(Request $requst)
     {   
-        return view('add_manufacturer');
     }
     
     public function edit_product(Request $request)
@@ -35,7 +35,7 @@ class ProductController extends Controller
 
     public function set_product(Request $request)
     {
-            $data['name'] = ucfirst(strtolower($request['manufacturer_name']));
+            $data['name'] = ucfirst(strtolower($request['product_name']));
             $data['is_active'] = 1;
             $data['user_id'] = $request['user_id'];
             $update = product_name::Create($data);
