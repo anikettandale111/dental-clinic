@@ -48,6 +48,16 @@ class ProductController extends Controller
     public function update_product(Request $request)
     {
         $data['name'] = ucfirst(strtolower($request['name']));
+        $data['category_id'] = $request['category_name'];
+        if($request['manu_name'] != 0)
+        {
+            $data['manufracture_id'] = $request['manu_name'];
+        }
+        else
+        {
+            $data['manufracture_id'] = $request['old_manu'];
+        }
+        
         $data['is_active'] = $request['is_active'];
         $data['user_id'] = $request['user_id'];
         $create = Product_name::Where('id',$request['tabel_id'])->Update($data);

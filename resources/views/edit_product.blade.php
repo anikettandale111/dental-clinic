@@ -29,12 +29,13 @@
                                 </select>
                             </div>
                         </div>
-                        
                         <div class="form-group row">
                             <label for="manufacturer_name" class="col-md-4 col-form-label text-md-right">{{ __('Manufacturer Name') }}</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" value="{{$data['manufacturer_model']['name']}}" readonly>
+                                <input type="text" class="form-control"  value="{{$data['manufacturer_model']['name']}}" readonly>
+                                <input type="hidden" class="form-control" name="old_manu" value="{{$data['manufracture_id']}}" readonly>
                                 <select class="manu_select form-select" name="manu_name">
+                                    <option value="0">--Select--</option>
                                 </select>
                             </div>
                         </div>
