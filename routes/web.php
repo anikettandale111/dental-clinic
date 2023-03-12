@@ -50,6 +50,8 @@ Route::any('/manufacturer', 'ManufacturerController@index')->name('manufacturer'
 Route::any('/insert_manufacturer', 'ManufacturerController@set_manufacturer')->name('insert_manufacturer');
 Route::any('/update_manufacturer', 'ManufacturerController@update_manufacturer')->name('update_manufacturer');
 Route::any('/edit_manufacturer/{id?}', 'ManufacturerController@edit_manufacturer')->name('edit_manufacturer');
+Route::any('/get_manuf_data', 'ManufacturerController@get_manuf_data')->name('get_manuf_data');
+
 Route::any('/product', 'ProductController@index')->name('product');
 Route::any('/add_product', 'ProductController@addProduct')->name('add_product');
 Route::any('/set_product', 'ProductController@set_product')->name('set_product');

@@ -1,5 +1,4 @@
 @extends('layouts.app_new')
-
 @section('content')
 <div class="container cnt-margin">
     <div class="row justify-content-center">
@@ -14,7 +13,31 @@
                         @csrf
                         <input type="hidden" class="form-control" name="user_id" value="{{ Auth::user()->id }}">
                         <input type="hidden" class="form-control" name="tabel_id" value="{{ $data['id'] }}">
-                       
+                        <div class="form-group row">
+                            <label for="category_name" class="col-md-4 col-form-label text-md-right">{{ __('Category Name') }}</label>
+
+                            <div class="col-md-6">
+                                <select class="category_name form-select" name="category_name" onchange="ManufactureFunction()">
+                                    <option value="0">--Select--</option>
+                                    @foreach($category as $k => $v)
+                                        @if($data['category_id']== $v['id'])
+                                        <option value="{{$v['id']}}" selected>{{$v['category_name']}}</option>
+                                        @else
+                                        <option value="{{$v['id']}}">{{$v['category_name']}}</option>
+                                        @endif
+                                    @endforeach    
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <label for="manufacturer_name" class="col-md-4 col-form-label text-md-right">{{ __('Manufacturer Name') }}</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" value="{{$data['manufacturer_model']['name']}}" readonly>
+                                <select class="manu_select form-select" name="manu_name">
+                                </select>
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Product Name') }}</label>
                             
@@ -63,3 +86,39 @@
     </div>
 </div>
 @endsection
+@push('child-scripts')
+<script>
+    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        function ManufactureFunction()
+        {
+            var category_name = $('.category_name').val();
+
+            if(category_name != 0)
+            {
+                $.ajax({
+                    url: '/get_manuf_data',
+                    type: 'POST',
+                    data: {
+                        _token: CSRF_TOKEN,
+                        category_id: category_name
+                    },
+                    dataType: 'JSON',
+                    success: function(data) {
+                        var str = '';
+                        
+                        $.each(data.data, function (i,val) {
+                            str+= '<option value="'+val.id+'">'+val.name+'<option>';
+                        });
+                        
+                        $(".manu_select").html(str);
+                    }
+                });
+            }
+            else
+            {
+                alert("Please Select Category");
+                return false;
+            }            
+        }
+</script>
+@endpush

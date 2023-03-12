@@ -2,17 +2,18 @@
 
 namespace App;
 use App\User;
+use App\Category;
 use Illuminate\Database\Eloquent\Model;
 
 class Manufacturer extends Model
 {
     protected $table = "manufacturer";
     protected $fillable = [
-        'id','name', 'user_id','is_active'
+        'id','name', 'category_id','user_id','is_active'
     ];
 
-    public function location()
+    public function category()
     {
-        return $this->hasMany('App\User','location_id');
+        return $this->belongsTo('App\Category','category_id');
     }
 }

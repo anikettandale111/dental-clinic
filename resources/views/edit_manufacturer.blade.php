@@ -16,6 +16,24 @@
                         <input type="hidden" class="form-control" name="tabel_id" value="{{ $data['id'] }}">
                        
                         <div class="form-group row">
+                            <label for="category_name" class="col-md-4 col-form-label text-md-right">{{ __('Category Name') }}</label>
+
+                            <div class="col-md-6">
+                                <select class="category_name form-select" name="category_name">
+                                    
+                                    @foreach($category as $k => $v)
+                                        @if($data['category_id'] == $v['id'])
+                                            <option value="{{$v['id']}}" selected>{{$v['category_name']}}</option>
+                                        @else
+                                        <option value="{{$v['id']}}">{{$v['category_name']}}</option>
+                                        @endif
+                                    @endforeach    
+                                </select>
+                                
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Manufacturer Name') }}</label>
                             
                             <div class="col-md-6">

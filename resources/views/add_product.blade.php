@@ -14,7 +14,27 @@
                         <form method="POST" action="{{ url('set_product') }}" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" class="form-control" name="user_id" value="{{ Auth::user()->id }}">
+                            <div class="form-group row">
+                                <label for="category_name" class="col-md-4 col-form-label text-md-right">{{ __('Category Name') }}</label>
 
+                                <div class="col-md-6">
+                                    <select class="category_name form-select" name="category_name" onchange="ManufactureFunction()">
+                                        <option value="0">--Select--</option>
+                                        @foreach($category as $k => $v)
+                                            <option value="{{$v['id']}}">{{$v['category_name']}}</option>
+                                        @endforeach    
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group row">
+                                <label for="manufacturer_name" class="col-md-4 col-form-label text-md-right">{{ __('Manufacturer Name') }}</label>
+
+                                <div class="col-md-6">
+                                    <select class="manu_select form-select" name="manu_name">
+                                    </select>
+                                </div>
+                            </div>
                             <div class="form-group row">
                                 <label for="product_name" class="col-md-4 col-form-label text-md-right">{{ __('Product Name') }}</label>
 
@@ -48,7 +68,13 @@
                                 <thead>
                                     <tr>
                                         <th>
-                                            product Name
+                                            Category Name
+                                        </th>
+                                        <th>
+                                            Manufacturer Name
+                                        </th>
+                                        <th>
+                                            Product Name
                                         </th>
                                         <th>
                                             Status
@@ -60,9 +86,14 @@
                                 </thead>
 
                                 <tbody>
-
                                     @foreach($data as $k =>$v)
                                     <tr>
+                                        <td>
+                                            {{$v['category_model']['category_name']}}
+                                        </td>
+                                        <td>
+                                            {{$v['manufacturer_model']['name']}}
+                                        </td>
                                         <td>
                                             {{$v['name']}}
                                         </td>
@@ -87,4 +118,41 @@
             </div>
         </div>
     </div>
-    @endsection
+@endsection    
+@push('child-scripts')
+<script>
+    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        function ManufactureFunction()
+        {
+            var category_name = $('.category_name').val();
+
+            if(category_name != 0)
+            {
+                $.ajax({
+                    url: '/get_manuf_data',
+                    type: 'POST',
+                    data: {
+                        _token: CSRF_TOKEN,
+                        category_id: category_name
+                    },
+                    dataType: 'JSON',
+                    success: function(data) {
+                        console.log(data);
+                        var str = '';
+                        
+                        $.each(data.data, function (i,val) {
+                            str+= '<option value="'+val.id+'">'+val.name+'<option>';
+                        });
+                        
+                        $(".manu_select").html(str);
+                    }
+                });
+            }
+            else
+            {
+                alert("Please Select Category");
+                return false;
+            }            
+        }
+</script>
+@endpush

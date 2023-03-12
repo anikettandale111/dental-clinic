@@ -3,18 +3,32 @@
 @section('content')
 <div class="container cnt-margin">
     <div class="row justify-content-center">
-        <div class="col-md-12" style="margin-left: 180px;">
+        
             <div class="card">
                 <div class="card-header">{{ __('Add Manufacturer') }}</div>
                 <div class="card-body">
                     @if(session()->has('message'))
                     <p class="alert {{ session('alert-class') }}">{{ session('message') }}</p>
                     @endif
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                         <form method="POST" action="{{ url('insert_manufacturer') }}" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" class="form-control" name="user_id" value="{{ Auth::user()->id }}">
 
+                            <div class="form-group row">
+                                <label for="category_name" class="col-md-4 col-form-label text-md-right">{{ __('Category Name') }}</label>
+
+                                <div class="col-md-6">
+                                    <select class="category_name form-select" name="category_name">
+                                        
+                                        @foreach($Category as $k => $v)
+                                            <option value="{{$v['id']}}">{{$v['category_name']}}</option>
+                                        @endforeach    
+                                    </select>
+                                   
+                                </div>
+                            </div>
+                            
                             <div class="form-group row">
                                 <label for="manufacturer_name" class="col-md-4 col-form-label text-md-right">{{ __('Manufacturer Name') }}</label>
 
@@ -42,11 +56,14 @@
                             </div>
                         </form>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         <div>
                             <table id="table_id" class="table table-condensed table-striped table-hover">
                                 <thead>
                                     <tr>
+                                        <th>
+                                            Category Name
+                                        </th>
                                         <th>
                                             Manufacturer Name
                                         </th>
@@ -60,17 +77,23 @@
                                 </thead>
 
                                 <tbody>
-
                                     @foreach($data as $k =>$v)
                                     <tr>
+                                        <td>
+                                            @if(isset($v['category']))
+                                            {{$v['category']['category_name']}}
+                                            @else
+                                            -
+                                            @endif
+                                        </td>
                                         <td>
                                             {{$v['name']}}
                                         </td>
                                         <td>
                                             @if($v['is_active'] == 1)
-                                            Active
+                                                Active
                                             @else
-                                            InActive
+                                                InActive
                                             @endif
                                         </td>
 
@@ -85,6 +108,6 @@
                     </div>
                 </div>
             </div>
-        </div>
     </div>
+</div>
     @endsection
