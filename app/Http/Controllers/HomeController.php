@@ -28,7 +28,18 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        if(Auth::user()->action == 1)
+        {
+            $action = 2;
+            $where = ['action' => $action,'status'=>'Active'];
+        }
+        else{
+            $action = 3;
+            $where = ['action' => $action,'status'=>'Active','ref_id'=>Auth::user()->id];
+        }
+        $data = Auth::user()->with('Clinic_location')->where($where)->get();
+        $location = Clinic_location::Where(['user_id'=>Auth::user()->id])->get();
+        return view('home',compact('data','location'));
     }
     public function clinic_details(Request $requst)
     {

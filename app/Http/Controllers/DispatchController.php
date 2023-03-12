@@ -57,6 +57,7 @@ class DispatchController extends Controller
     {       
         $data['store_list'] = Clinic_location::select()->where('is_active',1)->where('user_id',Auth::user()->id)->get();
         $data['order_details'] = ClinicOrders::select('clinic_orders.id','order_id','clinic_orders.created_at','total_price','order_status','received_remarks','pn.name','clinic_orders.product_qty','clinic_orders.product_unit','clinic_orders.price_per_unit','clinic_id','cl.branch_name','clinic_orders.product_id')->leftJoin('clinic_location AS cl','cl.id','=','clinic_orders.clinic_id')->leftJoin('product_name AS pn','pn.id','=','clinic_orders.product_id')->where('clinic_orders.order_id',$request->order_id)->orderBy('clinic_orders.id')->get();
+        
         return view('add_dispatch',$data);
     }
     public function insert_dispatch(Request $request)
