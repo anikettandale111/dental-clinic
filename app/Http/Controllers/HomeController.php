@@ -28,7 +28,19 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        if(Auth::user()->action == 1)
+        {
+            $action = 2;
+            $where = ['action' => $action,'status'=>'Active'];
+        }
+        else{
+            $action = 3;
+            $where = ['action' => $action,'status'=>'Active','ref_id'=>Auth::user()->id];
+        }
+        $data = Auth::user()->with('Clinic_location')->where($where)->get();
+        $all_users = Auth::user()->with('Clinic_location')->where(['action' => 3,'status'=>'Active'])->get();
+        $location = Clinic_location::Where(['user_id'=>Auth::user()->id])->get();
+        return view('home',compact('data','location','all_users'));
     }
     public function clinic_details(Request $requst)
     {
@@ -107,6 +119,12 @@ class HomeController extends Controller
             'password' => Hash::make($data->password)
         ]);
         return Redirect::to('/clinic_details')->with(['status' =>  'success']);
+    }
+
+    public function all_clinc_users(Request $request)
+    {
+        $data = Auth::user()->where(['action' => 3,'status'=>'Active'])->get();
+        return view('clinic_details',compact('data'));
     }
     
 }

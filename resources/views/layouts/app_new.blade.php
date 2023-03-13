@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'Dental Clinic') }}</title>
+    <title>{{ config('app.name', 'NeevWellBeing') }}</title>
     <!-- Favicons -->
     <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
     <link href="{{ asset('assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
@@ -36,9 +36,9 @@
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
     <div class="d-flex align-items-center justify-content-between">
-      <a href="index.html" class="logo d-flex align-items-center">
+      <a href="{{url('/home')}}" class="logo d-flex align-items-center">
         <img src="assets/img/logo.png" alt="">
-        <span class="d-none d-lg-block">NeevwellBeing</span>
+        <span class="d-none d-lg-block">NeevWellBeing</span>
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
@@ -68,15 +68,18 @@
     <main class="py-4">
         @yield('content')
     </main>
-  <footer id="footer" class="footer">
+  <!-- <footer id="footer" class="footer">
     <div class="copyright">
       &copy; Copyright <strong><span>Admin</span></strong>. All Rights Reserved
     </div>
     <div class="credits">
       Designed by <a href="">Pravin yeole</a>
     </div>
-  </footer><!-- End Footer -->
+  </footer> -->
+  
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  </body>
+  </html>
   <!-- Vendor JS Files -->
   <script src="{{ asset('assets/vendor/apexcharts/apexcharts.min.js')}}"></script>
   <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
@@ -104,10 +107,7 @@
           "scrollY"  : "400px",    
         });
     });
-  </script>
-</body>
-@stack('child-scripts')
-<script>
     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-</script>
-</html>    
+  </script>
+
+@stack('child-scripts')
