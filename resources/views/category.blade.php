@@ -10,38 +10,34 @@
                 <p class="alert {{ session('alert-class') }}">{{ session('message') }}</p>
                 @endif
                 <div class="card-body">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <form method="POST" action="{{ url('insert_category') }}" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" class="form-control" name="user_id" value="{{ Auth::user()->id }}">
 
-                            <div class="form-group row">
-                                <label for="category_name" class="col-md-4 col-form-label text-md-right">{{ __('Category Name') }}</label>
-
-                                <div class="col-md-6">
+                            <div class="">
+                                <label for="category_name" class="col-form-label text-md-right">{{ __('Category Name') }}</label>
                                     <input id="category_name" type="text" class="form-control @error('category_name') is-invalid @enderror" name="category_name" value="{{ old('category_name') }}" required autocomplete="email">
-
                                     @error('category_name')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                     @enderror
-                                </div>
                             </div>
                             </br>
                             <div class="form-group row mb-0">
-                                <div class="col-md-6 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
+                                <div >
+                                    <button type="submit" class="btn btn-primary btn-save-width ">
                                         {{ __('Save') }}
                                     </button>
-                                    <a href="{{url('/category')}}" class="btn btn-primary">
+                                    <a href="{{url('/category')}}" class="btn btn-secondary btn-save-width">
                                         {{ __('Back') }}
                                     </a>
                                 </div>
                             </div>
                         </form>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                         <table id="table_id" class="table table-condensed table-striped table-hover">
                             <thead>
                                 <tr>

@@ -14,10 +14,8 @@
                         @csrf
                         <input type="hidden" class="form-control" name="user_id" value="{{ Auth::user()->id }}">
                        
-                        <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Unit Name') }}</label>
-                            
-                            <div class="col-md-6">
+                        <div class="">
+                            <label for="name" class="col-form-label text-md-right">{{ __('Unit Name') }}</label>
                                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="email">
 
                                 @error('name')
@@ -25,15 +23,14 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                            </div>
                         </div>
                         </br>
                         <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                            <div class="">
+                                <button type="submit" class="btn btn-primary btn-save-width">
                                     {{ __('Save') }}
                                 </button>
-                                <a href="{{url('/unit')}}"  class="btn btn-primary">
+                                <a href="{{url('/unit')}}"  class="btn btn-secondary btn-save-width">
                                     {{ __('Back') }}
                                 </a>
                             </div>

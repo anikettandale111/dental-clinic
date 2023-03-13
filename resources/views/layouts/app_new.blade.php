@@ -28,6 +28,8 @@
     .form-group{padding: 10px;}
     .messages{margin: 10px;}
     .cm-margin {margin-left: 210px;}
+    .form-select{font-size:15px !important;}
+    .btn-save-width{width:150px;}
   </style>
 </head>
 <body>
