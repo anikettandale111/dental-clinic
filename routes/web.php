@@ -76,3 +76,4 @@ Route::any('/view_my_orders', 'OrderController@viewMyOrders')->name('view_my_ord
 Route::any('/delete_order/{id?}', 'OrderController@deleteOrder')->name('delete_order');
 Route::any('/get_order_by_id', 'OrderController@getOrderById')->name('get_order_by_id');
 Route::any('/view_invoice/{id?}', 'OrderController@viewInvoice')->name('view_invoice');
+Route::any('/all_clinc_users', 'HomeController@all_clinc_users')->name('all_clinc_users');
