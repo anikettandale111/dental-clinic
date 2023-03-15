@@ -9,6 +9,7 @@ use App\Store;
 use App\Category;
 use App\Manufacturer;
 use App\Product_name;
+use App\StockUpdateHistory;
 use App\Unit;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
@@ -119,35 +120,57 @@ class StoreController extends Controller
                         'is_scanned'=> 0,
                         'is_print'=> 0,
                     );
+                    StockUpdateHistory::insertGetId($row_data);
+                    $row_id = Store::select('id')->where(['category'=>$request['category'],'manufacture_name'=>$request['manufacture_name'],'product_name'=>$request['product_name'],'unit'=>$request['unit']])->first();
+                    // print_r($row_data);
+                if(isset($row_id->id) && $row_id->id > 0){
+                    $data['user_id'] = $request['user_id'];
+                    $data['category'] = ucfirst(strtolower($request['category']));
+                    $data['manufacture_name'] = ucfirst(strtolower($request['manufacture_name']));
+                    $data['product_name'] = ucfirst(strtolower($request['product_name']));
+                    $data['usage'] = ucfirst(strtolower($request['usage']));
+                    $data['unit'] = ucfirst(strtolower($request['unit']));
+                    // $data['qty'] = $request['qty'];
+                    $data['cost']= $request['cost'];
+                    $data['tags'] = $request['tags'];
+                    $data['description'] = ucfirst(strtolower($request['description']));  
+                    $update = Store::where('id',$row_id->id)->update($data);      
+                    $update = Store::where('id',$row_id->id)->increment('qty', $request['qty']);
+                    if(isset($update) && $update > 0){
+                        session()->flash('message', 'Product Add Successfully!'); 
+                        session()->flash('alert-class', 'alert-success');
+                        return back()->with(['status' =>  'success']);
+                    }
+                }else{
                     $update = Store::insertGetId($row_data);
+                    if(isset($update) && $update > 0){
+                        $data_new  = ['product_name'=>$request['product_name'],'QR_data'=>$qr_id,'quantity'=>5];
+                        // view()->share('data_new',$data_new);
+                        $pdf_file_name = date('y_m_d').'_'.$request['product_name'].'_qrpdf.pdf';
+                        ini_set('max_execution_time', 180);
+                        try {
+                            // $pdf = PDF::loadView('qrpdf',['data_new' => $data_new])->save(public_path($pdf_file_name));
+                            
+                            $pdf = PDF::loadView('qrpdf', ['data_new' => $data_new]);
+        
+                            Storage::put('public/pdf/'.$pdf_file_name, $pdf->output());
+                          } catch (\Exception $pdf) {
+                          
+                              return $pdf->getMessage();
+                          }
+                        // $pdf->download('qrpdf.pdf');
+                        session()->flash('message', 'Product Add Successfully!  <a href="storage/pdf/'.$pdf_file_name.'" target="_blank"> View Barcode </a>'); 
+                        session()->flash('alert-class', 'alert-success');
+                        return back()->with(['status' =>  'success']);
+                    }else{
+                        session()->flash('message', 'Opps! Somthing went wrong'); 
+                        session()->flash('alert-class', 'alert-danger');
+                        return back()->with(['status' =>  'danger']);
+                    }
+                }    
                 //DNS1D::getBarcodeSVG($lbl_txt, "C93",1,30,'green', true);
                 //array_merge($row_data,$data);
-            // }
-            if(isset($update) && $update > 0){
-                $data_new  = ['product_name'=>$request['product_name'],'QR_data'=>$qr_id,'quantity'=>5];
-                // view()->share('data_new',$data_new);
-                $pdf_file_name = date('y_m_d').'_'.$request['product_name'].'_qrpdf.pdf';
-                ini_set('max_execution_time', 180);
-                try {
-                    // $pdf = PDF::loadView('qrpdf',['data_new' => $data_new])->save(public_path($pdf_file_name));
-                    
-                    $pdf = PDF::loadView('qrpdf', ['data_new' => $data_new]);
-
-                    Storage::put('public/pdf/'.$pdf_file_name, $pdf->output());
-                  } catch (\Exception $pdf) {
-                  
-                      return $pdf->getMessage();
-                  }
-                // $pdf->download('qrpdf.pdf');
-                session()->flash('message', 'Product Add Successfully!  <a href="storage/pdf/'.$pdf_file_name.'" target="_blank"> View Barcode </a>'); 
-                session()->flash('alert-class', 'alert-success');
-                return back()->with(['status' =>  'success']);
-            }else{
-                session()->flash('message', 'Opps! Somthing went wrong'); 
-                session()->flash('alert-class', 'alert-danger');
-                return back()->with(['status' =>  'danger']);
-            }
-        
+            // }        
     }
 
     protected function update_stock(Request $request)

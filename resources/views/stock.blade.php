@@ -149,7 +149,7 @@ $('#manufacture_name').change(function(){
         success: function(data) {
             jQuery.each( data, function( i, val ) {
                 // var vt = val.id+'--'+val.unit_id+'--'+val.category_id+'--'+val.prod_price;
-                $('#product_name').append(new Option(val.name, vt.id)); 
+                $('#product_name').append(new Option(val.name, val.id)); 
             });    
         }
     });
