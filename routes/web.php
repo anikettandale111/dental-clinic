@@ -26,6 +26,7 @@ Route::any('/add_store', 'HomeController@add_store')->name('add_store');
 Route::any('/edit_details/{id?}', 'HomeController@edit_details')->name('edit_details');
 Route::any('/edit_register/{id?}', 'HomeController@edit_register')->name('edit_register');
 Route::any('/store-eq', 'StoreController@index')->name('store_view');
+Route::any('/view-barcode/{id?}', 'StoreController@viewBarcode')->name('view-barcode');
 Route::any('/add_stock', 'StoreController@add_stock')->name('add_stock');
 Route::any('/stock_register', 'StoreController@stock_register')->name('stock_register');
 Route::any('/edit_stock/{id?}', 'StoreController@edit_stock')->name('edit_stock');

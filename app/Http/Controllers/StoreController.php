@@ -36,10 +36,16 @@ class StoreController extends Controller
      */
     public function index()
     {
-        $data = Store::with('Unit_model','Category_model','Manufacturer_model','Product_model')->Where(['user_id'=>Auth::user()->id,'is_active'=>1])->get();
+        $data = Store::with('Unit_model','Category_model','Manufacturer_model','Product_model')
+        ->Where(['user_id'=>Auth::user()->id,'is_active'=>1])->get();
         $category = Category::get();
         
         return view('store_view',compact('data','category'));
+    }
+    public function viewBarcode($barcode)
+    {
+        $data = Store::select('barcode_id')->where(['barcode_id'=>$barcode])->first();
+        return view('view-barcode',compact('data'));
     }
     public function clinic_details(Request $requst)
     {

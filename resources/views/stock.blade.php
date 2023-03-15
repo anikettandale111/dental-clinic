@@ -15,7 +15,8 @@
                         <input type="hidden" class="form-control" name="user_id" value="{{ Auth::user()->id }}">
                         <div>
                             <label for="category" class=" col-form-label text-md-right">{{ __('Category') }}</label>
-                            <select name="category" class="form-select">
+                            <select name="category" id="category" class="form-select">
+                                <option value="" disabled selected>Select Option</option>
                                 @foreach($category as $k => $val)
                                 <option value="{{$val['id']}}">{{$val['category_name']}}</option>
                                 @endforeach
@@ -23,22 +24,16 @@
                         </div>
                         <div>
                             <label for="manufacture_name" class=" col-form-label text-md-right">{{ __('Manufacturer Name') }}</label>
-                            <select name="manufacture_name" class="form-select">
-                                @foreach($manu as $k => $val)
-                                <option value="{{$val['id']}}">{{$val['name']}}</option>
-                                @endforeach
+                            <select name="manufacture_name" id="manufacture_name" class="form-select">
+                                <option value="" disabled selected>Select Option</option>
                             </select>
                         </div>
                         <div>
                             <label for="product_name" class=" col-form-label text-md-right">{{ __('Product Brand/Model Name') }}</label>
-                            <select name="product_name" class="form-select">
-                                @foreach($product_name as $k => $val)
-                                <option value="{{$val['id']}}">{{$val['name']}}</option>
-                                @endforeach
+                            <select name="product_name" id="product_name" class="form-select">
+                                <option value="" disabled selected>Select Option</option>
                             </select>
-
                         </div>
-
                         <div>
                             <label for="usage" class=" col-form-label text-md-right">{{ __('Usage') }}</label>
                             <input id="usage" type="text" class="form-control @error('usage') is-invalid @enderror" name="usage" value="{{ old('usage') }}" required autocomplete="usage">
@@ -122,3 +117,42 @@
     </div>
 </div>
 @endsection
+
+@push('child-scripts')
+<script>
+$('#category').change(function(){
+    $.ajax({
+        url: 'manufracture_by_category',
+        type: 'POST',
+        data: {
+            _token: CSRF_TOKEN,
+            cat_id: $(this).val()
+        },
+        dataType: 'JSON',
+        success: function(data) {
+            jQuery.each( data, function( i, val ) {
+                $('#manufacture_name').append(new Option(val.name, val.id)); 
+            });    
+        }
+    });
+});
+$('#manufacture_name').change(function(){
+    $.ajax({
+        url: 'prod_by_category',
+        type: 'POST',
+        data: {
+            _token: CSRF_TOKEN,
+            man_id: $(this).val(),
+            cat_id: $('#category').val(),
+        },
+        dataType: 'JSON',
+        success: function(data) {
+            jQuery.each( data, function( i, val ) {
+                // var vt = val.id+'--'+val.unit_id+'--'+val.category_id+'--'+val.prod_price;
+                $('#product_name').append(new Option(val.name, vt.id)); 
+            });    
+        }
+    });
+});
+</script>
+@endpush

@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
+use DB;
 use App\User;
 use App\Store;
 use App\Dispatch;
+use App\TBLDispatch;
 use App\Unit;
 use App\Clinic_location;
 use App\ClinicOrders;
@@ -32,12 +34,7 @@ class DispatchController extends Controller
      */
     public function index()
     {
-        $data['dispatch_data'] = Dispatch::select('dispatch.created_at','dispatch.received_qty','dispatch.id AS disp_id','users.name AS u_name','store.barcode_id','product_name.name AS p_name','clinic_location.location','clinic_location.branch_name','store.photo')
-                                ->join('store', 'store.barcode_id', '=', 'dispatch.qr_code')
-                                ->join('users', 'users.id', '=', 'dispatch.transfer_by_id')
-                                ->join('clinic_location', 'dispatch.branch_id', '=', 'clinic_location.id')
-                                ->join('product_name', 'store.product_name', '=', 'product_name.id')
-                                ->where('transfer_by_id',Auth::user()->id)->get();        
+        $data['dispatch_data'] = TBLDispatch::select('*','cl.branch_name','cl.location')->leftJoin('clinic_location AS cl','cl.id','=','clinic_id')->get();        
         return view('dispatch_view',$data);
     }
     public function clinic_details(Request $request)
@@ -62,17 +59,40 @@ class DispatchController extends Controller
     }
     public function insert_dispatch(Request $request)
     {   
+        foreach($request->disp_details AS $key => $disp){
+            $clinic_id = ClinicOrders::where('order_id','130323114613')->first()->clinic_id;
+            $ins_data = [
+                'order_id' => $disp['itemData']['order_id'],
+                'clinic_id' => $clinic_id,
+                'barcode_id' => $disp['itemData']['barcode_id'],
+                'category_name' => $disp['itemData']['category_name'],
+                'category_id' => $disp['itemData']['category_id'],
+                'manufacturer_name' => $disp['itemData']['manufacturer_name'],
+                'manufacturer_id' => $disp['itemData']['manufacturer_id'],
+                'product_name' => $disp['itemData']['product_name'],
+                'product_id' => $disp['itemData']['product_id'],
+                'prod_price' => $disp['itemData']['prod_price'],
+                'unit_name' => $disp['itemData']['unit_name'],
+                'unit_id' => $disp['itemData']['unit_id'],
+                'required_qty' => $disp['itemData']['required_qty'],
+                'provided_qty' => $disp['itemData']['provided_qty'],
+                'notes' => $disp['itemData']['notes'],
+            ];
+            $rowid = TBLDispatch::insertGetId($ins_data);
+            if($rowid > 0){
+                Store::where('barcode_id',$disp['itemData']['barcode_id'])->decrement('qty',$disp['itemData']['provided_qty']);
+                ClinicOrders::where('order_id',$disp['itemData']['order_id'])->update(['order_status'=>1,'received_status'=>1]);
+            }
+        }
+        // print_r($ins_data);
+        // dd();
         // $data['product_name'] = $request['product_name'];
         // $data['category_name'] = $request['category_name'];
         // $data['available_qty'] = $request['available_qty'];
-        $data['received_qty'] = $request['disp_quantity'];
-        $data['qr_code'] = $request['barcode_text'];
-        $data['branch_id'] = $request['reciver_id'];
-        $data['transfer_by_id'] = Auth::user()->id;
-        $rowid = Dispatch::insertGetId($data);
-        if($rowid > 0){
-            Store::where('barcode_id',$request['barcode_text'])->decrement('qty',$request['disp_quantity']);
-        }
+        // $data['received_qty'] = $request['disp_quantity'];
+        // $data['qr_code'] = $request['barcode_text'];
+        // $data['branch_id'] = $request['reciver_id'];
+        // $data['transfer_by_id'] = Auth::user()->id;
         return array('message'=> 'Dispatch Entry Inserted Successfully!','status'=>'success'); 
     }
 

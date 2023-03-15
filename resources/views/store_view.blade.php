@@ -28,9 +28,9 @@
                     <th>
                         Unit
                     </th>
-                    <th>
+                    <!-- <th>
                         Photo
-                    </th>
+                    </th> -->
                     <th>
                         Action
                     </th>
@@ -63,11 +63,12 @@
                         <td>
                            {{$v['unit_model']['name']}}
                         </td>
-                        <td>
+                        <!-- <td>
                             <img src="{{URL::to('/').'/images/'.$v['photo']}}" alt="{{$v['product_model']['name']}}" style="width: 100px; height: 50px;">
-                        </td>
+                        </td> -->
                         <td>
                             <a class="btn btn-primary edit" href="{{url('/edit_stock/'.$v['id'])}}">Edit</a>
+                            <a class="btn btn-success" target="_blank" href="{{url('/view-barcode/'.$v['barcode_id'])}}">Barcode</a>
                         </td>
                     </tr>
                 @endforeach
