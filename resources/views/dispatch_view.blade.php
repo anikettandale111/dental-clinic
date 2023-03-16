@@ -36,7 +36,7 @@
                 @foreach($dispatch_data as $k =>$v)
                     <tr>
                         <td>
-                            {{$v['barcode_id']}}
+                            {{$v['order_id']}}
                         </td>
                         <td>
                             {{$v['branch_name']}}

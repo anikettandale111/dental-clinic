@@ -192,7 +192,7 @@ foreach ($order_details as $od) {
                                 <th>Product Unit</th>
                                 <th>Required Unit</th>
                                 <th>Available Unit</th>
-                                <th>Required Unit</th>
+                                <th>Price Per Unit</th>
                             </tr>
                         </thead>
                         <tbody id="prod_det_body">

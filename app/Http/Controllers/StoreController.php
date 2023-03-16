@@ -216,4 +216,7 @@ class StoreController extends Controller
             echo DNS1D::getBarcodeSVG($lbl_txt, "C93",1,30,'green', true);
         }
     }
+    function stockDetails(){
+        return view('stock_details');
+    }
 }

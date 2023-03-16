@@ -85,6 +85,12 @@
         <span>Received Orders</span>
       </a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link " href="{{url('/stock_details')}}">
+        <i class="bi bi-basket"></i>
+        <span>Stock Details</span>
+      </a>
+    </li>
     @endif
     @if(Auth::user()->action == 3)
     <li class="nav-item">

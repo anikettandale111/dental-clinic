@@ -38,8 +38,8 @@
               @csrf
               <input type="hidden" name="order_id" id="order_id" value="<?= $v['order_id'] ?>">
               <button type="submit" class="btn btn-success">Dispatch</button>
-              @elseif($v['order_status']==1)
             </form>
+              @elseif($v['order_status']==1)
             <a class="btn btn-success">Completed</a>
             @endif
           </td>

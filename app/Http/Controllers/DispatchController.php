@@ -34,7 +34,7 @@ class DispatchController extends Controller
      */
     public function index()
     {
-        $data['dispatch_data'] = TBLDispatch::select('*','cl.branch_name','cl.location')->leftJoin('clinic_location AS cl','cl.id','=','clinic_id')->get();        
+        $data['dispatch_data'] = TBLDispatch::select('*','cl.branch_name','cl.location')->leftJoin('clinic_location AS cl','cl.id','=','clinic_id')->groupBy('order_id')->get();        
         return view('dispatch_view',$data);
     }
     public function clinic_details(Request $request)
