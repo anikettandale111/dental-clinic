@@ -42,6 +42,24 @@
           </div>
         </div>
 
+        <div class="col-xxl-4 col-md-4">
+          <div class="card info-card revenue-card">
+
+            <div class="card-body">
+              <h5 class="card-title">Number Of Products</h5>
+
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-basket"></i>
+                </div>
+                <div class="ps-3">
+                  <a href="{{url('/product')}}"><h6>{{count($product)}}</h6></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Auth;
 use App\User;
 use App\Clinic_location;
+use App\Product_name;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Hash;
 
@@ -40,7 +41,8 @@ class HomeController extends Controller
         $data = Auth::user()->with('Clinic_location')->where($where)->get();
         $all_users = Auth::user()->with('Clinic_location')->where(['action' => 3,'status'=>'Active'])->get();
         $location = Clinic_location::Where(['user_id'=>Auth::user()->id])->get();
-        return view('home',compact('data','location','all_users'));
+        $product = Product_name::with('categoryModel','ManufacturerModel')->Where('is_active',1)->get()->toArray();
+        return view('home',compact('data','location','all_users','product'));
     }
     public function clinic_details(Request $requst)
     {
