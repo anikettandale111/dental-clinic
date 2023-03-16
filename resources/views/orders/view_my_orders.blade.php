@@ -37,7 +37,6 @@
             </thead>
 
             <tbody>
-                
                 @foreach($my_orders as $k =>$v)
                     <tr>
                         <td>

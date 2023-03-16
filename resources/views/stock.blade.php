@@ -35,10 +35,15 @@
                             </select>
                         </div>
                         <div>
-                            <label for="usage" class=" col-form-label text-md-right">{{ __('Usage') }}</label>
-                            <input id="usage" type="text" class="form-control @error('usage') is-invalid @enderror" name="usage" value="{{ old('usage') }}" required autocomplete="usage">
-
-                            @error('usage')
+                            <label for="unit" class=" col-form-label text-md-right">{{ __('Unit') }}</label>
+                            <select name="unit" id="unit" class="form-select">
+                                <option value="" disabled selected>Select Unit</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="cost" class=" col-form-label text-md-right">{{ __('Cost Price/Unit') }}</label>
+                            <input id="cost" type="text" class="form-control @error('cost') is-invalid @enderror" name="cost" value="{{ old('cost') }}" required autocomplete="cost" readonly>
+                            @error('cost')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
@@ -55,21 +60,14 @@
                             @enderror
                         </div>
                         <div>
-                            <label for="cost" class=" col-form-label text-md-right">{{ __('Cost Price/Unit') }}</label>
-                            <input id="cost" type="text" class="form-control @error('cost') is-invalid @enderror" name="cost" value="{{ old('cost') }}" required autocomplete="cost">
-                            @error('cost')
+                            <label for="usage" class=" col-form-label text-md-right">{{ __('Usage') }}</label>
+                            <input id="usage" type="text" class="form-control @error('usage') is-invalid @enderror" name="usage" value="{{ old('usage') }}" required autocomplete="usage">
+
+                            @error('usage')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
                             @enderror
-                        </div>
-                        <div>
-                            <label for="unit" class=" col-form-label text-md-right">{{ __('Unit') }}</label>
-                            <select name="unit" class="form-select">
-                                @foreach($unit as $k => $val)
-                                <option value="{{$val['id']}}">{{$val['name']}}</option>
-                                @endforeach
-                            </select>
                         </div>
                         <div>
                             <label for="tags" class=" col-form-label text-md-right">{{ __('Tags') }}</label>
@@ -120,39 +118,76 @@
 
 @push('child-scripts')
 <script>
-$('#category').change(function(){
-    $.ajax({
-        url: 'manufracture_by_category',
-        type: 'POST',
-        data: {
-            _token: CSRF_TOKEN,
-            cat_id: $(this).val()
-        },
-        dataType: 'JSON',
-        success: function(data) {
-            jQuery.each( data, function( i, val ) {
-                $('#manufacture_name').append(new Option(val.name, val.id)); 
-            });    
-        }
+    $('#category').change(function() {
+        $.ajax({
+            url: 'manufracture_by_category',
+            type: 'POST',
+            data: {
+                _token: CSRF_TOKEN,
+                cat_id: $(this).val()
+            },
+            dataType: 'JSON',
+            success: function(data) {
+                jQuery.each(data, function(i, val) {
+                    $('#manufacture_name').append(new Option(val.name, val.id));
+                });
+            }
+        });
     });
-});
-$('#manufacture_name').change(function(){
-    $.ajax({
-        url: 'prod_by_category',
-        type: 'POST',
-        data: {
-            _token: CSRF_TOKEN,
-            man_id: $(this).val(),
-            cat_id: $('#category').val(),
-        },
-        dataType: 'JSON',
-        success: function(data) {
-            jQuery.each( data, function( i, val ) {
-                // var vt = val.id+'--'+val.unit_id+'--'+val.category_id+'--'+val.prod_price;
-                $('#product_name').append(new Option(val.name, val.id)); 
-            });    
-        }
+    $('#manufacture_name').change(function() {
+        $.ajax({
+            url: 'prod_by_category',
+            type: 'POST',
+            data: {
+                _token: CSRF_TOKEN,
+                man_id: $(this).val(),
+                cat_id: $('#category').val(),
+            },
+            dataType: 'JSON',
+            success: function(data) {
+                jQuery.each(data, function(i, val) {
+                    // var vt = val.id+'--'+val.unit_id+'--'+val.category_id+'--'+val.prod_price;
+                    $('#product_name').append(new Option(val.name, val.id));
+                });
+            }
+        });
     });
-});
+
+    $('#product_name').change(function() {
+        $.ajax({
+            url: 'unit_by_category_man',
+            type: 'POST',
+            data: {
+                _token: CSRF_TOKEN,
+                man_id: $('#manufacture_name').val(),
+                cat_id: $('#category').val(),
+                prod_id: $(this).val(),
+            },
+            dataType: 'JSON',
+            success: function(data) {
+                jQuery.each(data, function(i, val) {
+                    // var vt = val.id+'--'+val.unit_id+'--'+val.category_id+'--'+val.prod_price;
+                    $('#unit').append(new Option(val.name, val.id));
+                });
+            }
+        });
+    });
+    $('#unit').change(function() {
+        $.ajax({
+            url: 'price_by_unit_cat_man',
+            type: 'POST',
+            data: {
+                _token: CSRF_TOKEN,
+                man_id: $('#manufacture_name').val(),
+                cat_id: $('#category').val(),
+                prod_id: $('#product_name').val(),
+                unit_id: $(this).val(),
+            },
+            dataType: 'JSON',
+            success: function(data) {
+                $('#cost').val(data);
+            }
+        });
+    });
 </script>
 @endpush

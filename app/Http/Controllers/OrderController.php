@@ -61,7 +61,7 @@ class OrderController extends Controller
     }    
     public function viewMyOrders()
     {
-        $data['my_orders'] = ClinicOrders::select('clinic_orders.id','order_id','clinic_orders.created_at','total_price','order_status','received_remarks',DB::raw('GROUP_CONCAT(product_name.name) AS product_name'),DB::raw('GROUP_CONCAT(clinic_orders.product_qty) AS product_qty'))->leftJoin('product_name','product_name.id','=','clinic_orders.product_id')->where('clinic_orders.user_id',Auth::user()->id)->groupBy('clinic_orders.order_id')->orderBy('clinic_orders.id')->get();
+        $data['my_orders'] = ClinicOrders::select('clinic_orders.id','order_id','clinic_orders.created_at','order_status','received_remarks',DB::raw('GROUP_CONCAT(product_name.name) AS product_name'),DB::raw('GROUP_CONCAT(clinic_orders.product_qty) AS product_qty'),DB::raw('SUM(total_price) AS total_price'))->leftJoin('product_name','product_name.id','=','clinic_orders.product_id')->where('clinic_orders.user_id',Auth::user()->id)->groupBy('clinic_orders.order_id')->orderBy('clinic_orders.id')->get();
         return view('orders.view_my_orders',$data);
     }    
     public function deleteOrder(Request $request)

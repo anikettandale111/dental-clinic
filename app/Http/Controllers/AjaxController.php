@@ -13,6 +13,8 @@ use App\Category;
 use App\Product_name;
 use App\Manufacturer;
 use App\Unit;
+use App\Store;
+use DB;
 
 class AjaxController extends Controller
 {
@@ -24,6 +26,16 @@ class AjaxController extends Controller
     public function prodByCategory(Request $request)
     {
         $data = Product_name::select('id','name','unit_id','category_id','manufracture_id','prod_price')->where(['category_id'=>$request->cat_id,'manufracture_id'=>$request->man_id,'is_active'=>1])->get();
+        return json_encode($data);
+    }    
+    public function priceByUnitCatMan(Request $request)
+    {
+        $cost = Store::where(['category'=>$request->cat_id,'manufacture_name'=>$request->man_id,'product_name'=>$request->prod_id ,'unit'=>$request->unit_id])->first()->cost;
+        return json_encode($cost);
+    }    
+    public function unitByCategoryMan(Request $request)
+    {
+        $data = Unit::select('id','name')->whereIn('id',[DB::raw('Select CONCAT(unit_id) from product_name where category_id='.$request->cat_id.' AND manufracture_id='.$request->man_id.' AND id='.$request->prod_id)])->get();
         return json_encode($data);
     }    
     public function unitByProduct(Request $request)
@@ -42,7 +54,7 @@ class AjaxController extends Controller
             $product_data = [];
             $order_id= date('dmyhis');
             foreach($request->productArray AS $prd){
-                $product_price = Product_name::where(['id'=>$prd['itemData']['product_id']])->first()->prod_price;
+                $product_price = Store::where(['category'=>$prd['itemData']['category_id'],'manufacture_name'=>$prd['itemData']['manufracture_id'],'product_name'=>$prd['itemData']['product_id'] ,'unit'=>$prd['itemData']['unit_name']])->first()->cost;
                 $product_data[] = [
                                 'order_id'=> $order_id,
                                 'product_id'=> $prd['itemData']['product_id'],

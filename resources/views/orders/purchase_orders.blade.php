@@ -67,10 +67,10 @@
                         <div class="form-group row">
                             <div class="col-md-3">
                                 <label for="product_unit" class="col-form-label text-md-right">{{ __('Product Unit') }}</label>
-                                <!-- <select id="product_unit" class="form-control @error('product_unit') is-invalid @enderror" name="product_unit" required>
+                                <select id="product_unit" class="form-control @error('product_unit') is-invalid @enderror reset_select_two" name="product_unit" required>
                                     <option disabled> Select Unit</option>
-                                </select> -->
-                                <input type="text" id="product_unit" class="form-control @error('product_unit') is-invalid @enderror make_empty" name="product_unit" required disabled>
+                                </select>
+                                <!-- <input type="text" id="product_unit" class="form-control @error('product_unit') is-invalid @enderror make_empty" name="product_unit" required disabled> -->
                                 @error('product_unit')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -179,7 +179,7 @@ $('#add_new_item').click(function(){
     var prod_id = prod_details[0];
     var unit_id = prod_details[1];
     var category_id = prod_details[2];
-    var prod_price = prod_details[3];
+    var prod_price = $('#product_price').val();
     var unit_name = $('#product_unit').val();
     var manufacturer_id = $('#manufacturer_id').find(":selected").val();
     var product_quntity = $('#product_quntity').val();
@@ -223,6 +223,8 @@ function generateTbale(){
 }
 
 $('#manufacturer_id').change(function(){
+    $('#product_id').empty();
+    $('#product_id').append('<option selected disabled> Select Option</option>');
     $.ajax({
         url: 'prod_by_category',
         type: 'POST',
@@ -270,12 +272,28 @@ function splitProductDetails(val,splitby){
 }
 $('#product_unit').change(function(){
     var prod_details = splitProductDetails($('#product_id').val(),'--');
-    var prod_price = prod_details[3];
-    $('#product_price').val(prod_price);
+    var prod_id = prod_details[0];
+    // var prod_price = prod_details[3];
+    // $('#product_price').val(prod_price);
+    $.ajax({
+            url: 'price_by_unit_cat_man',
+            type: 'POST',
+            data: {
+                _token: CSRF_TOKEN,
+                man_id: $('#manufacturer_id').val(),
+                cat_id: $('#category_id').val(),
+                prod_id: prod_id,
+                unit_id: $('#product_unit').val(),
+            },
+            dataType: 'JSON',
+            success: function(data) {
+                $('#product_price').val(data);
+            }
+        });
 });
 $('#product_quntity').change(function(){
     var prod_details = splitProductDetails($('#product_id').val(),'--');
-    var prod_price = prod_details[3];
+    var prod_price = $('#product_price').val();
     var product_quntity = $(this).val();
     $('#product_total').val(prod_price*product_quntity);
 });
@@ -285,26 +303,30 @@ $('#product_id').change(function(){
     var unit_id = prod_details[1];
     var category_id = prod_details[2];
     var prod_price = prod_details[3];
-    $('#product_price').val(prod_price);
+    // $('#product_price').val(prod_price);
+    $('#product_unit').empty();
+    $('#product_unit').append('<option selected disabled> Select Option</option>');
     $.ajax({
-        url: 'unit_by_product',
+        url: 'unit_by_category_man',
         type: 'POST',
         data: {
             _token: CSRF_TOKEN,
+            man_id: $('#manufacturer_id').val(),
+            cat_id: $('#category_id').val(),
             prod_id: prod_id,
-            unit_id: unit_id,
-            category_id: category_id,
         },
         dataType: 'JSON',
         success: function(data) {
-            $('#product_unit').val(data.name);
-            // jQuery.each( data, function( i, val ) {
-            //     $('#product_unit').append(new Option(val.name, val.id)); 
-            // });    
+            // $('#product_unit').val(data.name);
+            jQuery.each( data, function( i, val ) {
+                $('#product_unit').append(new Option(val.name, val.id)); 
+            });    
         }
     });
 });
 $('#category_id').change(function(){
+    $('#manufacturer_id').empty();
+    $('#manufacturer_id').append('<option selected disabled> Select Option</option>');
     $.ajax({
         url: 'manufracture_by_category',
         type: 'POST',
