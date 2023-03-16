@@ -11,6 +11,8 @@
   @include('layouts.dashboard')
 @elseif(Auth::user()->action == 2)
   @include('layouts.dashboard1')
+@else
+  @include('layouts.dashboard2')
 @endif
 </main>
 @endsection

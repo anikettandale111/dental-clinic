@@ -7,8 +7,11 @@ use Auth;
 use App\User;
 use App\Clinic_location;
 use App\Product_name;
+use App\ClinicOrders;
+use App\Store;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Hash;
+use DB;
 
 class HomeController extends Controller
 {
@@ -29,6 +32,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $recive_orders = [];
         if(Auth::user()->action == 1)
         {
             $action = 2;
@@ -37,12 +41,36 @@ class HomeController extends Controller
         else{
             $action = 3;
             $where = ['action' => $action,'status'=>'Active','ref_id'=>Auth::user()->id];
+            $recive_orders = ClinicOrders::select('clinic_orders.id','order_id','clinic_orders.created_at','total_price','order_status','received_remarks',DB::raw('GROUP_CONCAT(product_name.name) AS product_name'),DB::raw('GROUP_CONCAT(clinic_orders.product_qty) AS product_qty'),DB::raw('CONCAT(clinic_location.branch_name,",",clinic_location.location) AS clinic_name'),'manufacturer.name AS mn_name','category.category_name')
+            ->leftJoin('product_name','product_name.id','=','clinic_orders.product_id')
+            ->leftJoin('clinic_location','clinic_location.id','=','clinic_orders.clinic_id')
+            ->leftJoin('manufacturer','manufacturer.id','=','clinic_orders.manfracture_id')
+            ->leftJoin('category','category.id','=','clinic_orders.category_id')
+            ->where('clinic_orders.order_status',0)
+            ->groupBy('clinic_orders.order_id')
+            ->orderBy('clinic_orders.id')
+            ->get();
         }
-        $data = Auth::user()->with('Clinic_location')->where($where)->get();
-        $all_users = Auth::user()->with('Clinic_location')->where(['action' => 3,'status'=>'Active'])->get();
-        $location = Clinic_location::Where(['user_id'=>Auth::user()->id])->get();
-        $product = Product_name::with('categoryModel','ManufacturerModel')->Where('is_active',1)->get()->toArray();
-        return view('home',compact('data','location','all_users','product'));
+
+        if(Auth::user()->action == 3)
+        {
+            $location = Clinic_location::Where(['id'=>Auth::user()->location_id])->first();
+            $recive_product = Store::with('Unit_model','Category_model','Manufacturer_model','Product_model')->where(['user_id'=>Auth::user()->id,'is_scanned'=>0])->get();
+            $my_orders = ClinicOrders::select('clinic_orders.id','order_id','clinic_orders.created_at','total_price','order_status','received_remarks',DB::raw('GROUP_CONCAT(product_name.name) AS product_name'),DB::raw('GROUP_CONCAT(clinic_orders.product_qty) AS product_qty'))->leftJoin('product_name','product_name.id','=','clinic_orders.product_id')->where('clinic_orders.user_id',Auth::user()->id)->groupBy('clinic_orders.order_id')->orderBy('clinic_orders.id')->get();
+            return view('home',compact('location','recive_product','my_orders'));
+            
+        }
+        else
+        {
+            $data = Auth::user()->with('Clinic_location')->where($where)->get();
+            $all_users = Auth::user()->with('Clinic_location')->where(['action' => 3,'status'=>'Active'])->get();
+            $location = Clinic_location::Where(['user_id'=>Auth::user()->id])->get();
+            $product = Product_name::with('categoryModel','ManufacturerModel')->Where('is_active',1)->get()->toArray();
+            return view('home',compact('data','location','all_users','product','recive_orders'));
+        }
+
+
+        
     }
     public function clinic_details(Request $requst)
     {
