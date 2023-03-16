@@ -68,12 +68,12 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        <!-- <div class="form-group row">
                             <label for="cost" class="col-md-4 col-form-label text-md-right">{{ __('Cost of Product') }}</label>
                             <div class="col-md-6">
                                 <input id="cost" type="text" class="form-control @error('cost') is-invalid @enderror" name="cost" value="{{ $data['prod_price'] }}" required autocomplete="cost">
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="form-group row">
                             <label for="location_name" class="col-md-4 col-form-label text-md-right">{{ __('Action') }}</label>

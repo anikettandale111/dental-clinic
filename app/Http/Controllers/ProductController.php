@@ -35,7 +35,7 @@ class ProductController extends Controller
             $data['name'] = ucfirst(strtolower($request['product_name']));
             $data['category_id'] = ucfirst(strtolower($request['category_name']));
             $data['manufracture_id'] = ucfirst(strtolower($request['manu_name']));
-            $data['prod_price'] = $request['cost'];
+            // $data['prod_price'] = $request['cost'];
             $data['unit_id'] = $request['unit'];
             $data['is_active'] = 1;
             $data['user_id'] = $request['user_id'];
@@ -57,7 +57,8 @@ class ProductController extends Controller
         {
             $data['manufracture_id'] = $request['old_manu'];
         }
-        
+        // $data['prod_price'] = $request['cost'];
+        $data['unit_id'] = $request['unit'];
         $data['is_active'] = $request['is_active'];
         $data['user_id'] = $request['user_id'];
         $create = Product_name::Where('id',$request['tabel_id'])->Update($data);
