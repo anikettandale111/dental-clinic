@@ -60,7 +60,7 @@ class DispatchController extends Controller
     public function insert_dispatch(Request $request)
     {   
         foreach($request->disp_details AS $key => $disp){
-            $clinic_id = ClinicOrders::where('order_id','130323114613')->first()->clinic_id;
+            $clinic_id = ClinicOrders::where('order_id',    '130323114613')->first()->clinic_id;
             $ins_data = [
                 'order_id' => $disp['itemData']['order_id'],
                 'clinic_id' => $clinic_id,

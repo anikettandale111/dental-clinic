@@ -217,6 +217,19 @@ class StoreController extends Controller
         }
     }
     function stockDetails(){
-        return view('stock_details');
+        $data = Store::select('store.unit','ct.category_name','mn.name AS mn_name','pn.name AS pn_name','un.name AS un_name','co.product_qty AS received_qty')
+                ->leftJoin('category AS ct','ct.id','=','store.category')
+                ->leftJoin('manufacturer AS mn','mn.id','=','store.manufacture_name')
+                ->leftJoin('product_name AS pn','pn.id','=','store.product_name')
+                ->leftJoin('unit AS un','un.id','=','store.unit')
+                ->join('clinic_orders AS co',function($join)
+                    {
+                        $join->on('co.category_id', '=', 'store.category');
+                        $join->on('co.manfracture_id','=', 'store.manufacture_name');
+                        $join->on('co.product_id','=', 'store.product_name');
+                        $join->on('co.product_unit','=', 'store.unit');
+                    })
+                ->get();
+        return view('stock_details',compact('data'));
     }
 }
