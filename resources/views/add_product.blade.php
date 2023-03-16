@@ -49,10 +49,10 @@
                                 </select>
                             </div>
 
-                            <div>
+                            <!-- <div>
                                 <label for="cost" class=" col-form-label text-md-right">{{ __('Cost of Product') }}</label>
                                 <input id="cost" type="text" class="form-control @error('cost') is-invalid @enderror" name="cost" value="{{ old('cost') }}" required autocomplete="cost">
-                            </div>
+                            </div> -->
 
                             </br>
                             <div class="form-group row mb-0">
@@ -82,9 +82,6 @@
                                             Product Name
                                         </th>
                                         <th>
-                                            Product Cost
-                                        </th>
-                                        <th>
                                             Status
                                         </th>
                                         <th>
@@ -104,9 +101,6 @@
                                         </td>
                                         <td>
                                             {{$v['name']}}
-                                        </td>
-                                        <td>
-                                            {{$v['prod_price']}}
                                         </td>
                                         <td>
                                             @if($v['is_active'] == 1)
