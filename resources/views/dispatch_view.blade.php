@@ -2,9 +2,9 @@
 
 @section('content')
 <main id="main" class="main">
-    <div style="float: right; margin-bottom: 10px;">
+    <!-- <div style="float: right; margin-bottom: 10px;">
         <a class="btn btn-primary" href="{{url('/add_dispatch')}}"> Add Dispatch </a>
-    </div>
+    </div> -->
     <div>
         <table id="table_id" 
     class="table table-condensed table-striped table-hover">

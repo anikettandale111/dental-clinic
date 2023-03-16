@@ -31,13 +31,27 @@
                             </div>
                             <div >
                                 <label for="product_name" class="col-form-label text-md-right">{{ __('Product Name') }}</label>
-                                <input id="product_name" type="text" class="form-control @error('product_name') is-invalid @enderror" name="product_name" value="{{ old('product_name') }}" required autocomplete="email">
+                                <input id="product_name" type="text" class="form-control @error('product_name') is-invalid @enderror" name="product_name" value="{{ old('product_name') }}" required autocomplete="product_name">
 
                                 @error('product_name')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                                 @enderror
+                            </div>
+
+                            <div>
+                                <label for="unit" class=" col-form-label text-md-right">{{ __('Unit') }}</label>
+                                <select name="unit" class="form-select">
+                                    @foreach($unit as $k => $val)
+                                    <option value="{{$val['id']}}">{{$val['name']}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="cost" class=" col-form-label text-md-right">{{ __('Cost of Product') }}</label>
+                                <input id="cost" type="text" class="form-control @error('cost') is-invalid @enderror" name="cost" value="{{ old('cost') }}" required autocomplete="cost">
                             </div>
 
                             </br>
@@ -68,6 +82,9 @@
                                             Product Name
                                         </th>
                                         <th>
+                                            Product Cost
+                                        </th>
+                                        <th>
                                             Status
                                         </th>
                                         <th>
@@ -87,6 +104,9 @@
                                         </td>
                                         <td>
                                             {{$v['name']}}
+                                        </td>
+                                        <td>
+                                            {{$v['prod_price']}}
                                         </td>
                                         <td>
                                             @if($v['is_active'] == 1)

@@ -52,7 +52,28 @@
                                 @enderror
                             </div>
                         </div>
-                        
+
+                        <div class="form-group row">
+                            <label for="unit" class="col-md-4 col-form-label text-md-right">{{ __('Unit') }}</label>
+                            <div class="col-md-6">
+                                <select name="unit" class="form-select">
+                                    @foreach($unit as $k => $val)
+                                        @if($data['unit_id'] == $val['id'])
+                                            <option value="{{$val['id']}}" selected>{{$val['name']}}</option>
+                                        @else
+                                        <option value="{{$val['id']}}">{{$val['name']}}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="cost" class="col-md-4 col-form-label text-md-right">{{ __('Cost of Product') }}</label>
+                            <div class="col-md-6">
+                                <input id="cost" type="text" class="form-control @error('cost') is-invalid @enderror" name="cost" value="{{ $data['prod_price'] }}" required autocomplete="cost">
+                            </div>
+                        </div>
 
                         <div class="form-group row">
                             <label for="location_name" class="col-md-4 col-form-label text-md-right">{{ __('Action') }}</label>
