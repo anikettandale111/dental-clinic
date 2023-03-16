@@ -2,17 +2,15 @@
 
 @section('content')
 <main id="main" class="main">
-    <div style="float: right; margin-bottom: 10px;">
+    <!-- <div style="float: right; margin-bottom: 10px;">
         <a class="btn btn-primary" href="{{url('/scan_product')}}"> Product Scan </a>
-    </div>
+    </div> -->
     <div>
         <table id="table_id" 
     class="table table-condensed table-striped table-hover">
             <thead>
                 <tr>
-                    <th>
-                        Product Name
-                    </th>
+
                     <th>
                         Category Name
                     </th>
@@ -20,16 +18,22 @@
                         Manufacturer Name
                     </th>
                     <th>
-                        Unit Size
-                    </th>
-                    <th>
-                        Dispatch Quantity
+                        Product Name
                     </th>
                     <th>
                         Product Cost
                     </th>
                     <th>
-                        Action
+                        Unit Size
+                    </th>
+                    <th>
+                        Requeted Quantity
+                    </th>
+                    <th>
+                        Dispatch Quantity
+                    </th>
+                    <th>
+                        Date and Time
                     </th>
                 </tr>
             </thead>
@@ -39,26 +43,29 @@
                 @foreach($data as $k =>$v)
                     <tr>
                         <td>
-                            {{$v['product_model']['name']}}
+                            {{$v['category_name']}}
                         </td>
                         <td>
-                            {{$v['category_model']['category_name']}}
+                            {{$v['manufacturer_name']}}
                         </td>
                         <td>
-                            {{$v['manufacturer_model']['name']}}
+                            {{$v['product_name']}}
                         </td>
                         <td>
-                            {{$v['unit_model']['name']}}
+                            {{$v['prod_price']}}
                         </td>
 
                         <td>
-                            {{$v['qty']}}
+                            {{$v['unit_name']}}
                         </td>
                         <td>
-                            {{$v['cost']}}
+                            {{$v['required_qty']}}
                         </td>
                         <td>
-                            <span style="color:red;">Pending</span>
+                            {{$v['provided_qty']}}
+                        </td>
+                        <td>
+                            {{$v['updated_at']}}
                         </td>
                     </tr>
                 @endforeach

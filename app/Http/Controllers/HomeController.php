@@ -9,6 +9,7 @@ use App\Clinic_location;
 use App\Product_name;
 use App\ClinicOrders;
 use App\Store;
+use App\TBLDispatch;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Hash;
 use DB;
@@ -55,7 +56,7 @@ class HomeController extends Controller
         if(Auth::user()->action == 3)
         {
             $location = Clinic_location::Where(['id'=>Auth::user()->location_id])->first();
-            $recive_product = Store::with('Unit_model','Category_model','Manufacturer_model','Product_model')->where(['user_id'=>Auth::user()->id,'is_scanned'=>0])->get();
+            $recive_product = TBLDispatch::where(['clinic_id'=>Auth::user()->location_id])->get();
             $my_orders = ClinicOrders::select('clinic_orders.id','order_id','clinic_orders.created_at','total_price','order_status','received_remarks',DB::raw('GROUP_CONCAT(product_name.name) AS product_name'),DB::raw('GROUP_CONCAT(clinic_orders.product_qty) AS product_qty'))->leftJoin('product_name','product_name.id','=','clinic_orders.product_id')->where('clinic_orders.user_id',Auth::user()->id)->groupBy('clinic_orders.order_id')->orderBy('clinic_orders.id')->get();
             return view('home',compact('location','recive_product','my_orders'));
             

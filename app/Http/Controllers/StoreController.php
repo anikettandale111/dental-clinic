@@ -17,6 +17,7 @@ use Milon\Barcode\DNS1D;
 use Milon\Barcode\DNS2D;
 use Barryvdh\DomPDF\Facade\PDF;
 use Illuminate\Support\Facades\Storage;
+use DB;
 
 class StoreController extends Controller
 {
@@ -217,7 +218,7 @@ class StoreController extends Controller
         }
     }
     function stockDetails(){
-        $data = Store::select('store.unit','ct.category_name','mn.name AS mn_name','pn.name AS pn_name','un.name AS un_name','co.product_qty AS received_qty')
+        $data = Store::select('store.qty as qty','ct.category_name','mn.name AS mn_name','pn.name AS pn_name','un.name AS un_name',DB::raw('sum(co.product_qty) AS received_qty'))
                 ->leftJoin('category AS ct','ct.id','=','store.category')
                 ->leftJoin('manufacturer AS mn','mn.id','=','store.manufacture_name')
                 ->leftJoin('product_name AS pn','pn.id','=','store.product_name')

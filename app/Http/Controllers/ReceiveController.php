@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Store;
 use App\Dispatch;
+use App\TBLDispatch;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
@@ -14,10 +15,9 @@ class ReceiveController extends Controller
 
     public function index()
     {
-        $data = Store::with('Unit_model','Category_model','Manufacturer_model','Product_model')->where(['user_id'=>Auth::user()->id,'is_scanned'=>0])->get();
+        $data = TBLDispatch::where(['clinic_id'=>Auth::user()->location_id])->orderBy('id', 'DESC')->get();
         
         return view('recive_product_list',compact('data'));
-        
     }
 
     public function scan_product(Request $requst)

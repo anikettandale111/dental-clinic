@@ -36,7 +36,7 @@
                         <td>{{$dt->mn_name}}</td>
                         <td>{{$dt->pn_name}}</td>
                         <td>{{$dt->un_name}}</td>
-                        <td>{{$dt->unit}}</td>
+                        <td>{{$dt->qty}}</td>
                         <td>{{$dt->received_qty}}</td>
                     </tr>
                 @endforeach            
