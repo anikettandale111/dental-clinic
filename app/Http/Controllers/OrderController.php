@@ -41,7 +41,9 @@ class OrderController extends Controller
     }    
     public function getOrderById(Request $request)
     {
-        $data = ClinicOrders::select('clinic_orders.id','order_id','clinic_orders.created_at','total_price','order_status','received_remarks','pn.name','clinic_orders.product_qty','clinic_orders.product_unit','clinic_orders.price_per_unit')->leftJoin('product_name AS pn','pn.id','=','clinic_orders.product_id')->where('clinic_orders.order_id',$request->order_id)->orderBy('clinic_orders.id')->get();
+        $data = ClinicOrders::select('clinic_orders.id','order_id','clinic_orders.created_at','total_price','order_status','received_remarks','pn.name','clinic_orders.product_qty','clinic_orders.product_unit','manufacturer.name AS mn_name','clinic_orders.price_per_unit')->leftJoin('product_name AS pn','pn.id','=','clinic_orders.product_id')
+        ->leftJoin('manufacturer','manufacturer.id','=','clinic_orders.manfracture_id')
+        ->where('clinic_orders.order_id',$request->order_id)->orderBy('clinic_orders.id')->get();
         return json_encode($data);
     }    
     public function viewInvoice($orderId)

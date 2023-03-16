@@ -108,6 +108,7 @@
                       <thead style="background-color:#84B0CA ;" class="text-white">
                         <tr>
                           <th scope="col">#</th>
+                          <th scope="col">Manufracture Name</th>
                           <th scope="col">Description</th>
                           <th scope="col">Qty</th>
                           <th scope="col">Unit Price</th>
@@ -175,8 +176,9 @@
       dataType: 'JSON',
       success: function(data) {
         jQuery.each(data, function(i, val) {
+          console.log(data);
           var total = val.price_per_unit * val.product_qty;
-          var html = '<tr><th scope="row">' + (i + 1) + '</th><td>' + val.name + '</td><td>' + val.product_qty + ' (' + val.product_unit + ')</td><td>Rs. ' + val.price_per_unit + '</td><td>Rs. ' + total + '</td></tr>';
+          var html = '<tr><th scope="row">' + (i + 1) + '</th><td>' + val.mn_name + '</td><td>' + val.name + '</td><td>' + val.product_qty + ' (' + val.product_unit + ')</td><td>Rs. ' + val.price_per_unit + '</td><td>Rs. ' + total + '</td></tr>';
           $('#product_details').append(html);
           grand_total = total + grand_total;
         });
