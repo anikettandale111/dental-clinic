@@ -42,7 +42,7 @@
                         </div>
                         <div>
                             <label for="cost" class=" col-form-label text-md-right">{{ __('Cost Price/Unit') }}</label>
-                            <input id="cost" type="text" class="form-control @error('cost') is-invalid @enderror" name="cost" value="{{ old('cost') }}" required autocomplete="cost" readonly>
+                            <input id="cost" type="number" class="form-control @error('cost') is-invalid @enderror" name="cost" value="{{ old('cost') }}" required autocomplete="cost">
                             @error('cost')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -61,7 +61,7 @@
                         </div>
                         <div>
                             <label for="usage" class=" col-form-label text-md-right">{{ __('Usage') }}</label>
-                            <input id="usage" type="text" class="form-control @error('usage') is-invalid @enderror" name="usage" value="{{ old('usage') }}" required autocomplete="usage">
+                            <input id="usage" type="text" class="form-control @error('usage') is-invalid @enderror" name="usage" value="Usage" required autocomplete="usage">
 
                             @error('usage')
                             <span class="invalid-feedback" role="alert">
@@ -71,7 +71,7 @@
                         </div>
                         <div>
                             <label for="tags" class=" col-form-label text-md-right">{{ __('Tags') }}</label>
-                            <input id="tags" type="text" class="form-control" name="tags" value="{{ old('tags') }}" required autocomplete="tags">
+                            <input id="tags" type="text" class="form-control" name="tags" value="Tags" required autocomplete="tags">
                             @error('tags')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -172,22 +172,22 @@
             }
         });
     });
-    $('#unit').change(function() {
-        $.ajax({
-            url: 'price_by_unit_cat_man',
-            type: 'POST',
-            data: {
-                _token: CSRF_TOKEN,
-                man_id: $('#manufacture_name').val(),
-                cat_id: $('#category').val(),
-                prod_id: $('#product_name').val(),
-                unit_id: $(this).val(),
-            },
-            dataType: 'JSON',
-            success: function(data) {
-                $('#cost').val(data);
-            }
-        });
-    });
+    // $('#unit').change(function() {
+    //     $.ajax({
+    //         url: 'price_by_unit_cat_man',
+    //         type: 'POST',
+    //         data: {
+    //             _token: CSRF_TOKEN,
+    //             man_id: $('#manufacture_name').val(),
+    //             cat_id: $('#category').val(),
+    //             prod_id: $('#product_name').val(),
+    //             unit_id: $(this).val(),
+    //         },
+    //         dataType: 'JSON',
+    //         success: function(data) {
+    //             $('#cost').val(data);
+    //         }
+    //     });
+    // });
 </script>
 @endpush

@@ -86,21 +86,15 @@ class StoreController extends Controller
 
     protected function stock_register(Request $request)
     {
-        // $image_name = null;
-        // if ($request->hasFile('photo')) 
-        // {
-        //     $image = $request->file('photo');
-        //     $image_name = time().'.'.$image->getClientOriginalExtension();
-        //     $destinationPath = base_path('public/images');
-        //     $image->move($destinationPath, $image_name);
-        // } 
-        // else 
-        // {                          
-        //     Session()->flash('message','Wrong image uploaded');
-        //     Session()->flash('status','success');
-        //     session()->flash('alert-class', 'alert-danger'); 
-        //     return back()->with(['status' =>  'success']);
-        // }
+        $image_name = 'no_image.jpg';
+        if ($request->hasFile('photo')) 
+        {
+            $image = $request->file('photo');
+            $image_name = time().'.'.$image->getClientOriginalExtension();
+            $destinationPath = base_path('public/images');
+            $image->move($destinationPath, $image_name);
+        } 
+
             $row_data=[];
             // for($i=1;$i<=$request['qty'];$i++){
                 // $qr_id = date('ymdhis'.$i);
@@ -111,7 +105,7 @@ class StoreController extends Controller
                         'product_name'=> ucfirst(strtolower($request['product_name'])),
                         'usage'=> ucfirst(strtolower($request['usage'])),
                         'unit'=> ucfirst(strtolower($request['unit'])),
-                        'photo'=> 'no_image.jpg',
+                        'photo'=> $image_name,
                         'qty'=> $request['qty'],
                         'cost'=> $request['cost'],
                         'tags'=> $request['tags'],
@@ -145,22 +139,22 @@ class StoreController extends Controller
                 }else{
                     $update = Store::insertGetId($row_data);
                     if(isset($update) && $update > 0){
-                        $data_new  = ['product_name'=>$request['product_name'],'QR_data'=>$qr_id,'quantity'=>5];
+                        //$data_new  = ['product_name'=>$request['product_name'],'QR_data'=>$qr_id,'quantity'=>5];
                         // view()->share('data_new',$data_new);
-                        $pdf_file_name = date('y_m_d').'_'.$request['product_name'].'_qrpdf.pdf';
-                        ini_set('max_execution_time', 180);
-                        try {
-                            // $pdf = PDF::loadView('qrpdf',['data_new' => $data_new])->save(public_path($pdf_file_name));
+                        // $pdf_file_name = date('y_m_d').'_'.$request['product_name'].'_qrpdf.pdf';
+                        // ini_set('max_execution_time', 180);
+                        // try {
+                        //     // $pdf = PDF::loadView('qrpdf',['data_new' => $data_new])->save(public_path($pdf_file_name));
                             
-                            $pdf = PDF::loadView('qrpdf', ['data_new' => $data_new]);
+                        //     $pdf = PDF::loadView('qrpdf', ['data_new' => $data_new]);
         
-                            Storage::put('public/pdf/'.$pdf_file_name, $pdf->output());
-                          } catch (\Exception $pdf) {
+                        //     Storage::put('public/pdf/'.$pdf_file_name, $pdf->output());
+                        //   } catch (\Exception $pdf) {
                           
-                              return $pdf->getMessage();
-                          }
+                        //       return $pdf->getMessage();
+                        //   }
                         // $pdf->download('qrpdf.pdf');
-                        session()->flash('message', 'Product Add Successfully!  <a href="storage/pdf/'.$pdf_file_name.'" target="_blank"> View Barcode </a>'); 
+                        session()->flash('message', 'Product Add Successfully!'); 
                         session()->flash('alert-class', 'alert-success');
                         return back()->with(['status' =>  'success']);
                     }else{

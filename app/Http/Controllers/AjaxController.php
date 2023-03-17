@@ -25,7 +25,7 @@ class AjaxController extends Controller
 
     public function prodByCategory(Request $request)
     {
-        $data = Product_name::select('id','name','unit_id','category_id','manufracture_id','prod_price')->where(['category_id'=>$request->cat_id,'manufracture_id'=>$request->man_id,'is_active'=>1])->get();
+        $data = Product_name::select('id','name','unit_id','category_id','manufracture_id')->where(['category_id'=>$request->cat_id,'manufracture_id'=>$request->man_id,'is_active'=>1])->get();
         return json_encode($data);
     }    
     public function priceByUnitCatMan(Request $request)
