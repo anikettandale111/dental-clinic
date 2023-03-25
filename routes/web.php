@@ -70,6 +70,7 @@ Route::any('/received_orders', 'OrderController@receivedOrders')->name('received
 Route::any('/purchase_order', 'OrderController@purchaseOrder')->name('purchase_order');
 
 Route::any('/prod_by_category', 'AjaxController@prodByCategory')->name('prod_by_category');
+Route::any('/prod_details_by_unit_cat_man_prod', 'AjaxController@prodDetailsByUnitCatManProd')->name('prod_details_by_unit_cat_man_prod');
 Route::any('/unit_by_category_man', 'AjaxController@unitByCategoryMan')->name('unit_by_category_man');
 Route::any('/price_by_unit_cat_man', 'AjaxController@priceByUnitCatMan')->name('price_by_unit_cat_man');
 Route::any('/unit_by_product', 'AjaxController@unitByProduct')->name('unit_by_product');

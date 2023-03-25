@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use App\ClinicOrders;
 use App\Category;
 use App\Product_name;
+use App\TBLDispatch;
 use DB;
 use Barryvdh\DomPDF\Facade\PDF;
 
@@ -48,12 +49,12 @@ class OrderController extends Controller
     }    
     public function viewInvoice($orderId)
     {
-        $data = ClinicOrders::select('clinic_orders.id','order_id','clinic_orders.created_at','price_per_unit','total_price','order_status','received_remarks','product_name.name AS product_name','clinic_orders.product_qty AS product_qty','clinic_location.branch_name','clinic_location.location','manufacturer.name AS mn_name','category.category_name')
-        ->leftJoin('product_name','product_name.id','=','clinic_orders.product_id')
-        ->leftJoin('clinic_location','clinic_location.id','=','clinic_orders.clinic_id')
-        ->leftJoin('manufacturer','manufacturer.id','=','clinic_orders.manfracture_id')
-        ->leftJoin('category','category.id','=','clinic_orders.category_id')
-        ->where('clinic_orders.order_id',$orderId)->orderBy('clinic_orders.id')->get();
+        $data = TBLDispatch::select('tbl_dispatch.id','tbl_dispatch.order_id','tbl_dispatch.created_at','tbl_dispatch.prod_price','notes AS received_remarks','product_name.name AS product_name','clinic_location.branch_name','clinic_location.location','manufacturer.name AS mn_name','category.category_name','tbl_dispatch.required_qty','tbl_dispatch.provided_qty')
+        ->leftJoin('product_name','product_name.id','=','tbl_dispatch.product_id')
+        ->leftJoin('clinic_location','clinic_location.id','=','tbl_dispatch.clinic_id')
+        ->leftJoin('manufacturer','manufacturer.id','=','tbl_dispatch.manufacturer_id')
+        ->leftJoin('category','category.id','=','tbl_dispatch.category_id')
+        ->where('tbl_dispatch.order_id',$orderId)->orderBy('tbl_dispatch.id')->get();
         return view('invoice_pdf',compact('data'));
     }    
     public function purchaseOrder()

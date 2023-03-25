@@ -2,7 +2,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Invoice</title>
+    <title>Challan</title>
     <link rel="stylesheet" href="style.css">
     <link rel="license" href="https://www.opensource.org/licenses/mit-license/">
     <script src="script.js"></script>
@@ -377,7 +377,7 @@
 
 <body>
     <header>
-        <h1>Invoice</h1>
+        <h1>Challan</h1>
         <address contenteditable>
             <p>{{ucfirst($data[0]['branch_name'])}}</p>
             <p>{{ucfirst($data[0]['location'])}}<br></p>
@@ -399,10 +399,10 @@
                 <th><span contenteditable>Date</span></th>
                 <td><span contenteditable>{{date('F d,Y',strtotime($data[0]['created_at']))}}</span></td>
             </tr>
-            <tr>
+            <!-- <tr>
                 <th><span contenteditable>Amount Due</span></th>
                 <td><span id="prefix" contenteditable>$</span><span>600.00</span></td>
-            </tr>
+            </tr> -->
         </table>
         <table class="inventory">
             <thead>
@@ -411,7 +411,8 @@
                     <th><span contenteditable>Category</span></th>
                     <th><span contenteditable>Manufacturer</span></th>
                     <th><span contenteditable>Rate</span></th>
-                    <th><span contenteditable>Quantity</span></th>
+                    <th><span contenteditable>Required Quantity</span></th>
+                    <th><span contenteditable>Dispatched Quantity</span></th>
                     <th><span contenteditable>Price</span></th>
                 </tr>
             </thead>
@@ -419,15 +420,16 @@
                 @php $total = 0.00;$grand_total = 0.00; @endphp
                 @foreach($data AS $key => $dt)
                     @php
-                    $total = $dt->price_per_unit*$dt->product_qty;
+                    $total = $dt->prod_price*$dt->provided_qty;
                     $grand_total = $total+$grand_total;
                     @endphp
                 <tr>
                     <td><a class="cut">-</a><span contenteditable>{{$dt->product_name}}</span></td>
                     <td><span contenteditable>{{$dt->category_name}}</span></td>
                     <td><span contenteditable>{{$dt->mn_name}}</span></td>
-                    <td><span data-prefix>Rs.</span><span contenteditable>{{$dt->price_per_unit}}</span></td>
-                    <td><span contenteditable>{{$dt->product_qty}}</span></td>
+                    <td><span data-prefix>Rs.</span><span contenteditable>{{$dt->prod_price}}</span></td>
+                    <td><span contenteditable>{{$dt->required_qty}}</span></td>
+                    <td><span contenteditable>{{$dt->provided_qty}}</span></td>
                     <td><span data-prefix>Rs.</span><span>{{$total}}</span></td>
                 </tr>
                 @endforeach

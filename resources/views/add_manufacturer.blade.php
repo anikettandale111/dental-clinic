@@ -7,6 +7,15 @@
             <div class="card">
                 <div class="card-header">{{ __('Add Manufacturer') }}</div>
                 <div class="card-body">
+                    @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
                     @if(session()->has('message'))
                     <p class="alert {{ session('alert-class') }}">{{ session('message') }}</p>
                     @endif
@@ -16,8 +25,8 @@
                             <input type="hidden" class="form-control" name="user_id" value="{{ Auth::user()->id }}">
                             <div class="">
                                 <label for="category_name" class=" col-form-label text-md-right">{{ __('Category Name') }}</label>
-                                <select class="category_name form-select" name="category_name">
-                                    <option value="" selected disabled>Select Category</option>
+                                <select class="category_name form-select" name="category_name" required>
+                                    <option selected disabled>Select Category</option>
 
                                     @foreach($Category as $k => $v)
                                     <option value="{{$v['id']}}">{{$v['category_name']}}</option>

@@ -78,10 +78,8 @@
                             </span>
                             @enderror
                         </div>
-                        <div>
+                        <div class="photo">
                             <label for="photo" class=" col-form-label text-md-right">{{ __('Photo') }}</label>
-
-
                             <input id="photo" type="file" class="form-control" name="photo" value="{{ old('photo') }}" autocomplete="photo">
                             @error('photo')
                             <span class="invalid-feedback" role="alert">
@@ -119,6 +117,8 @@
 @push('child-scripts')
 <script>
     $('#category').change(function() {
+        $('#manufacture_name').empty();
+        $('#manufacture_name').append('<option selected disabled>Select Option</option>');
         $.ajax({
             url: 'manufracture_by_category',
             type: 'POST',
@@ -135,6 +135,8 @@
         });
     });
     $('#manufacture_name').change(function() {
+        $('#product_name').empty();
+        $('#product_name').append('<option selected disabled>Select Option</option>');
         $.ajax({
             url: 'prod_by_category',
             type: 'POST',
@@ -154,6 +156,8 @@
     });
 
     $('#product_name').change(function() {
+        $('#unit').empty();
+        $('#unit').append('<option selected disabled>Select Option</option>');
         $.ajax({
             url: 'unit_by_category_man',
             type: 'POST',
@@ -172,22 +176,31 @@
             }
         });
     });
-    // $('#unit').change(function() {
-    //     $.ajax({
-    //         url: 'price_by_unit_cat_man',
-    //         type: 'POST',
-    //         data: {
-    //             _token: CSRF_TOKEN,
-    //             man_id: $('#manufacture_name').val(),
-    //             cat_id: $('#category').val(),
-    //             prod_id: $('#product_name').val(),
-    //             unit_id: $(this).val(),
-    //         },
-    //         dataType: 'JSON',
-    //         success: function(data) {
-    //             $('#cost').val(data);
-    //         }
-    //     });
-    // });
+    var man_id = $('#manufacture_name').val();
+    var product_name = $('#product_name').val();
+    var cat_id = $('#category').val();
+    var unit = $('#unit').val();
+    $('#unit').change(function() {
+        if (man_id != '' && product_name != '' && cat_id != '' && unit != '') {
+            $.ajax({
+                url: 'prod_details_by_unit_cat_man_prod',
+                type: 'POST',
+                data: {
+                    _token: CSRF_TOKEN,
+                    man_id: $('#manufacture_name').val(),
+                    cat_id: $('#category').val(),
+                    prod_id: $('#product_name').val(),
+                    unit_id: $(this).val(),
+                },
+                dataType: 'JSON',
+                success: function(data) {
+                    $('#usage').val(data.usage);
+                    $('#tags').val(data.tags);
+                    $('.photo').css('display', 'none');
+                    $('<div><label for="photo" class=" col-form-label text-md-right">Photo</label><img src="images/' + data.photo + '" alt="Product Image"></img></div>').insertAfter('.photo');
+                }
+            });
+        }
+    });
 </script>
 @endpush

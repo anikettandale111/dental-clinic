@@ -82,7 +82,7 @@ class HomeController extends Controller
         }
         else{
             $action = 3;
-            $where = ['action' => $action,'status'=>'Active','ref_id'=>Auth::user()->id];
+            $where = ['action' => $action,'ref_id'=>Auth::user()->id];
         }
         $data = Auth::user()->with('Clinic_location')->where($where)->get();
         return view('clinic_details',compact('data'));
@@ -144,8 +144,8 @@ class HomeController extends Controller
             'status' => 'Active',
             'action' => $action,
             'mobile_number'=>$data->mobile_number,
-            'pan_card'=>strtoupper(strtolower($data->pan_card)),
-            'aadhar_card'=>strtoupper(strtolower($data->aadhar_card)),
+            'pan_card'=>(isset($data->pan_card) && $data->pan_card!='' || $data->pan_card!= "NA")? strtoupper(strtolower($data->pan_card)) : "NA",
+            'aadhar_card'=>(isset($data->aadhar_card) && $data->aadhar_card!='' || $data->aadhar_card!= "NA")? strtoupper(strtolower($data->aadhar_card)) : "NA",
             'ref_id' => Auth::user()->id,
             'password' => Hash::make($data->password)
         ]);

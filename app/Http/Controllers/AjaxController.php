@@ -38,6 +38,11 @@ class AjaxController extends Controller
         $data = Unit::select('id','name')->whereIn('id',[DB::raw('Select CONCAT(unit_id) from product_name where category_id='.$request->cat_id.' AND manufracture_id='.$request->man_id.' AND id='.$request->prod_id)])->get();
         return json_encode($data);
     }    
+    public function prodDetailsByUnitCatManProd(Request $request)
+    {
+        $data = Store::select('usage','tags','photo')->where(['category'=>$request->cat_id ,'manufacture_name'=>$request->man_id ,'product_name'=>$request->prod_id ,'unit' =>$request->unit_id])->first();
+        return json_encode($data);
+    }    
     public function unitByProduct(Request $request)
     {
         $data = Unit::select('id','name')->where(['id'=>$request->unit_id,'is_active'=>1])->first();

@@ -17,7 +17,7 @@
                             <div >
                                 <label for="category_name" class="col-form-label text-md-right">{{ __('Category Name') }}</label>
                                 <select class="category_name form-select" name="category_name" onchange="ManufactureFunction()">
-                                    <option value="0">--Select--</option>
+                                    <option selected disabled>Select Category</option>
                                     @foreach($category as $k => $v)
                                     <option value="{{$v['id']}}">{{$v['category_name']}}</option>
                                     @endforeach
@@ -27,6 +27,7 @@
                             <div >
                                 <label for="manufacturer_name" class="col-form-label text-md-right">{{ __('Manufacturer Name') }}</label>
                                 <select class="manu_select form-select" name="manu_name" id="manu_name">
+                                <option selected disabled>Select Manufacturer</option>
                                 </select>
                             </div>
                             <div >
@@ -43,6 +44,7 @@
                             <div>
                                 <label for="unit" class=" col-form-label text-md-right">{{ __('Unit') }}</label>
                                 <select name="unit" class="form-select">
+                                <option selected disabled>Select Unit</option>
                                     @foreach($unit as $k => $val)
                                     <option value="{{$val['id']}}">{{$val['name']}}</option>
                                     @endforeach

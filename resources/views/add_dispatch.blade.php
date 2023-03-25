@@ -193,10 +193,12 @@ foreach ($order_details as $od) {
                                 <th>Required Unit</th>
                                 <th>Available Unit</th>
                                 <th>Price Per Unit</th>
+                                <th>Delete</th>
                             </tr>
                         </thead>
                         <tbody id="prod_det_body">
                             <tr>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -345,14 +347,25 @@ foreach ($order_details as $od) {
     });
     function renderTable(){
         var tb_html;
-        console.log(disp_details);
         $.each(disp_details, function( index, value ) {
             total = value.itemData.prodct_qty*value.itemData.prod_price;
-            tb_html += '<tr><th>'+(index+1)+'</th><th><input type="text" class="form-control" readonly disabled value="'+value.itemData.product_name+'"></th><th><input type="text" class="form-control" readonly disabled value="'+value.itemData.category_name+'"></th><th><input type="text" class="form-control" readonly disabled value="'+value.itemData.manufacturer_name+'"></th><th><input type="text" class="form-control" readonly disabled value="'+value.itemData.unit_name+'"></th><th><input type="text" class="form-control" readonly disabled value="'+value.itemData.required_qty+'"></th><th><input type="text" class="form-control" readonly disabled value="'+value.itemData.provided_qty+'"></th><th><input type="text" class="form-control" readonly disabled value="'+value.itemData.prod_price+'"></th></tr>';
+            var pname = value.itemData.product_name+"_"+value.itemData.product_id;
+            tb_html += '<tr><th>'+(index+1)+'</th><th><input type="text" id="prd_'+value.itemData.product_id+'" class="form-control" readonly disabled value="'+value.itemData.product_name+'"></th><th><input type="text" class="form-control" readonly disabled value="'+value.itemData.category_name+'"></th><th><input type="text" class="form-control" readonly disabled value="'+value.itemData.manufacturer_name+'"></th><th><input type="text" class="form-control" readonly disabled value="'+value.itemData.unit_name+'"></th><th><input type="text" class="form-control" readonly disabled value="'+value.itemData.required_qty+'"></th><th><input type="text" class="form-control" readonly disabled value="'+value.itemData.provided_qty+'"></th><th><input type="text" class="form-control" readonly disabled value="'+value.itemData.prod_price+'"></th><th><button type="button" class="btn btn-danger deleteItem" onclick="deleteItem('+value.itemData.product_id+')">X</button></th></tr>';
         });
         $('#prod_det_body').empty();
         $('#prod_det_body').append(tb_html);
-        $('#dispatch_details').css('display','block');
+        if(disp_details.length == 0){
+            $('#dispatch_details').css('display','none');
+        }else{
+            $('#dispatch_details').css('display','block');
+        }
+    }
+    function deleteItem(v){
+        var prodcut_name = $('#prd_'+v).val()+'_'+v;
+        disp_details = disp_details.filter(function(elem) {  
+                return elem.itemKey !== prodcut_name; 
+        });
+        renderTable();
     }
 </script>
 @endpush

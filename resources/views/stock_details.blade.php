@@ -1,6 +1,4 @@
 @extends('layouts.app_new')
-@style
-@endstyle
 @section('content')
 <main id="main" class="main">
     <div>
@@ -18,7 +16,7 @@
                         Product Name
                     </th>
                     <th>
-                        Unit
+                        Date of Transaction
                     </th>
                     <th>
                         Available Quantity
@@ -35,7 +33,7 @@
                         <td>{{$dt->category_name}}</td>
                         <td>{{$dt->mn_name}}</td>
                         <td>{{$dt->pn_name}}</td>
-                        <td>{{$dt->un_name}}</td>
+                        <td></td>
                         <td>{{$dt->qty}}</td>
                         <td>{{$dt->received_qty}}</td>
                     </tr>

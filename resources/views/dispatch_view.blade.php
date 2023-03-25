@@ -11,7 +11,7 @@
             <thead>
                 <tr>
                     <th>
-                        Barcode
+                        Order ID
                     </th>
                     <th>
                         Branch Name
