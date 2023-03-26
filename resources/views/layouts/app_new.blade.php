@@ -7,8 +7,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'NeevWellBeing') }}</title>
     <!-- Favicons -->
-    <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
-    <link href="{{ asset('assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+    <link href="{{ asset('assets/img/logo_project.jpeg') }}" rel="icon">
+    <link href="{{ asset('assets/img/logo_project.jpeg') }}" rel="apple-touch-icon">
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
@@ -37,7 +37,7 @@
   <header id="header" class="header fixed-top d-flex align-items-center">
     <div class="d-flex align-items-center justify-content-between">
       <a href="{{url('/home')}}" class="logo d-flex align-items-center">
-        <!-- <img src="assets/img/logo.png" alt=""> -->
+        <!-- <img src="{{asset('assets/img/logo_project.jpeg')}}" alt=""> -->
         <span class="d-none d-lg-block">NeevWellBeing</span>
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
@@ -46,7 +46,7 @@
       <ul class="d-flex align-items-center">
         <li class="nav-item dropdown pe-3">
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+            <!-- <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle"> -->
             <span class="d-none d-md-block dropdown-toggle ps-2">{{ Auth::user()->name }}</span>
           </a><!-- End Profile Iamge Icon -->
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
