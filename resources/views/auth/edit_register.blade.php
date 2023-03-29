@@ -32,7 +32,7 @@
                             <label for="pan_card" class="col-md-4 col-form-label text-md-right">{{ __('Pan Card Number') }}</label>
 
                             <div class="col-md-6">
-                                <input id="pan_card" type="text" class="form-control @error('pan_card') is-invalid @enderror" name="pan_card" value="{{ $data['pan_card'] }}" required autocomplete="pan_card" autofocus>
+                                <input id="pan_card" type="text" class="form-control @error('pan_card') is-invalid @enderror" name="pan_card" value="{{ $data['pan_card'] }}" autocomplete="pan_card" autofocus>
 
                                 @error('pan_card')
                                     <span class="invalid-feedback" role="alert">
@@ -46,7 +46,7 @@
                             <label for="aadhar_card" class="col-md-4 col-form-label text-md-right">{{ __('Aadhar Card Number') }}</label>
 
                             <div class="col-md-6">
-                                <input id="aadhar_card" type="text" class="form-control @error('aadhar_card') is-invalid @enderror" name="aadhar_card" value="{{ $data['aadhar_card'] }}" required autocomplete="aadhar_card" autofocus>
+                                <input id="aadhar_card" type="text" class="form-control @error('aadhar_card') is-invalid @enderror" name="aadhar_card" value="{{ $data['aadhar_card'] }}" autocomplete="aadhar_card" autofocus>
 
                                 @error('aadhar_card')
                                     <span class="invalid-feedback" role="alert">

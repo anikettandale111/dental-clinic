@@ -2,9 +2,6 @@
 
 @section('content')
 <main id="main" class="main">
-    <div style="float: right; margin-bottom: 10px;">
-        <a class="btn btn-primary" href="{{url('/add_store')}}"> Add Clinic User </a>
-    </div>
     <div>
         <table id="table_id" class="table table-condensed table-hover">
             <thead>
@@ -40,7 +37,7 @@
             <tbody>
                 
                 @foreach($data as $k =>$v)
-                    <tr style="background-color:<?=($v['status']=='Active')?"":"darkgray";?>">
+                    <tr>
                         <td>
                             {{$v['name']}}
                         </td>
@@ -65,7 +62,7 @@
                             {{$v['mobile_number']}}
                         </td>
                         <td>
-                            <button class="btn btn-<?=($v['status']=='Active')?"success":"danger";?>">{{$v['status']}}</button>
+                            {{$v['status']}}
                         </td>
                         <td>
                             <a class="btn btn-primary edit" href="{{url('edit_details/'.$v['id'])}}">Edit</a>

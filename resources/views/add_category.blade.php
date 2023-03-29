@@ -1,4 +1,4 @@
- @extends('layouts.app_new')
+@extends('layouts.app_new')
 
 @section('content')
 <div class="container cnt-margin" >
