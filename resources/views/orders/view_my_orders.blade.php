@@ -62,8 +62,9 @@
                                 <a class="btn btn-danger" href="{{url('delete_order/'.$v['order_id'])}}" onclick="return confirm('Sure To Delete This Order ?')">Delete</a>
                                 @elseif($v['order_status']==1)
                                 <a class="btn btn-success">Completed</a>
+                                <a class="btn btn-secondary" href="{{url('view_invoice/'.$v['order_id'])}}" target="_blank">Invoice</a>
                             @endif
-                            <a class="btn btn-secondary" href="{{url('view_invoice/'.$v['order_id'])}}" target="_blank">Invoice</a>
+                            
                         </td>
                     </tr>
                 @endforeach

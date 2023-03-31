@@ -67,20 +67,17 @@
                         <div class="form-group row">
                             <div class="col-md-3">
                                 <label for="product_unit" class="col-form-label text-md-right">{{ __('Product Unit') }}</label>
-                                <select id="product_unit" class="form-control @error('product_unit') is-invalid @enderror reset_select_two" name="product_unit" required>
+                                <!-- <select id="product_unit" class="form-control @error('product_unit') is-invalid @enderror reset_select_two" name="product_unit" required>
                                     <option disabled> Select Unit</option>
-                                </select>
-                                <!-- <input type="text" id="product_unit" class="form-control @error('product_unit') is-invalid @enderror make_empty" name="product_unit" required disabled> -->
-                                @error('product_unit')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
+                                </select> -->
+                                <input type="text" id="product_unit" class="form-control product_unit" readonly>
+                                <input type="hidden" id="product_unit_id" class="form-control product_unit_id" name="product_unit" readonly>
+                               
                             </div>
                         
                             <div class="col-md-3">
                                 <label for="product_price" class=" col-form-label text-md-right">{{ __('Product Price') }}</label>
-                                <input id="product_price" type="text" min="1" class="form-control @error('product_price') is-invalid @enderror make_empty" name="product_price" required readonly disabled>
+                                <input id="product_price" type="text" min="1" class="form-control @error('product_price') is-invalid @enderror make_empty" name="product_price" value="0" required readonly disabled>
                                 @error('product_price')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -270,27 +267,27 @@ $('#final_submit').click(function(){
 function splitProductDetails(val,splitby){
     return val.split(splitby);
 }
-$('#product_unit').change(function(){
-    var prod_details = splitProductDetails($('#product_id').val(),'--');
-    var prod_id = prod_details[0];
-    // var prod_price = prod_details[3];
-    // $('#product_price').val(prod_price);
-    $.ajax({
-            url: 'price_by_unit_cat_man',
-            type: 'POST',
-            data: {
-                _token: CSRF_TOKEN,
-                man_id: $('#manufacturer_id').val(),
-                cat_id: $('#category_id').val(),
-                prod_id: prod_id,
-                unit_id: $('#product_unit').val(),
-            },
-            dataType: 'JSON',
-            success: function(data) {
-                $('#product_price').val(data);
-            }
-        });
-});
+// $('#product_unit').change(function(){
+//     var prod_details = splitProductDetails($('#product_id').val(),'--');
+//     var prod_id = prod_details[0];
+//     // var prod_price = prod_details[3];
+//     // $('#product_price').val(prod_price);
+//     $.ajax({
+//             url: 'price_by_unit_cat_man_clinic',
+//             type: 'POST',
+//             data: {
+//                 _token: CSRF_TOKEN,
+//                 man_id: $('#manufacturer_id').val(),
+//                 cat_id: $('#category_id').val(),
+//                 prod_id: prod_id,
+//                 unit_id: $('#product_unit').val(),
+//             },
+//             dataType: 'JSON',
+//             success: function(data) {
+//                 $('#product_price').val(data);
+//             }
+//         });
+// });
 $('#product_quntity').change(function(){
     var prod_details = splitProductDetails($('#product_id').val(),'--');
     var prod_price = $('#product_price').val();
@@ -307,7 +304,7 @@ $('#product_id').change(function(){
     $('#product_unit').empty();
     $('#product_unit').append('<option selected disabled> Select Option</option>');
     $.ajax({
-        url: 'unit_by_category_man',
+        url: 'unit_by_category_man_clinic',
         type: 'POST',
         data: {
             _token: CSRF_TOKEN,
@@ -318,9 +315,12 @@ $('#product_id').change(function(){
         dataType: 'JSON',
         success: function(data) {
             // $('#product_unit').val(data.name);
-            jQuery.each( data, function( i, val ) {
-                $('#product_unit').append(new Option(val.name, val.id)); 
-            });    
+            // jQuery.each( data, function( i, val ) {
+            //     $('#product_unit').append(new Option(val.name, val.id)); 
+            // });
+            $('#product_unit').val(data.data.unit_model.name);
+            $('#product_unit_id').val(data.data.unit_model.id);
+            $('#product_price').val(data.cost);    
         }
     });
 });
