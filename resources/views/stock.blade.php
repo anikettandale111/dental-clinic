@@ -53,7 +53,7 @@
                             </span>
                             @enderror
                         </div>
-                        <div>
+                        <!-- <div>
                             <label for="unit" class=" col-form-label text-md-right">{{ __('Unit') }}</label>
                             
                             <input type="text" class="form-control unit_name" value="" readonly>
@@ -91,7 +91,7 @@
                             <label for="photo" class=" col-form-label text-md-right">{{ __('Image') }}</label>
                             <img src="" style='width: 300px; height: 100px;'>
                             <input type="hidden" class="form-control image_name" name="photo" value="">
-                        </div>
+                        </div> -->
                         <div class="form-group row mb-0">
                             <div class="">
                                 <button type="submit" class="btn btn-primary btn-save-width">
@@ -151,31 +151,31 @@
         });
     });
 
-    $('#product_name').change(function() {
-        $('#unit').empty();
-        $('#unit').append('<option selected disabled>Select Option</option>');
-        $.ajax({
-            url: 'unit_by_category_man',
-            type: 'POST',
-            data: {
-                _token: CSRF_TOKEN,
-                man_id: $('#manufacture_name').val(),
-                cat_id: $('#category').val(),
-                prod_id: $('#product_name').val(),
-            },
-            dataType: 'JSON',
-            success: function(data) {
-                console.log("praduct details"+data.photo);
-                $('.usage').val(data.usage);
-                $('.tags').val(data.tags);
-                $('.photo_show img').attr('src', "{{URL::to('/').'/images/'}}"+data.photo).show();
-                $('.description').val(data.description);
-                $('.unit_name').val(data.unit_model.name);
-                $('.unit_id').val(data.unit_model.id);
-                $('.image_name').val(data.photo);
-            }
-        });
-    });
+    // $('#product_name').change(function() {
+    //     $('#unit').empty();
+    //     $('#unit').append('<option selected disabled>Select Option</option>');
+    //     $.ajax({
+    //         url: 'unit_by_category_man',
+    //         type: 'POST',
+    //         data: {
+    //             _token: CSRF_TOKEN,
+    //             man_id: $('#manufacture_name').val(),
+    //             cat_id: $('#category').val(),
+    //             prod_id: $('#product_name').val(),
+    //         },
+    //         dataType: 'JSON',
+    //         success: function(data) {
+    //             // console.log("praduct details"+data.photo);
+    //             // $('.usage').val(data.usage);
+    //             // $('.tags').val(data.tags);
+    //             // $('.photo_show img').attr('src', "{{URL::to('/').'/images/'}}"+data.photo).show();
+    //             // $('.description').val(data.description);
+    //             // $('.unit_name').val(data.unit_model.name);
+    //             // $('.unit_id').val(data.unit_model.id);
+    //             // $('.image_name').val(data.photo);
+    //         }
+    //     });
+    // });
     var man_id = $('#manufacture_name').val();
     var product_name = $('#product_name').val();
     var cat_id = $('#category').val();

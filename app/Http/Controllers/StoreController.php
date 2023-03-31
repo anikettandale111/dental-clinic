@@ -75,7 +75,7 @@ class StoreController extends Controller
     public function edit_stock(Request $request)
     {
         $id = $request->id;
-        $data = Store::with('Unit_model','Category_model','Manufacturer_model','Product_model')->Where(['user_id'=>Auth::user()->id,'id' => $id])->first();
+        $data = Store::with('Category_model','Manufacturer_model','Product_model')->Where(['user_id'=>Auth::user()->id,'id' => $id])->first();
         $category = Category::Where('is_active','1')->get();
         $manu = Manufacturer::Where('is_active','1')->get();
         $product_name = Product_name::Where('is_active','1')->get();
@@ -103,13 +103,13 @@ class StoreController extends Controller
                         'category'=> ucfirst(strtolower($request['category'])),
                         'manufacture_name'=> ucfirst(strtolower($request['manufacture_name'])),
                         'product_name'=> ucfirst(strtolower($request['product_name'])),
-                        'usage'=> ucfirst(strtolower($request['usage'])),
-                        'unit'=> ucfirst(strtolower($request['unit'])),
-                        'photo'=> $image_name,
+                        // 'usage'=> ucfirst(strtolower($request['usage'])),
+                        // 'unit'=> ucfirst(strtolower($request['unit'])),
+                        // 'photo'=> $image_name,
                         'qty'=> $request['qty'],
                         'cost'=> $request['cost'],
-                        'tags'=> $request['tags'],
-                        'description'=> ucfirst(strtolower($request['description'])),
+                        // 'tags'=> $request['tags'],
+                        // 'description'=> ucfirst(strtolower($request['description'])),
                         'is_active'=> 1,
                         'barcode_id'=> $qr_id,
                         'is_scanned'=> 0,
@@ -123,12 +123,12 @@ class StoreController extends Controller
                     $data['category'] = ucfirst(strtolower($request['category']));
                     $data['manufacture_name'] = ucfirst(strtolower($request['manufacture_name']));
                     $data['product_name'] = ucfirst(strtolower($request['product_name']));
-                    $data['usage'] = ucfirst(strtolower($request['usage']));
-                    $data['unit'] = ucfirst(strtolower($request['unit']));
-                    // $data['qty'] = $request['qty'];
                     $data['cost']= $request['cost'];
-                    $data['tags'] = $request['tags'];
-                    $data['description'] = ucfirst(strtolower($request['description']));  
+                    // $data['usage'] = ucfirst(strtolower($request['usage']));
+                    // $data['unit'] = ucfirst(strtolower($request['unit']));
+                    // $data['qty'] = $request['qty'];
+                    // $data['tags'] = $request['tags'];
+                    // $data['description'] = ucfirst(strtolower($request['description']));  
                     $update = Store::where('id',$row_id->id)->update($data);      
                     $update = Store::where('id',$row_id->id)->increment('qty', $request['qty']);
                     if(isset($update) && $update > 0){
@@ -188,13 +188,14 @@ class StoreController extends Controller
             $data['category'] = ucfirst(strtolower($request['category']));
             $data['manufacture_name'] = ucfirst(strtolower($request['manufacture_name']));
             $data['product_name'] = ucfirst(strtolower($request['product_name']));
-            $data['usage'] = ucfirst(strtolower($request['usage']));
-            $data['unit'] = ucfirst(strtolower($request['unit']));
-            $data['photo'] = $image_name;
+            // $data['usage'] = ucfirst(strtolower($request['usage']));
+            // $data['unit'] = ucfirst(strtolower($request['unit']));
+            // $data['photo'] = $image_name;
             $data['qty'] = $request['qty'];
             $data['cost']= $request['cost'];
-            $data['tags'] = $request['tags'];
-            $data['description'] = ucfirst(strtolower($request['description']));
+            // $data['tags'] = $request['tags'];
+            $data['is_active'] = 1;
+            // $data['description'] = ucfirst(strtolower($request['description']));
             //DNS1D::getBarcodeSVG($lbl_txt, "C93",1,30,'green', true);
             // array_push($row_data,$data);
         // }

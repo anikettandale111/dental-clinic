@@ -20,17 +20,8 @@
                         Product Name
                     </th>
                     <th>
-                        Usage
-                    </th>
-                    <th>
                         Quantity
                     </th>
-                    <th>
-                        Unit
-                    </th>
-                    <!-- <th>
-                        Photo
-                    </th> -->
                     <th>
                         Action
                     </th>
@@ -55,13 +46,7 @@
                             @endif
                         </td>
                         <td>
-                            {{$v['usage']}}
-                        </td>
-                        <td>
                             {{$v['qty']}}
-                        </td>
-                        <td>
-                           {{$v['unit_model']['name']}}
                         </td>
                         <!-- <td>
                             <img src="{{URL::to('/').'/images/'.$v['photo']}}" alt="{{$v['product_model']['name']}}" style="width: 100px; height: 50px;">
