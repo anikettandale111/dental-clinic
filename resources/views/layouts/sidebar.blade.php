@@ -108,15 +108,15 @@
           </a>
         </li>
         <li>
-          <a class="nav-link " href="{{url('/product')}}">
-            <i class="bi bi-basket"></i>
-            <span>Product</span>
-          </a>
-        </li>
-        <li>
           <a class="nav-link " href="{{url('/unit')}}">
             <i class="bi bi-basket"></i>
             <span>Unit</span>
+          </a>
+        </li>
+        <li>
+          <a class="nav-link " href="{{url('/product')}}">
+            <i class="bi bi-basket"></i>
+            <span>Product</span>
           </a>
         </li>
       </ul>

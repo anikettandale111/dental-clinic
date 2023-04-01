@@ -11,6 +11,7 @@ use App\Manufacturer;
 use App\Product_name;
 use App\StockUpdateHistory;
 use App\Unit;
+use App\ClinicOrders;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Milon\Barcode\DNS1D;
@@ -178,19 +179,63 @@ class StoreController extends Controller
     }
     function stockDetails()
     {
-        $data = Store::select('store.qty as qty', 'ct.category_name', 'mn.name AS mn_name', 'pn.name AS pn_name', 'un.name AS un_name', DB::raw('sum(co.product_qty) AS received_qty'))
-        ->leftJoin('category AS ct', 'ct.id', '=', 'store.category')
-        ->leftJoin('manufacturer AS mn', 'mn.id', '=', 'store.manufacture_name')
-        ->leftJoin('product_name AS pn', 'pn.id', '=', 'store.product_name')
-        ->leftJoin('unit AS un', 'un.id', '=', 'store.unit')
-        ->leftJoin('clinic_orders AS co', function ($join) {
-            $join->on('co.category_id', '=', 'store.category');
-            $join->on('co.manfracture_id', '=', 'store.manufacture_name');
-            $join->on('co.product_id', '=', 'store.product_name');
-            $join->on('co.product_unit', '=', 'store.unit');
-        })
-        ->groupBy(['store.product_name','store.unit'])
-        ->get();
+        // $data = Store::select('store.qty as qty', 'ct.category_name', 'mn.name AS mn_name', 'pn.name AS pn_name', 'un.name AS un_name', DB::raw('sum(co.product_qty) AS received_qty'))
+        // ->leftJoin('category AS ct', 'ct.id', '=', 'store.category')
+        // ->leftJoin('manufacturer AS mn', 'mn.id', '=', 'store.manufacture_name')
+        // ->leftJoin('product_name AS pn', 'pn.id', '=', 'store.product_name')
+        // ->leftJoin('unit AS un', 'un.id', '=', 'store.unit')
+        // ->leftJoin('clinic_orders AS co', function ($join) {
+        //     $join->on('co.category_id', '=', 'store.category');
+        //     $join->on('co.manfracture_id', '=', 'store.manufacture_name');
+        //     $join->on('co.product_id', '=', 'store.product_name');
+        //     $join->on('co.product_unit', '=', 'store.unit');
+        // })
+        // ->where('co.order_status',1)
+        // ->groupBy(['store.product_name','store.unit'])
+        // ->get();
+        
+        // $data_availabel = Store::select('ct.category_name', 'mn.name AS mn_name', 'pn.name AS pn_name', 'un.name AS un_name', DB::raw('sum(store.qty) AS availabel_qty'),DB::raw('select sum(clinic_orders.product_qty) from `clinic_orders` left join `category` as `ct` on `ct`.`id` = `clinic_orders`.`category_id` left join `manufacturer` as `mn` on `mn`.`id` = `clinic_orders`.`manfracture_id` left join `product_name` as `pn` on `pn`.`id` = `clinic_orders`.`product_id` left join `unit` as `un` on `un`.`name` = `clinic_orders`.`product_unit` group by `clinic_orders`.`product_id`, `clinic_orders`.`product_unit` AS request_qty'))
+        // ->leftJoin('category AS ct', 'ct.id', '=', 'store.category')
+        // ->leftJoin('manufacturer AS mn', 'mn.id', '=', 'store.manufacture_name')
+        // ->leftJoin('product_name AS pn', 'pn.id', '=', 'store.product_name')
+        // ->leftJoin('unit AS un', 'un.id', '=', 'store.unit')
+        // ->groupBy(['store.product_name','store.unit'])
+        // ->get();
+        //     print_r($data_availabel);
+        // die();
+
+        // $data_request = ClinicOrders::select('ct.category_name', 'mn.name AS mn_name', 'pn.name AS pn_name', 'un.name AS un_name', DB::raw('sum(clinic_orders.product_qty) AS request_qty'))
+        // ->leftJoin('category AS ct', 'ct.id', '=', 'clinic_orders.category_id')
+        // ->leftJoin('manufacturer AS mn', 'mn.id', '=', 'clinic_orders.manfracture_id')
+        // ->leftJoin('product_name AS pn', 'pn.id', '=', 'clinic_orders.product_id')
+        // ->leftJoin('unit AS un', 'un.name', '=', 'clinic_orders.product_unit')
+        // ->groupBy(['clinic_orders.product_id','clinic_orders.product_unit'])
+        // ->get();
+        
+        $data = DB::select('select `ct`.`category_name`, `mn`.`name` as `mn_name`, `pn`.`name` as `pn_name`, `un`.`name` as `un_name`, sum(store.qty) AS availabel_qty,`store`.`category` AS ct_id,`store`.`manufacture_name` AS mn_id,`store`.`product_name` AS pn_id,`store`.`unit` AS u_id from `store` left join `category` as `ct` on `ct`.`id` = `store`.`category` left join `manufacturer` as `mn` on `mn`.`id` = `store`.`manufacture_name` left join `product_name` as `pn` on `pn`.`id` = `store`.`product_name` left join `unit` as `un` on `un`.`id` = `store`.`unit` group by `store`.`product_name`, `store`.`unit`');
+        
+        // $data_request = DB::select('select `ct`.`category_name`, `mn`.`name` as `mn_name`, `pn`.`name` as `pn_name`, `un`.`name` as `un_name`, sum(clinic_orders.product_qty) AS request_qty from `clinic_orders` left join `category` as `ct` on `ct`.`id` = `clinic_orders`.`category_id` left join `manufacturer` as `mn` on `mn`.`id` = `clinic_orders`.`manfracture_id` left join `product_name` as `pn` on `pn`.`id` = `clinic_orders`.`product_id` left join `unit` as `un` on `un`.`name` = `clinic_orders`.`product_unit` group by `clinic_orders`.`product_id`, `clinic_orders`.`product_unit`');
+        if(count($data)){
+            foreach($data AS $td){
+                $td->category_name = $td->category_name;
+                $td->mn_name = $td->mn_name;
+                $td->pn_name = $td->pn_name;
+                $td->un_name = $td->un_name;
+                $td->availabel_qty = $td->availabel_qty;
+                $td->request_qty = 0;
+
+                $data_request = DB::select('select sum(product_qty) AS request_qty from `clinic_orders` WHERE product_id='.$td->pn_id.' AND category_id='.$td->ct_id.' AND manfracture_id='.$td->mn_id.' AND product_unit="'.$td->un_name.'" LIMIT 1');
+                unset($td->pn_id);
+                unset($td->ct_id);
+                unset($td->mn_id);
+                unset($td->u_id);
+                if(count($data_request)){
+                    $td->request_qty = $data_request[0]->request_qty;
+                }
+            }
+        }
+        // $data = array_combine( (array) $data_availabel, (array)$data_request );
+        // $data = array_map("unserialize", array_unique(array_map("serialize", $data)));
         return view('stock_details', compact('data'));
     }
 }
