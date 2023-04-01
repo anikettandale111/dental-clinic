@@ -172,6 +172,7 @@
       data: {
         _token: CSRF_TOKEN,
         order_id: order_id,
+        view_name: "dispatch",
       },
       dataType: 'JSON',
       success: function(data) {

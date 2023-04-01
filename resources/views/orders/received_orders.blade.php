@@ -163,6 +163,7 @@
       data: {
         _token: CSRF_TOKEN,
         order_id: order_id,
+        view_name: "recive_orders",
       },
       dataType: 'JSON',
       success: function(data) {

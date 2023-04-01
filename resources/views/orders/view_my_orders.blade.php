@@ -21,9 +21,9 @@
                     <th>
                         Products Name/Qty
                     </th>
-                    <th>
+                    <!-- <th>
                         Amount
-                    </th>
+                    </th> -->
                     <th>
                         Status
                     </th>
@@ -48,9 +48,9 @@
                         <td>
                             {{$v['product_name']}}/{{$v['product_qty']}}
                         </td>
-                        <td>
+                        <!-- <td>
                             {{$v['total_price']}}
-                        </td>
+                        </td> -->
                         <td>
                             {{($v['order_status']==0)?'Pending':'Completed'}}
                         </td>
