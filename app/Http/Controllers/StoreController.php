@@ -179,17 +179,18 @@ class StoreController extends Controller
     function stockDetails()
     {
         $data = Store::select('store.qty as qty', 'ct.category_name', 'mn.name AS mn_name', 'pn.name AS pn_name', 'un.name AS un_name', DB::raw('sum(co.product_qty) AS received_qty'))
-            ->leftJoin('category AS ct', 'ct.id', '=', 'store.category')
-            ->leftJoin('manufacturer AS mn', 'mn.id', '=', 'store.manufacture_name')
-            ->leftJoin('product_name AS pn', 'pn.id', '=', 'store.product_name')
-            ->leftJoin('unit AS un', 'un.id', '=', 'store.unit')
-            ->join('clinic_orders AS co', function ($join) {
-                $join->on('co.category_id', '=', 'store.category');
-                $join->on('co.manfracture_id', '=', 'store.manufacture_name');
-                $join->on('co.product_id', '=', 'store.product_name');
-                $join->on('co.product_unit', '=', 'store.unit');
-            })
-            ->get();
+        ->leftJoin('category AS ct', 'ct.id', '=', 'store.category')
+        ->leftJoin('manufacturer AS mn', 'mn.id', '=', 'store.manufacture_name')
+        ->leftJoin('product_name AS pn', 'pn.id', '=', 'store.product_name')
+        ->leftJoin('unit AS un', 'un.id', '=', 'store.unit')
+        ->leftJoin('clinic_orders AS co', function ($join) {
+            $join->on('co.category_id', '=', 'store.category');
+            $join->on('co.manfracture_id', '=', 'store.manufacture_name');
+            $join->on('co.product_id', '=', 'store.product_name');
+            $join->on('co.product_unit', '=', 'store.unit');
+        })
+        ->groupBy(['store.product_nam','store.unit'])
+        ->get();
         return view('stock_details', compact('data'));
     }
 }

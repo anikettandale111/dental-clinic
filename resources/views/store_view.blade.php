@@ -50,7 +50,9 @@
                             $ids = str_replace(',','##',$v['ids']);
                             $ids = base64_encode($ids);
                             @endphp
-                            <a class="btn btn-primary edit" href="{{url('/edit_stock/'.$ids_array[0])}}">Edit-{{$ids_array[0]}}</a>
+                            @foreach($ids_array AS $v)
+                            <a class="btn btn-primary edit" href="{{url('/edit_stock/'.$ids_array[0])}}">{{$v}}</a>
+                            @endforeach
                             <a class="btn btn-success" target="_blank" href="{{url('/view-barcode/'.$ids)}}">Barcode</a>
                         </td>
                     </tr>
