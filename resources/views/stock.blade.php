@@ -54,24 +54,25 @@
                             @enderror
                         </div>
                         <!-- <div>
-                            <label for="unit" class=" col-form-label text-md-right">{{ __('Unit') }}</label>
+                            <label for="unit" class=" col-form-label text-md-right">{{ __('Unit') }}</label> -->
                             
                             <input type="text" class="form-control unit_name" value="" readonly>
-                            <input type="hidden" class="form-control unit_id" name="unit" value="" readonly>
-                        </div>
+                            <input type="text" class="form-control unit_id" name="unit" value="" readonly>
+                        <!-- </div>
                         <div>
-                            <label for="usage" class=" col-form-label text-md-right">{{ __('Usage') }}</label>
-                            <input id="usage" type="text" class="form-control @error('usage') is-invalid @enderror usage" name="usage" value="Usage" required autocomplete="usage" readonly>
+                            <label for="usage" class=" col-form-label text-md-right">{{ __('Usage') }}</label> -->
+                            <input id="usage" type="text" class="form-control @error('usage') is-invalid @enderror usage" name="usage" required autocomplete="usage" readonly>
 
-                            @error('usage')
+                            <!-- @error('usage')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
                             @enderror
                         </div>
                         <div>
-                            <label for="tags" class=" col-form-label text-md-right">{{ __('Tags') }}</label>
-                            <input id="tags" type="text" class="form-control tags" name="tags" value="Tags" required autocomplete="tags" readonly>
+                            <label for="tags" class=" col-form-label text-md-right">{{ __('Tags') }}</label> -->
+                            <input id="tags" type="text" class="form-control tags" name="tags" required autocomplete="tags" readonly>
+                            <!-- 
                             @error('tags')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -151,56 +152,56 @@
         });
     });
 
-    // $('#product_name').change(function() {
-    //     $('#unit').empty();
-    //     $('#unit').append('<option selected disabled>Select Option</option>');
-    //     $.ajax({
-    //         url: 'unit_by_category_man',
-    //         type: 'POST',
-    //         data: {
-    //             _token: CSRF_TOKEN,
-    //             man_id: $('#manufacture_name').val(),
-    //             cat_id: $('#category').val(),
-    //             prod_id: $('#product_name').val(),
-    //         },
-    //         dataType: 'JSON',
-    //         success: function(data) {
-    //             // console.log("praduct details"+data.photo);
-    //             // $('.usage').val(data.usage);
-    //             // $('.tags').val(data.tags);
-    //             // $('.photo_show img').attr('src', "{{URL::to('/').'/images/'}}"+data.photo).show();
-    //             // $('.description').val(data.description);
-    //             // $('.unit_name').val(data.unit_model.name);
-    //             // $('.unit_id').val(data.unit_model.id);
-    //             // $('.image_name').val(data.photo);
-    //         }
-    //     });
-    // });
+    $('#product_name').change(function() {
+        $('#unit').empty();
+        $('#unit').append('<option selected disabled>Select Option</option>');
+        $.ajax({
+            url: 'unit_by_category_man',
+            type: 'POST',
+            data: {
+                _token: CSRF_TOKEN,
+                man_id: $('#manufacture_name').val(),
+                cat_id: $('#category').val(),
+                prod_id: $('#product_name').val(),
+            },
+            dataType: 'JSON',
+            success: function(data) {
+                // console.log("praduct details"+data.photo);
+                $('.usage').val(data.usage);
+                $('.tags').val(data.tags);
+                // $('.photo_show img').attr('src', "{{URL::to('/').'/images/'}}"+data.photo).show();
+                $('.description').val(data.description);
+                $('.unit_name').val(data.unit_model.name);
+                $('.unit_id').val(data.unit_model.id);
+                $('.image_name').val(data.photo);
+            }
+        });
+    });
     var man_id = $('#manufacture_name').val();
     var product_name = $('#product_name').val();
     var cat_id = $('#category').val();
     var unit = $('#unit').val();
-    // $('#unit').change(function() {
-    //     if (man_id != '' && product_name != '' && cat_id != '' && unit != '') {
-    //         $.ajax({
-    //             url: 'prod_details_by_unit_cat_man_prod',
-    //             type: 'POST',
-    //             data: {
-    //                 _token: CSRF_TOKEN,
-    //                 man_id: $('#manufacture_name').val(),
-    //                 cat_id: $('#category').val(),
-    //                 prod_id: $('#product_name').val(),
-    //                 unit_id: $(this).val(),
-    //             },
-    //             dataType: 'JSON',
-    //             success: function(data) {
-    //                 $('#usage').val(data.usage);
-    //                 $('#tags').val(data.tags);
-    //                 $('.photo').css('display', 'none');
-    //                 $('<div><label for="photo" class=" col-form-label text-md-right">Photo</label><img src="images/' + data.photo + '" alt="Product Image"></img></div>').insertAfter('.photo');
-    //             }
-    //         });
-    //     }
-    // });
+    $('#unit').change(function() {
+        if (man_id != '' && product_name != '' && cat_id != '' && unit != '') {
+            $.ajax({
+                url: 'prod_details_by_unit_cat_man_prod',
+                type: 'POST',
+                data: {
+                    _token: CSRF_TOKEN,
+                    man_id: $('#manufacture_name').val(),
+                    cat_id: $('#category').val(),
+                    prod_id: $('#product_name').val(),
+                    unit_id: $(this).val(),
+                },
+                dataType: 'JSON',
+                success: function(data) {
+                    $('#usage').val(data.usage);
+                    $('#tags').val(data.tags);
+                    $('.photo').css('display', 'none');
+                    $('<div><label for="photo" class=" col-form-label text-md-right">Photo</label><img src="images/' + data.photo + '" alt="Product Image"></img></div>').insertAfter('.photo');
+                }
+            });
+        }
+    });
 </script>
 @endpush

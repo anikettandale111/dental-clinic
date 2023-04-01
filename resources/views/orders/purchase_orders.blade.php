@@ -75,7 +75,7 @@
                                
                             </div>
                         
-                            <div class="col-md-3">
+                            <!-- <div class="col-md-3">
                                 <label for="product_price" class=" col-form-label text-md-right">{{ __('Product Price') }}</label>
                                 <input id="product_price" type="text" min="1" class="form-control @error('product_price') is-invalid @enderror make_empty" name="product_price" value="0" required readonly disabled>
                                 @error('product_price')
@@ -83,7 +83,7 @@
                                     <strong>{{ $message }}</strong>
                                 </span>
                                 @enderror
-                            </div>
+                            </div> -->
                             <div class="col-md-3">
                                 <label for="product_quntity" class=" col-form-label text-md-right">{{ __('Product Quantity') }}</label>
                                 <input id="product_quntity" type="number" min="1" class="form-control @error('product_quntity') is-invalid @enderror make_empty" name="product_quntity" required>
@@ -93,7 +93,7 @@
                                 </span>
                                 @enderror
                             </div>
-                            <div class="col-md-3">
+                            <!-- <div class="col-md-3">
                                 <label for="product_total" class=" col-form-label text-md-right">{{ __('Product Total') }}</label>
                                 <input id="product_total" type="number" min="1" class="form-control @error('product_total') is-invalid @enderror make_empty" name="product_total" required readonly disabled>
                                 @error('product_total')
@@ -101,25 +101,28 @@
                                     <strong>{{ $message }}</strong>
                                 </span>
                                 @enderror
+                            </div> -->
+                            <div class="col-md-3">
+                            <label for="product_quntity" class=" col-form-label text-md-right"></label>
+                                <button type="button" id="add_new_item" class="btn btn-primary" style="margin-top:30px;">Add More Item</button>
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <button type="button" id="add_new_item" class="btn btn-primary" style="float:right">Add New Item</button>
-                        </div>
+
                         <table class="table table-condensed table-striped table-hover" id="items_table">
                             <thead>
                                 <tr>
                                     <th>Product Name</th>
-                                    <th>Product Price</th>
+                                    <!-- <th>Product Price</th> -->
+                                    <th>Product Unit</th>
                                     <th>Product quantity</th>
-                                    <th>Total</th>
+                                    <!-- <th>Total</th> -->
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody id="append_row">
                                 <tr><td colspan="5" style="text-align:center">No records</td></tr>
                             </tbody>
-                            <tfoot id="footer_row"><tr><th colspan="3" style="text-align:center">Total</th><th>Rs.0.00</th><th></th></tr></tfoot>
+                            <!-- <tfoot id="footer_row"><tr><th colspan="3" style="text-align:center">Total</th><th>Rs.0.00</th><th></th></tr></tfoot> -->
                         </table>
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4" >
@@ -205,13 +208,15 @@ function generateTbale(){
     $.each(productArray, function( index, value ) {
         total = value.itemData.prodct_qty*value.itemData.prod_price;
         grand_total = grand_total + total;
-        tb_html += '<tr><th><input type="text" class="form-control" readonly disabled value="'+value.itemData.product_name+'"></th><th><input type="text" class="form-control" readonly disabled value="'+value.itemData.prod_price+'"></th><th><input type="text" class="form-control" readonly disabled value="'+value.itemData.prodct_qty+'"></th><th><input type="text" class="form-control" readonly disabled value="Rs. '+total+'"></th><th><button type="button" class="btn btn-danger deleteRow" onclick='+"deleteRow('"+value.itemData.product_name+'_'+value.itemData.product_id+"')"+'>Delete</button></th></tr>';
+        // tb_html += '<tr><th><input type="text" class="form-control" readonly disabled value="'+value.itemData.product_name+'"></th><th><input type="text" class="form-control" readonly disabled value="'+value.itemData.prod_price+'"></th><th><input type="text" class="form-control" readonly disabled value="'+value.itemData.prodct_qty+'"></th><th><input type="text" class="form-control" readonly disabled value="Rs. '+total+'"></th><th><button type="button" class="btn btn-danger deleteRow" onclick='+"deleteRow('"+value.itemData.product_name+'_'+value.itemData.product_id+"')"+'>Delete</button></th></tr>';
+
+        tb_html += '<tr><th><input type="text" class="form-control" readonly disabled value="'+value.itemData.product_name+'"></th><th><input type="text" class="form-control" readonly disabled value="'+value.itemData.unit_name+'"></th><th><input type="text" class="form-control" readonly disabled value="'+value.itemData.prodct_qty+'"></th><th><button type="button" class="btn btn-danger deleteRow" onclick='+"deleteRow('"+value.itemData.product_name+'_'+value.itemData.product_id+"')"+'>Delete</button></th></tr>';
     });
-    var tb_footer_html = '<tr><th colspan="3" style="text-align:center">Total</th><th><input type="text" class="form-control" readonly disabled value="Rs. '+grand_total+'"></th><th></th></tr>';
+    // var tb_footer_html = '<tr><th colspan="3" style="text-align:center">Total</th><th><input type="text" class="form-control" readonly disabled value="Rs. '+grand_total+'"></th><th></th></tr>';
     $('#append_row').empty();
     $('#append_row').append(tb_html);
-    $('#footer_row').empty();
-    $('#footer_row').append(tb_footer_html);
+    // $('#footer_row').empty();
+    // $('#footer_row').append(tb_footer_html);
     $('.make_empty').empty();
     $('.make_empty').val('');
     $('.reset_select').prop('selectedIndex',0);

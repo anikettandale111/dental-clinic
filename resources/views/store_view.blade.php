@@ -11,13 +11,13 @@
             <thead>
                 <tr>
                     <th>
-                        Category
-                    </th>
-                    <th>
                         Manufacture Name
                     </th>
                     <th>
                         Product Name
+                    </th>
+                    <th>
+                        Category
                     </th>
                     <th>
                         Quantity
@@ -33,27 +33,25 @@
                 @foreach($data as $k =>$v)
                     <tr>
                         <td>
-                            {{$v['category_model']['category_name']}}
+                            {{$v['mn_name']}}
                         </td>
                         <td>
-                        @if(isset($v['manufacturer_model']['name']))
-                            {{$v['manufacturer_model']['name']}}
-                        @endif    
+                            {{$v['pr_name']}}
                         </td>
                         <td>
-                            @if(isset($v['product_model']['name']))
-                            {{$v['product_model']['name']}}
-                            @endif
+                            {{$v['category_name']}}
                         </td>
                         <td>
-                            {{$v['qty']}}
+                            {{$v['total_qty']}}
                         </td>
-                        <!-- <td>
-                            <img src="{{URL::to('/').'/images/'.$v['photo']}}" alt="{{$v['product_model']['name']}}" style="width: 100px; height: 50px;">
-                        </td> -->
                         <td>
-                            <a class="btn btn-primary edit" href="{{url('/edit_stock/'.$v['id'])}}">Edit</a>
-                            <a class="btn btn-success" target="_blank" href="{{url('/view-barcode/'.$v['barcode_id'])}}">Barcode</a>
+                            @php 
+                            $ids_array = explode(',',$v['ids']);
+                            $ids = str_replace(',','##',$v['ids']);
+                            $ids = base64_encode($ids);
+                            @endphp
+                            <a class="btn btn-primary edit" href="{{url('/edit_stock/'.$ids_array[0])}}">Edit-{{$ids_array[0]}}</a>
+                            <a class="btn btn-success" target="_blank" href="{{url('/view-barcode/'.$ids)}}">Barcode</a>
                         </td>
                     </tr>
                 @endforeach

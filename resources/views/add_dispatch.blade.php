@@ -77,8 +77,8 @@ foreach ($order_details as $od) {
                                                 <th>Name</th>
                                                 <th>Unit</th>
                                                 <th>Quantity</th>
-                                                <th>Price(Rs.)</th>
-                                                <th>Total(Rs.)</th>
+                                                <!-- <th>Price(Rs.)</th>
+                                                <th>Total(Rs.)</th> -->
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -88,19 +88,19 @@ foreach ($order_details as $od) {
                                                 <td>{{$od->name}}</td>
                                                 <td>{{$od->product_unit}}</td>
                                                 <td class="requierd_qty_{{$od->product_id}}">{{$od->product_qty}}</td>
-                                                <td class="product_price_{{$od->product_id}}">{{$od->price_per_unit}}</td>
-                                                <td>{{($od->price_per_unit*$od->product_qty)}}</td>
+                                                <!-- <td class="product_price_{{$od->product_id}}">{{$od->price_per_unit}}</td>
+                                                <td>{{($od->price_per_unit*$od->product_qty)}}</td> -->
                                             </tr>
                                             @endforeach
                                         </tbody>
-                                        <tfoot>
+                                        <!-- <tfoot>
                                             <tr>
                                                 <td colspan="5">
                                                     <center>SUB-TOTAL</center>
                                                 </td>
                                                 <td>Rs.{{$all_prod_total}}</td>
                                             </tr>
-                                        </tfoot>
+                                        </tfoot> -->
                                     </table>
                                 </div>
                             </div>
@@ -169,7 +169,7 @@ foreach ($order_details as $od) {
                                         <input type="number" class="form-control" min="0" placeholder="0" name="disp_quantity" id="disp_quantity" autocomplete="off">
                                     </div>
                                 </div>
-
+                                
                                 <div class="form-group row mb-0">
                                     <div class="col-md-6 offset-md-4">
                                         <button type="button" class="btn btn-primary btn-submit btn-lg">
@@ -229,7 +229,7 @@ foreach ($order_details as $od) {
     $('#dispatch_details').css('display','none');
     var disp_details = [];
     $(messages).html();
-    $("#barcode_text").on('keyup', function(e) {
+    $("#barcode_text").on(('keyup','keydown'), function(e) {
         if ($.isNumeric($(this).val()) && $(this).val().length >= 6) {
             $.ajax({
                 url: '/get_bar_code_data',
@@ -242,6 +242,16 @@ foreach ($order_details as $od) {
                 dataType: 'JSON',
                 /* remind that 'data' is the response of the AjaxController */
                 success: function(data) {
+                    if(data.qty == 0){
+                        $('html, body').animate({
+                            scrollTop: $(".container").offset().top
+                        }, 2000);
+                        var errorHtml = '<div class="alert alert-danger">Sorry, Stock Not Available For This Barcode.</div>';
+                        $(messages).html(errorHtml);
+                        $("#barcode_text").focus();
+                        $("#barcode_text").val('');
+                        return false;
+                    }
                     console.log(data.category_model);
                     $('#product_name').val(data.product_model.name);
                     $('#category_name').val(data.category_model.category_name);
@@ -259,6 +269,7 @@ foreach ($order_details as $od) {
                     $("#a_product_id").val(data.product_model.id);
                     $("#a_unit_name").val(data.unit_model.name);
                     $("#a_unit_id").val(data.unit_model.id);
+                    $("#a_product_id").after("<input type='hidden' value="+data.cost+" name='product_price_"+data.product_model.id+"' id='product_price_"+data.product_model.id+"'>");
 
                 }
             });
@@ -283,9 +294,10 @@ foreach ($order_details as $od) {
             var a_unit_name = $("#a_unit_name").val();
             var a_unit_id = $("#a_unit_id").val();
             disp_details = disp_details.filter(function(elem) {  
-                return elem.itemKey !== a_product_name+'_'+a_product_id; 
+                return elem.itemKeyOne !== a_product_name+'_'+a_barcode_id; 
             });
             disp_details.push({
+                itemKeyOne : a_product_name+'_'+a_barcode_id, 
                 itemKey : a_product_name+'_'+a_product_id, 
                 itemData : {
                     "order_id":<?php echo $order_id;?>,
@@ -296,7 +308,7 @@ foreach ($order_details as $od) {
                     "manufacturer_id":a_manufacturer_id,
                     "product_name":a_product_name,
                     "product_id":a_product_id,
-                    "prod_price":$('.product_price_'+a_product_id).text(),
+                    "prod_price":$('#product_price_'+a_product_id).val(),
                     "unit_name":a_unit_name,
                     "unit_id":a_unit_id,
                     "required_qty":$('.requierd_qty_'+a_product_id).text(),
