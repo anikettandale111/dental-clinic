@@ -44,9 +44,11 @@ class AjaxController extends Controller
     {
         //$data = Unit::select('id','name')->whereIn('id',[DB::raw('Select CONCAT(unit_id) from product_name where category_id='.$request->cat_id.' AND manufracture_id='.$request->man_id.' AND id='.$request->prod_id)])->get();
         $data = Product_name::with('UnitModel')->where(['category_id'=>$request->cat_id,'manufracture_id'=>$request->man_id,'id'=>$request->prod_id,'is_active'=>1])->first()->toArray();
-        $cost = Store::where(['category'=>$request->cat_id,'manufacture_name'=>$request->man_id,'product_name'=>$request->prod_id ,'unit'=>$data['unit_id']])
-        // ->where('qty','<',5)
-        ->first()->cost;   
+       
+        // $cost = Store::where(['category'=>$request->cat_id,'manufacture_name'=>$request->man_id,'product_name'=>$request->prod_id ,'unit'=>$data['unit_id']])
+        // // ->where('qty','<',5)
+        // ->first()->cost; 
+        $cost = 0;  
         return ['data'=>$data,'cost'=>$cost];
     }
     

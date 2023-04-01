@@ -56,12 +56,12 @@
                         <!-- <div>
                             <label for="unit" class=" col-form-label text-md-right">{{ __('Unit') }}</label> -->
                             
-                            <!-- <input type="text" class="form-control unit_name" value="" readonly>
-                            <input type="text" class="form-control unit_id" name="unit" value="" readonly> -->
+                            <input type="hidden" class="form-control unit_name" value="" readonly>
+                            <input type="hidden" class="form-control unit_id" name="unit" value="" readonly>
                         <!-- </div>
                         <div>
                             <label for="usage" class=" col-form-label text-md-right">{{ __('Usage') }}</label> -->
-                            <!-- <input id="usage" type="text" class="form-control @error('usage') is-invalid @enderror usage" name="usage" required autocomplete="usage" readonly> -->
+                            <input id="usage" type="hidden" class="form-control @error('usage') is-invalid @enderror usage" name="usage" required autocomplete="usage" readonly>
 
                             <!-- @error('usage')
                             <span class="invalid-feedback" role="alert">
@@ -71,7 +71,7 @@
                         </div>
                         <div>
                             <label for="tags" class=" col-form-label text-md-right">{{ __('Tags') }}</label> -->
-                            <!-- <input id="tags" type="text" class="form-control tags" name="tags" required autocomplete="tags" readonly> -->
+                            <input id="tags" type="hidden" class="form-control tags" name="tags" required autocomplete="tags" readonly>
                             <!-- 
                             @error('tags')
                             <span class="invalid-feedback" role="alert">
@@ -152,31 +152,31 @@
         });
     });
 
-    // $('#product_name').change(function() {
-    //     $('#unit').empty();
-    //     $('#unit').append('<option selected disabled>Select Option</option>');
-    //     $.ajax({
-    //         url: 'unit_by_category_man',
-    //         type: 'POST',
-    //         data: {
-    //             _token: CSRF_TOKEN,
-    //             man_id: $('#manufacture_name').val(),
-    //             cat_id: $('#category').val(),
-    //             prod_id: $('#product_name').val(),
-    //         },
-    //         dataType: 'JSON',
-    //         success: function(data) {
-    //             // console.log("praduct details"+data.photo);
-    //             $('.usage').val(data.usage);
-    //             $('.tags').val(data.tags);
-    //             // $('.photo_show img').attr('src', "{{URL::to('/').'/images/'}}"+data.photo).show();
-    //             $('.description').val(data.description);
-    //             $('.unit_name').val(data.unit_model.name);
-    //             $('.unit_id').val(data.unit_model.id);
-    //             $('.image_name').val(data.photo);
-    //         }
-    //     });
-    // });
+    $('#product_name').change(function() {
+        $('#unit').empty();
+        $('#unit').append('<option selected disabled>Select Option</option>');
+        $.ajax({
+            url: 'unit_by_category_man',
+            type: 'POST',
+            data: {
+                _token: CSRF_TOKEN,
+                man_id: $('#manufacture_name').val(),
+                cat_id: $('#category').val(),
+                prod_id: $('#product_name').val(),
+            },
+            dataType: 'JSON',
+            success: function(data) {
+                // console.log("praduct details"+data.photo);
+                $('.usage').val(data.usage);
+                $('.tags').val(data.tags);
+                // $('.photo_show img').attr('src', "{{URL::to('/').'/images/'}}"+data.photo).show();
+                $('.description').val(data.description);
+                $('.unit_name').val(data.unit_model.name);
+                $('.unit_id').val(data.unit_model.id);
+                $('.image_name').val(data.photo);
+            }
+        });
+    });
     var man_id = $('#manufacture_name').val();
     var product_name = $('#product_name').val();
     var cat_id = $('#category').val();

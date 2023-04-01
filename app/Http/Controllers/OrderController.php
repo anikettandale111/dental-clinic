@@ -49,6 +49,7 @@ class OrderController extends Controller
         $data = ClinicOrders::select('clinic_orders.id','order_id','clinic_orders.product_unit','clinic_orders.created_at','order_status','received_remarks','product_name.name AS product_name','clinic_orders.product_qty AS product_qty','manufacturer.name AS mn_name','product_name.description')
         ->leftJoin('manufacturer','manufacturer.id','=','clinic_orders.manfracture_id')
         ->leftJoin('product_name','product_name.id','=','clinic_orders.product_id')->where('clinic_orders.order_id',$request->order_id)->orderBy('clinic_orders.id')->get();
+        
         return json_encode($data);
     }    
     public function viewInvoice($orderId)
