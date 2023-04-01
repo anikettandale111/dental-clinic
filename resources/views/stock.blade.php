@@ -56,12 +56,12 @@
                         <!-- <div>
                             <label for="unit" class=" col-form-label text-md-right">{{ __('Unit') }}</label> -->
                             
-                            <input type="text" class="form-control unit_name" value="" readonly>
-                            <input type="text" class="form-control unit_id" name="unit" value="" readonly>
+                            <input type="hidden" class="form-control unit_name" value="" readonly>
+                            <input type="hidden" class="form-control unit_id" name="unit" value="" readonly>
                         <!-- </div>
                         <div>
                             <label for="usage" class=" col-form-label text-md-right">{{ __('Usage') }}</label> -->
-                            <input id="usage" type="text" class="form-control @error('usage') is-invalid @enderror usage" name="usage" required autocomplete="usage" readonly>
+                            <input id="usage" type="hidden" class="form-control @error('usage') is-invalid @enderror usage" name="usage" required autocomplete="usage" readonly>
 
                             <!-- @error('usage')
                             <span class="invalid-feedback" role="alert">
@@ -71,7 +71,7 @@
                         </div>
                         <div>
                             <label for="tags" class=" col-form-label text-md-right">{{ __('Tags') }}</label> -->
-                            <input id="tags" type="text" class="form-control tags" name="tags" required autocomplete="tags" readonly>
+                            <input id="tags" type="hidden" class="form-control tags" name="tags" required autocomplete="tags" readonly>
                             <!-- 
                             @error('tags')
                             <span class="invalid-feedback" role="alert">

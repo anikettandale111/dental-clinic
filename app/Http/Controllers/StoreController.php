@@ -136,14 +136,14 @@ class StoreController extends Controller
 
     protected function update_stock(Request $request)
     {
-        if ($request->hasFile('photo')) {
-            $image = $request->file('photo');
-            $image_name = time() . '.' . $image->getClientOriginalExtension();
-            $destinationPath = base_path('public/images');
-            $image->move($destinationPath, $image_name);
-        } else {
-            $image_name = $request['old_photo'];
-        }
+        // if ($request->hasFile('photo')) {
+        //     $image = $request->file('photo');
+        //     $image_name = time() . '.' . $image->getClientOriginalExtension();
+        //     $destinationPath = base_path('public/images');
+        //     $image->move($destinationPath, $image_name);
+        // } else {
+        //     $image_name = $request['old_photo'];
+        // }
         $update = Store::Where('id', $request['tabel_id'])->update(['is_active' => 0]);
         // $row_data=[];
         // for($i=1;$i<=$request['qty'];$i++){
@@ -189,7 +189,7 @@ class StoreController extends Controller
             $join->on('co.product_id', '=', 'store.product_name');
             $join->on('co.product_unit', '=', 'store.unit');
         })
-        ->groupBy(['store.product_nam','store.unit'])
+        ->groupBy(['store.product_name','store.unit'])
         ->get();
         return view('stock_details', compact('data'));
     }

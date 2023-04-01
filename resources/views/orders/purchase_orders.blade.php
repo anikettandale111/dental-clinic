@@ -67,9 +67,7 @@
                         <div class="form-group row">
                             <div class="col-md-3">
                                 <label for="product_unit" class="col-form-label text-md-right">{{ __('Product Unit') }}</label>
-                                <!-- <select id="product_unit" class="form-control @error('product_unit') is-invalid @enderror reset_select_two" name="product_unit" required>
-                                    <option disabled> Select Unit</option>
-                                </select> -->
+                                
                                 <input type="text" id="product_unit" class="form-control product_unit" readonly>
                                 <input type="hidden" id="product_unit_id" class="form-control product_unit_id" name="product_unit" readonly>
                                
@@ -194,6 +192,7 @@ $('#add_new_item').click(function(){
         itemData : {'product_name':prod_name,'product_id':prod_id,'category_id':category_id,'manufracture_id':manufacturer_id,'unit_name':unit_name,'unit_id':unit_id,'prod_price':prod_price,'prodct_qty':product_quntity,'prodct_total':prod_total}
     });
     console.log(productArray);
+    $('.product_unit').val('');
     generateTbale();
 });
 function deleteRow(vg){
@@ -332,6 +331,9 @@ $('#product_id').change(function(){
 $('#category_id').change(function(){
     $('#manufacturer_id').empty();
     $('#manufacturer_id').append('<option selected disabled> Select Option</option>');
+    $('#product_id').empty();
+    $('#product_id').append('<option selected disabled> Select Option</option>');
+    $('.product_unit').val('');
     $.ajax({
         url: 'manufracture_by_category',
         type: 'POST',

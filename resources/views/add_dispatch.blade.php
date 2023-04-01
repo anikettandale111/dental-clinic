@@ -36,6 +36,7 @@ foreach ($order_details as $od) {
                 <input type="hidden" name="a_product_id" id="a_product_id">
                 <input type="hidden" name="a_unit_name" id="a_unit_name">
                 <input type="hidden" name="a_unit_id" id="a_unit_id">
+                <input type="hidden" name="order_id" id="order_id" value="{{$order_id}}">         
                 <div class="col-md-12 row">
                     <div class="col-md-6">
                         <div class="card-body">
@@ -223,8 +224,11 @@ foreach ($order_details as $od) {
 </div>
 @endsection
 @push('child-scripts')
+
 <script>
-    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        var order_id = $('#order_id').val();
+        
+var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
     var messages = $('.messages');
     $('#dispatch_details').css('display','none');
     var disp_details = [];
@@ -283,6 +287,8 @@ foreach ($order_details as $od) {
         }
     });
     $(".btn-submit").click(function(e) {
+        
+
         if($('#disp_quantity').val() > 0){
             var a_barcode_id = $("#a_barcode_id").val();
             var a_category_name = $("#a_category_name").val();
@@ -300,7 +306,7 @@ foreach ($order_details as $od) {
                 itemKeyOne : a_product_name+'_'+a_barcode_id, 
                 itemKey : a_product_name+'_'+a_product_id, 
                 itemData : {
-                    "order_id":<?php echo $order_id;?>,
+                    "order_id":order_id,
                     "barcode_id":a_barcode_id,
                     "category_name":a_category_name,
                     "category_id":a_category_id,
@@ -315,6 +321,7 @@ foreach ($order_details as $od) {
                     "provided_qty":$('#disp_quantity').val(),
                     "notes":'NA',
                 }
+
             });
             renderTable();
             $('#product_name').val('');
