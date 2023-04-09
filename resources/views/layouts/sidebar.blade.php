@@ -122,6 +122,28 @@
       </ul>
     </li><!-- End Forms Nav -->
     @endif
+
+        @if(Auth::user()->action == 2)
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#reports-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-journal-text"></i><span>Report`s</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="reports-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a class="nav-link " href="{{url('/stock-inword')}}">
+            <i class="bi bi-basket"></i>
+            <span>Stock Inword</span>
+          </a>
+        </li>
+        <li>
+          <a class="nav-link " href="{{url('/stock-outword')}}">
+            <i class="bi bi-basket"></i>
+            <span>Stock Outword</span>
+          </a>
+        </li>
+      </ul>
+    </li><!-- End Forms Nav -->
+    @endif
   </ul>
 
 </aside><!-- End Sidebar-->

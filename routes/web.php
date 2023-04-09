@@ -85,3 +85,7 @@ Route::any('/stock_details', 'StoreController@stockDetails')->name('stock_detail
 Route::any('/unit_by_category_man_clinic', 'AjaxController@unitByCategoryManClinic')->name('unit_by_category_man_clinic');
 
 Route::any('/get_recive_id', 'ReceiveController@get_recive_id')->name('get_recive_id');
+
+
+Route::any('/stock-inword', 'ReportController@stockInword');
+Route::any('/stock-outword', 'ReportController@stockOutword');
