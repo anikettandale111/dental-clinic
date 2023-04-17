@@ -53,6 +53,15 @@
                             </span>
                             @enderror
                         </div>
+                        <div>
+                            <label for="new_barcode" class=" col-form-label text-md-right">{{ __('Barcode') }}</label> <span style="color:red;">(Optional)</span>
+                            <input id="new_barcode" type="text" class="form-control @error('new_barcode') is-invalid @enderror new_barcode" name="new_barcode" value="{{ old('new_barcode') }}" autocomplete="new_barcode">
+                            @error('new_barcode')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
                         <!-- <div>
                             <label for="unit" class=" col-form-label text-md-right">{{ __('Unit') }}</label> -->
                             

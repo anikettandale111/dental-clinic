@@ -18,7 +18,7 @@
                     </tbody>
                 </table>
                 <div class="card-body">
-                    <table id="table_id" class="table table-condensed table-striped table-hover">
+                    <table id="table_id" class="table table-condensed table-striped table-hover stock-outword">
                     <thead>
                             <tr>
                                 <th>#</th>
@@ -71,7 +71,7 @@
             var min = minDate.val();
             var max = maxDate.val();
             var date = new Date(data[9]);
-            
+
             if (
                 (min === null && max === null) ||
                 (min === null && date <= max) ||
@@ -94,7 +94,7 @@
         });
 
         // DataTables initialisation
-        var table = $('.stock-inword').DataTable();
+        var table = $('.stock-outword').DataTable();
 
         // Refilter the table
         $('#min, #max').on('change', function() {

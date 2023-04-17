@@ -80,7 +80,8 @@
                             {{$v['updated_qty']}}
                         </td>
                         <td>
-                            {{$v['updated_at']}}
+                          <?php $date = strtotime($v['updated_at']); ?>
+                            {{date('Y-m-d H:m:s',strtotime('+330 minutes',$date))}}
                         </td>
                         <td>
                         <button type="button" class="btn btn-info edit" data-toggle="modal" data-target=".bd-example-modal-lg"  row_id="{{$v['id']}}" onclick="viewOrders('{{ $v['barcode_id'] }}','{{$v['id']}}')">Edit</button>

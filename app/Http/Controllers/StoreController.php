@@ -104,7 +104,15 @@ class StoreController extends Controller
         }
 
         $row_data = [];
-        $qr_id = date('ymdhis');
+        if(!empty($request->new_barcode))
+        {
+            $qr_id = $request->new_barcode;
+        }
+        else
+        {
+            $qr_id = date('ymdhis');
+        }
+        
         $row_data = array(
             'user_id' => $request['user_id'],
             'category' => ucfirst(strtolower($request['category'])),
@@ -122,9 +130,9 @@ class StoreController extends Controller
             'is_scanned' => 0,
             'is_print' => 0,
         );
-        StockUpdateHistory::insertGetId($row_data);
-        $insert = Store::insertGetId($row_data);
-        if (isset($insert) && $insert > 0) {
+        StockUpdateHistory::Create($row_data);
+        $insert = Store::Create($row_data);
+        if (isset($insert)) {
             session()->flash('message', 'Product Add Successfully!');
             session()->flash('alert-class', 'alert-success');
             return back()->with(['status' =>  'success']);
