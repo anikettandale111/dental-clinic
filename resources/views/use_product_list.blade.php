@@ -21,12 +21,6 @@
                         Product Name
                     </th>
                     <th>
-                        Product Cost
-                    </th>
-                    <th>
-                        Unit Size
-                    </th>
-                    <th>
                         Requested Quantity
                     </th>
                     <th>
@@ -39,7 +33,10 @@
                         Updated Quantity
                     </th>
                     <th>
-                        Use Quantity
+                        Used Quantity
+                    </th>
+                    <th>
+                        Available Quantity
                     </th>
                     <th>
                         Action
@@ -50,6 +47,12 @@
             <tbody>
                 
                 @foreach($data as $k =>$v)
+                    <?php 
+                    if(isset($v['use_product_model'][0]))
+                        $use_qty = $v['use_product_model'][0]['use_qty'];
+                    else
+                        $use_qty = 0;
+                    ?>
                     <tr>
                         <td>
                             {{$v['category_name']}}
@@ -59,13 +62,6 @@
                         </td>
                         <td>
                             {{$v['product_name']}}
-                        </td>
-                        <td>
-                            {{$v['prod_price']}}
-                        </td>
-
-                        <td>
-                            {{$v['unit_name']}}
                         </td>
                         <td>
                             {{$v['required_qty']}}
@@ -80,7 +76,10 @@
                             {{$v['updated_qty']}}
                         </td>
                         <td>
-                            {{$v['use_product_model'][0]['use_qty']}}
+                            {{$use_qty}}
+                        </td>
+                        <td>
+                            {{$v['updated_qty'] - $use_qty}}
                         </td>
                         <td>
                         <button type="button" class="btn btn-info edit" data-toggle="modal" data-target=".bd-example-modal-lg"  row_id="{{$v['id']}}" onclick="viewOrders('{{ $v['barcode_id'] }}','{{$v['id']}}')">Edit Use product</button>

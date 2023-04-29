@@ -16,7 +16,12 @@
                   <i class="bi bi-people"></i>
                 </div>
                 <div class="ps-3">
-                  <h6>{{$location['branch_name']}}</h6>  <span>{{$location['location']}}</span>
+                  <h6>
+                    @if(isset($location['branch_name']))  
+                    {{$location['branch_name']}}</h6>  <span>{{$location['location']}}</span>
+                    @else
+                    <span color="red">Please add Branch Name and Location</span>
+                    @endif
                 </div>
               </div>
             </div>

@@ -8,6 +8,7 @@ use App\Store;
 use App\Dispatch;
 use App\TBLDispatch;
 use App\Use_product;
+use App\Use_product_history;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
@@ -88,7 +89,7 @@ class ReceiveController extends Controller
 
             $data = Use_product::Where(['tbl_dispatch_id'=>$request['recive_id']])->Update(['use_qty'=>$count]);
         }
-        
+        $re = Use_product_history::Create(['tbl_dispatch_id'=>$request['recive_id'],'use_qty'=>$request['qty']]);
         return ['status'=>'success'];
     }
 }
